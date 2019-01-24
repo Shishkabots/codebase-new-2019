@@ -46,42 +46,32 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // WPI_VictorSPX side = new WPI_VictorSPX(2);
+    WPI_VictorSPX side = new WPI_VictorSPX(2);
+    WPI_TalonSRX leftTalon = new WPI_TalonSRX(5);
+    WPI_VictorSPX leftVictor = new WPI_VictorSPX(3);
+    SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
 
-    // WPI_TalonSRX leftTalon = new WPI_TalonSRX(5);
-    // WPI_VictorSPX leftVictor = new WPI_VictorSPX(3);
-    // //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
-
-    // WPI_TalonSRX rightTalon = new WPI_TalonSRX(6);
-    // WPI_VictorSPX rightVictor = new WPI_VictorSPX(4);
-    // //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
+    WPI_TalonSRX rightTalon = new WPI_TalonSRX(6);
+    WPI_VictorSPX rightVictor = new WPI_VictorSPX(4);
+    SpeedControllerGroup m_right = new SpeedControllerGroup(rightTalon, rightVictor);
   
-    // //DifferentialDrive m_drive = new DifferentialDrive(leftTalon, rightTalon);
-
-    VictorSPX side = new VictorSPX(2);
-
-    TalonSRX leftTalon = new TalonSRX(5);
-    VictorSPX leftVictor = new VictorSPX(3);
-    //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
-
-    TalonSRX rightTalon = new TalonSRX(6);
-    VictorSPX rightVictor = new VictorSPX(4);
-    //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
+    DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
 
-    leftTalon.set(ControlMode.PercentOutput, 50);
-    rightTalon.set(ControlMode.PercentOutput, 50);
+    //leftTalon.set(ControlMode.PercentOutput, 50);
+    //rightTalon.set(ControlMode.PercentOutput, 50);
 
-    leftVictor.set(ControlMode.PercentOutput, 50);
-    rightVictor.set(ControlMode.PercentOutput, 50);
-    side.set(ControlMode.PercentOutput, 50);
+    //leftVictor.set(ControlMode.PercentOutput, 50);
+    rightVictor.set(ControlMode.PercentOutput, 0.2);
+    side.set(ControlMode.PercentOutput, 0.2);
   }
 
   @Override
   public void robotPeriodic() {
+
   }
 
   /**
