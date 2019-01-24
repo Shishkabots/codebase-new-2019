@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
     WPI_VictorSPX rightVictor = new WPI_VictorSPX(4);
     SpeedControllerGroup m_right = new SpeedControllerGroup(rightTalon, rightVictor);
   
-    DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
+    //DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
