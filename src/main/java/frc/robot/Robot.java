@@ -31,8 +31,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class Robot extends TimedRobot {
 
   // 1. subsystem declarations + initializations (static)
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static DT m_DT = new DT();
+  public static DriveTrain m_drivetrain;
+  //public static DT m_DT = new DT();
   public static OI m_oi;
 
   // 2. declaration of sendablechooser (send autonomous ops to driverstation) and autonomous options
@@ -43,41 +43,65 @@ public class Robot extends TimedRobot {
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
+   * 
    */
+  public static WPI_VictorSPX side;
+  public static WPI_VictorSPX leftVictor;
+  public static WPI_VictorSPX rightVictor;
+
+  public static WPI_TalonSRX leftTalon;
+  public static WPI_TalonSRX rightTalon;
+
+  public static DifferentialDrive m_drive;
+  
+  
   @Override
   public void robotInit() {
-    // WPI_VictorSPX side = new WPI_VictorSPX(2);
+    side = new WPI_VictorSPX(2);
 
-    // WPI_TalonSRX leftTalon = new WPI_TalonSRX(5);
-    // WPI_VictorSPX leftVictor = new WPI_VictorSPX(3);
-    // //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
-
-    // WPI_TalonSRX rightTalon = new WPI_TalonSRX(6);
-    // WPI_VictorSPX rightVictor = new WPI_VictorSPX(4);
-    // //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
-  
-    // //DifferentialDrive m_drive = new DifferentialDrive(leftTalon, rightTalon);
-
-    VictorSPX side = new VictorSPX(2);
-
-    TalonSRX leftTalon = new TalonSRX(5);
-    VictorSPX leftVictor = new VictorSPX(3);
+    leftTalon = new WPI_TalonSRX(5);
+    leftVictor = new WPI_VictorSPX(3);
     //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
 
-    TalonSRX rightTalon = new TalonSRX(6);
-    VictorSPX rightVictor = new VictorSPX(4);
+    rightTalon = new WPI_TalonSRX(6);
+    rightVictor = new WPI_VictorSPX(4);
+    //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
+  
+    leftTalon.setSafetyEnabled(false);
+    rightTalon.setSafetyEnabled(false);
+    
+    m_drive = new DifferentialDrive(leftTalon, rightTalon);
+    
+    rightVictor.follow(rightTalon);
+    leftVictor.follow(leftTalon);
+
+    leftTalon.setInverted(true);
+    rightTalon.setInverted(true);
+
+    leftVictor.setInverted(true);
+    rightVictor.setInverted(true);
+
+    m_drive.setRightSideInverted(false);
+    // VictorSPX side = new VictorSPX(2);
+
+    // TalonSRX leftTalon = new TalonSRX(5);
+    // VictorSPX leftVictor = new VictorSPX(3);
+    // //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
+
+    // TalonSRX rightTalon = new TalonSRX(6);
+    // VictorSPX rightVictor = new VictorSPX(4);
     //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
 
     m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    /*m_chooser.setDefaultOption("Default Auto", new DriveTrainControl());
     SmartDashboard.putData("Auto mode", m_chooser);
 
-    leftTalon.set(ControlMode.PercentOutput, 50);
-    rightTalon.set(ControlMode.PercentOutput, 50);
+    leftTalon.set(ControlMode.PercentOutput, .2);
+    rightTalon.set(ControlMode.PercentOutput, .2);
 
-    leftVictor.set(ControlMode.PercentOutput, 50);
-    rightVictor.set(ControlMode.PercentOutput, 50);
-    side.set(ControlMode.PercentOutput, 50);
+    leftVictor.set(ControlMode.PercentOutput, .2);
+    rightVictor.set(ControlMode.PercentOutput, .2);
+    side.set(ControlMode.PercentOutput, .2);*/
   }
 
   @Override
@@ -143,6 +167,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    new DriveTrainControl().start();
   }
 
   /**
