@@ -25,5 +25,8 @@ public class OI {
 	public Button succbutt = new JoystickButton(joystick, 6);
   public Button camerabutt = new JoystickButton(joystick,3);
   
-  
+  public OI() {
+    hatchbutt.whenPressed(new HatchActivate());
+    succbutt.whenPressed(new Succ());
+  }
 }

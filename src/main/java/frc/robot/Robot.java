@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -53,7 +54,11 @@ public class Robot extends TimedRobot {
   public static WPI_TalonSRX rightTalon;
 
   public static DifferentialDrive m_drive;
+
+  public static DoubleSolenoid ds;
   
+  public static Hatch m_hatch; 
+  public static Intake m_intake;
   
   @Override
   public void robotInit() {
@@ -82,8 +87,10 @@ public class Robot extends TimedRobot {
     rightVictor.setInverted(true);
 
     m_drive.setRightSideInverted(false);
+    ds = new DoubleSolenoid(6, 7);
+    m_hatch = new Hatch();
+    m_intake = new Intake();
     // VictorSPX side = new VictorSPX(2);
-
     // TalonSRX leftTalon = new TalonSRX(5);
     // VictorSPX leftVictor = new VictorSPX(3);
     // //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
