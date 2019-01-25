@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import frc.robot.commands.*;
@@ -21,6 +20,17 @@ import frc.robot.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
+import frc.robot.GripPipeline;
+
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+import edu.wpi.first.vision.VisionRunner;
+import edu.wpi.first.vision.VisionThread;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -59,9 +69,29 @@ public class Robot extends TimedRobot {
   
   public static Hatch m_hatch; 
   public static Intake m_intake;
+
+  private VisionThread visionThread;
+  public final Object imgLock = new Object();
+  public  double m_centerX = 0.0;
+  public Rect r;
   
   @Override
   public void robotInit() {
+    UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
+		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
+		theCamera.setResolution(320, 240);
+    
+    visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
+      if (!pipeline.filterContoursOutput().isEmpty()) {
+          r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+            synchronized (imgLock) {
+	  		      m_centerX = r.x + (r.width / 2);
+		 		      System.out.println("CAMERA VALUE" + m_centerX);
+		 	      }
+      }
+		}); 
+    visionThread.start();
+
     side = new WPI_VictorSPX(2);
 
     leftTalon = new WPI_TalonSRX(5);
@@ -90,25 +120,26 @@ public class Robot extends TimedRobot {
     ds = new DoubleSolenoid(6, 7);
     m_hatch = new Hatch();
     m_intake = new Intake();
+
+    m_oi = new OI();
     // VictorSPX side = new VictorSPX(2);
     // TalonSRX leftTalon = new TalonSRX(5);
     // VictorSPX leftVictor = new VictorSPX(3);
     // //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
-
     // TalonSRX rightTalon = new TalonSRX(6);
     // VictorSPX rightVictor = new VictorSPX(4);
     //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
 
-    m_oi = new OI();
     /*m_chooser.setDefaultOption("Default Auto", new DriveTrainControl());
     SmartDashboard.putData("Auto mode", m_chooser);
 
     leftTalon.set(ControlMode.PercentOutput, .2);
     rightTalon.set(ControlMode.PercentOutput, .2);
-
     leftVictor.set(ControlMode.PercentOutput, .2);
     rightVictor.set(ControlMode.PercentOutput, .2);
     side.set(ControlMode.PercentOutput, .2);*/
+
+
   }
 
   @Override
@@ -121,6 +152,8 @@ public class Robot extends TimedRobot {
    * You can use it to reset any subsystem information you want to clear when
    * the robot is disabled.
    */
+
+
   @Override
   public void disabledInit() {
   }
@@ -150,6 +183,7 @@ public class Robot extends TimedRobot {
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
      * = new MyAutoCommand(); break; case "Default Auto": default:
      * autonomousCommand = new ExampleCommand(); break; }
+     * 
      */
 
     // schedule the autonomous command (example)
