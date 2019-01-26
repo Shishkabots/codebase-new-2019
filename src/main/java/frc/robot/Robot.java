@@ -71,9 +71,9 @@ public class Robot extends TimedRobot {
   public static Intake m_intake;
 
   private VisionThread visionThread;
-  public final Object imgLock = new Object();
-  public  double m_centerX = 0.0;
-  public Rect r;
+  public static final Object imgLock = new Object();
+  public static double m_centerX = 0.0;
+  public static Rect r;
   
   @Override
   public void robotInit() {
@@ -83,14 +83,15 @@ public class Robot extends TimedRobot {
     
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
-          r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
             synchronized (imgLock) {
+              r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 	  		      m_centerX = r.x + (r.width / 2);
-		 		      System.out.println("CAMERA VALUE" + m_centerX);
+               System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
       }
 		}); 
     visionThread.start();
+    
 
     side = new WPI_VictorSPX(2);
 
@@ -138,7 +139,6 @@ public class Robot extends TimedRobot {
     leftVictor.set(ControlMode.PercentOutput, .2);
     rightVictor.set(ControlMode.PercentOutput, .2);
     side.set(ControlMode.PercentOutput, .2);*/
-
 
   }
 
