@@ -41,9 +41,10 @@ public class FollowCamera extends Command {
             double turn = centerX - 160;
             Robot.m_drivetrain.moveWithCurve(-0.5, turn*0.005, false);
         }
+        
         if(centerX == 160) {
             while(eq2 != eq) {
-                Robot.m_drivetrain.moveWithCurve(0.005,eq*0.005,true);
+                Robot.m_drivetrain.moveWithCurve(0.005,(eq2-eq)*0.005,true);
             }
         }
 
