@@ -27,10 +27,13 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.GripPipeline;
 
-import org.opencv.core.Rect;
+import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.vision.VisionRunner;
 import edu.wpi.first.vision.VisionThread;
+
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.AnalogGyro;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -73,7 +76,13 @@ public class Robot extends TimedRobot {
   private VisionThread visionThread;
   public static final Object imgLock = new Object();
   public static double m_centerX = 0.0;
-  public static Rect r;
+  public static RotatedRect r;
+
+  public static Encoder e1;
+  public static Encoder e2;
+
+  public static AnalogGyro gyro;
+  
   
   @Override
   public void robotInit() {
@@ -84,8 +93,11 @@ public class Robot extends TimedRobot {
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
             synchronized (imgLock) {
-              r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-	  		      m_centerX = r.x + (r.width / 2);
+              MatOfPoint m = pipeline.filterContoursOutput().get(0);
+              MatOfPoint2f m2 = new MatOfPoint2f( m.toArray() );
+              r = Imgproc.minAreaRect(m2);
+              //r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+	  		      //m_centerX = r.x + (r.width / 2);
                System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
       }
@@ -121,6 +133,12 @@ public class Robot extends TimedRobot {
     ds = new DoubleSolenoid(6, 7);
     m_hatch = new Hatch();
     m_intake = new Intake();
+
+    e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+    gyro = new AnalogGyro(3);
+
+
 
     m_oi = new OI();
     // VictorSPX side = new VictorSPX(2);
