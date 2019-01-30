@@ -90,6 +90,8 @@ public class Robot extends TimedRobot {
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
 		theCamera.setResolution(320, 240);
     
+    CvSink sink = CameraServer.getInstance().getVideo();
+    CvSource output = CameraServer.getInstance().putVideo("Processed: ", 320, 240);
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
             synchronized (imgLock) {
@@ -97,7 +99,11 @@ public class Robot extends TimedRobot {
               MatOfPoint2f m2 = new MatOfPoint2f( m.toArray() );
               r = Imgproc.minAreaRect(m2);
               //r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-	  		      //m_centerX = r.x + (r.width / 2);
+              //m_centerX = r.x + (r.width / 2);
+              sink.grabFrame(m2);
+			        pipeline.process(m2);
+			
+			        output.putFrame(m2);
                System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
       }
