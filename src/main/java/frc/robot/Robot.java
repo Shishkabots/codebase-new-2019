@@ -86,13 +86,13 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotInit() {
-    /*UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
+    UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
 		theCamera.setResolution(320, 240);
     
     CvSink sink = CameraServer.getInstance().getVideo();
     CvSource output = CameraServer.getInstance().putVideo("Processed: ", 320, 240);
-    visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
+    /*visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
             synchronized (imgLock) {
               MatOfPoint m = pipeline.filterContoursOutput().get(0);
