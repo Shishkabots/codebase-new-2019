@@ -78,15 +78,15 @@ public class Robot extends TimedRobot {
   public static double m_centerX = 0.0;
   public static RotatedRect r;
 
-  public static Encoder e1;
-  public static Encoder e2;
+  //public static Encoder e1;
+  //public static Encoder e2;
 
-  public static AnalogGyro gyro;
+  //public static AnalogGyro gyro;
   
   
   @Override
   public void robotInit() {
-    UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
+    /*UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
 		theCamera.setResolution(320, 240);
     
@@ -103,12 +103,13 @@ public class Robot extends TimedRobot {
               sink.grabFrame(m2);
 			        pipeline.process(m2);
 			
-			        output.putFrame(m2);
-               System.out.println("CAMERA VALUE" + m_centerX);
+              output.putFrame(m2);
+              
+              System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
       }
 		}); 
-    visionThread.start();
+    visionThread.start();*/
     
 
     side = new WPI_VictorSPX(2);
@@ -140,9 +141,9 @@ public class Robot extends TimedRobot {
     m_hatch = new Hatch();
     m_intake = new Intake();
 
-    e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-    e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    gyro = new AnalogGyro(3);
+    //e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    //e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+    //gyro = new AnalogGyro(3);
 
 
 
