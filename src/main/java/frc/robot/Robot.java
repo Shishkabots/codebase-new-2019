@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotInit() {
-    UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
+    /*UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
 		theCamera.setResolution(320, 240);
     
@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
 		 	      }
       }
 		}); 
-    visionThread.start();
+    visionThread.start();*/
     
 
     side = new WPI_VictorSPX(2);
@@ -138,16 +138,9 @@ public class Robot extends TimedRobot {
     rightVictor.setInverted(true);
 
     m_drive.setRightSideInverted(false);
-<<<<<<< HEAD
-    
-    //leftTalon.set(ControlMode.PercentOutput, 0.2);
-
-    // VictorSPX side = new VictorSPX(2);
-=======
     ds = new DoubleSolenoid(6, 7);
     m_hatch = new Hatch();
     m_intake = new Intake();
->>>>>>> 5f05c9d530565d7f13cf99fd685b7bac2339667d
 
     e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
     e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
@@ -173,10 +166,6 @@ public class Robot extends TimedRobot {
     rightVictor.set(ControlMode.PercentOutput, .2);
     side.set(ControlMode.PercentOutput, .2);*/
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 5f05c9d530565d7f13cf99fd685b7bac2339667d
   }
 
   @Override
