@@ -137,6 +137,7 @@ public class Robot extends TimedRobot {
     rightVictor.setInverted(true);
 
     m_drive.setRightSideInverted(false);
+    m_drivetrain =new DriveTrain();
     ds = new DoubleSolenoid(6, 7);
     m_hatch = new Hatch();
     m_intake = new Intake();
