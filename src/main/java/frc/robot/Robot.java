@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
 			        pipeline.process(m2);
 			
               output.putFrame(m2);
-              
+              SmartDashboard.putString("output: ", r.toString());
               System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
       }
