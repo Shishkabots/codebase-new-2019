@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
     
     CvSink sink = CameraServer.getInstance().getVideo();
     CvSource output = CameraServer.getInstance().putVideo("Processed: ", 320, 240);
-    /*visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
+    visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
             synchronized (imgLock) {
               MatOfPoint m = pipeline.filterContoursOutput().get(0);
@@ -104,12 +104,12 @@ public class Robot extends TimedRobot {
 			        pipeline.process(m2);
 			
               output.putFrame(m2);
-              
+              SmartDashboard.putString("output: ", r.toString());
               System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
       }
 		}); 
-    visionThread.start();*/
+    visionThread.start();
     
 
     side = new WPI_VictorSPX(2);
