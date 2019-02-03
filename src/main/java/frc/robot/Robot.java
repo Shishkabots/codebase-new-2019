@@ -125,6 +125,8 @@ public class Robot extends TimedRobot {
   
     leftTalon.setSafetyEnabled(false);
     rightTalon.setSafetyEnabled(false);
+    leftVictor.setSafetyEnabled(false);
+    rightVictor.setSafetyEnabled(false);
     
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
     
@@ -250,6 +252,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    
   }
 
   /**
