@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
 
   // 2. declaration of sendablechooser (send autonomous ops to driverstation) and autonomous options
-  Command m_autonomousCommand;
+  //Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   
 
@@ -90,21 +90,16 @@ public class Robot extends TimedRobot {
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
 		theCamera.setResolution(320, 240);
     
-    CvSink sink = CameraServer.getInstance().getVideo();
-    CvSource output = CameraServer.getInstance().putVideo("Processed: ", 320, 240);
+    
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
             synchronized (imgLock) {
               MatOfPoint m = pipeline.filterContoursOutput().get(0);
-              MatOfPoint2f m2 = new MatOfPoint2f( m.toArray() );
+              MatOfPoint2f m2 = new MatOfPoint2f(m.toArray());
               r = Imgproc.minAreaRect(m2);
               m_centerX = r.center.x;
               //r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
               //m_centerX = r.x + (r.width / 2);
-              sink.grabFrame(m2);
-			        pipeline.process(m2);
-			
-              output.putFrame(m2);
               
               System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
@@ -205,7 +200,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    /*m_autonomousCommand = m_chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -216,9 +211,9 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
-    }
+    }*/
   }
 
   /**
@@ -226,12 +221,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    double m_centerX;
+    double centerX;
     synchronized (imgLock) {
-        m_centerX = this.m_centerX;
+        centerX = m_centerX;
     }
+    SmartDashboard.putNumber("x: ", centerX);
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber("x: ", m_centerX);
   }
 
   @Override
@@ -240,9 +235,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-    }
+    }*/
     new TeleOpCommands().start();
   }
 
