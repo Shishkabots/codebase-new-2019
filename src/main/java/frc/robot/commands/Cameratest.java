@@ -39,10 +39,9 @@ public class Cameratest extends Command {
             //eq2 = p1.y/p2.x;
         }
         SmartDashboard.putString("x: ", rec.center.toString());
-
-
+        
     }
-
+    
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
