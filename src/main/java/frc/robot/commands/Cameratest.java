@@ -33,16 +33,12 @@ public class Cameratest extends Command {
         synchronized(img) {
             centerX = Robot.m_centerX;
             rec = Robot.r;
-            //p1 = rec.tl();
-            //p2 = rec.br();
-            //eq = rec.y/rec.x;
             eq2 = p1.y/p2.x;
         }
         SmartDashboard.putString("x: ", rec.center.toString());
-
-
+        
     }
-
+    
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {

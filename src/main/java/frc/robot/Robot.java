@@ -224,7 +224,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    double m_centerX;
+    synchronized (imgLock) {
+        m_centerX = this.m_centerX;
+    }
     Scheduler.getInstance().run();
+    SmartDashboard.putNumber("x: ", m_centerX);
   }
 
   @Override
