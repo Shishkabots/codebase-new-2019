@@ -36,7 +36,7 @@ public class Cameratest extends Command {
             //p1 = rec.tl();
             //p2 = rec.br();
             //eq = rec.y/rec.x;
-            eq2 = p1.y/p2.x;
+            //eq2 = p1.y/p2.x;
         }
         SmartDashboard.putString("x: ", rec.center.toString());
 
