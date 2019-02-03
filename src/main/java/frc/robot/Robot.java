@@ -98,13 +98,14 @@ public class Robot extends TimedRobot {
               MatOfPoint m = pipeline.filterContoursOutput().get(0);
               MatOfPoint2f m2 = new MatOfPoint2f( m.toArray() );
               r = Imgproc.minAreaRect(m2);
+              m_centerX = r.center.x;
               //r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
               //m_centerX = r.x + (r.width / 2);
               sink.grabFrame(m2);
 			        pipeline.process(m2);
 			
               output.putFrame(m2);
-              SmartDashboard.putString("output: ", r.toString());
+              
               System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
       }
