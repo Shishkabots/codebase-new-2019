@@ -77,11 +77,14 @@ public class Robot extends TimedRobot {
   public static final Object imgLock = new Object();
   public static double m_centerX = 0.0;
   public static RotatedRect r;
+  public static Rect rect2;
+  public static double m_centerX2;
 
   //public static Encoder e1;
   //public static Encoder e2;
 
   //public static AnalogGyro gyro;
+  public static int count;
   
   
   @Override
@@ -98,8 +101,9 @@ public class Robot extends TimedRobot {
               MatOfPoint2f m2 = new MatOfPoint2f(m.toArray());
               r = Imgproc.minAreaRect(m2);
               m_centerX = r.center.x;
-              //r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-              //m_centerX = r.x + (r.width / 2);
+              count++;
+              rect2 = Imgproc.boundingRect(m);
+              m_centerX2 = rect2.x + (rect2.width / 2);
               
               System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
@@ -221,11 +225,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    double centerX;
+    RotatedRect re;
+    double ree;
+    double cent;
     synchronized (imgLock) {
-        centerX = m_centerX;
+        re = this.r;
+        ree = this.count;
+        cent = this.m_centerX2;
     }
-    SmartDashboard.putNumber("x: ", centerX);
+    SmartDashboard.putNumber("other: ", cent);
+    SmartDashboard.putNumber("Angle: ", re.angle);
+    SmartDashboard.putNumber("Height: ", re.size.height);
+    SmartDashboard.putNumber("Width: ", re.size.width);
+    SmartDashboard.putNumber("x: ", re.center.x);
+    SmartDashboard.putNumber("y: ", re.center.y);
+    SmartDashboard.putNumber("Number: ", ree);
     Scheduler.getInstance().run();
   }
 
