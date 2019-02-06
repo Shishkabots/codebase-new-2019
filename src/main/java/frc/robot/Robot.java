@@ -108,6 +108,13 @@ public class Robot extends TimedRobot {
               System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
       }
+      else{
+        synchronized(imgLock){
+
+          r = null;
+          rect2 = null;
+        }
+      }
 		}); 
     visionThread.start();
     
@@ -229,16 +236,25 @@ public class Robot extends TimedRobot {
     double ree;
     double cent;
     synchronized (imgLock) {
-        re = this.r;
-        ree = this.count;
-        cent = this.m_centerX2;
+        re = r;
+        ree = count;
+        cent = m_centerX2;
     }
     SmartDashboard.putNumber("other: ", cent);
-    SmartDashboard.putNumber("Angle: ", re.angle);
-    SmartDashboard.putNumber("Height: ", re.size.height);
-    SmartDashboard.putNumber("Width: ", re.size.width);
-    SmartDashboard.putNumber("x: ", re.center.x);
-    SmartDashboard.putNumber("y: ", re.center.y);
+    if(re != null){
+      SmartDashboard.putNumber("Angle: ", re.angle);
+      SmartDashboard.putNumber("Height: ", re.size.height);
+      SmartDashboard.putNumber("Width: ", re.size.width);
+      SmartDashboard.putNumber("x: ", re.center.x);
+      SmartDashboard.putNumber("y: ", re.center.y);
+    }
+    else{
+      SmartDashboard.putNumber("Angle: ", 0);
+      SmartDashboard.putNumber("Height: ", 0);
+      SmartDashboard.putNumber("Width: ", 0);
+      SmartDashboard.putNumber("x: ", 0);
+      SmartDashboard.putNumber("y: ", 0);
+    }
     SmartDashboard.putNumber("Number: ", ree);
     Scheduler.getInstance().run();
   }
