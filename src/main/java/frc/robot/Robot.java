@@ -80,8 +80,8 @@ public class Robot extends TimedRobot {
   public static Rect rect2;
   public static double m_centerX2;
 
-  //public static Encoder e1;
-  //public static Encoder e2;
+  public static Encoder e1;
+  public static Encoder e2;
 
   //public static AnalogGyro gyro;
   public static int count;
@@ -151,8 +151,8 @@ public class Robot extends TimedRobot {
     m_hatch = new Hatch();
     m_intake = new Intake();
 
-    //e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-    //e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+    e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
     //gyro = new AnalogGyro(3);
 
 
