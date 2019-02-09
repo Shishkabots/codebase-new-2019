@@ -21,7 +21,7 @@ import org.opencv.objdetect.*;
 public class VisionHelper
 {
     public void visionHelp(Mat mapx, Mat mapy) {
-   Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
+   /*Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
    Mat gray;
    Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY, 0);
    Mat dst;
@@ -36,6 +36,6 @@ public class VisionHelper
     Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
     centerCoor[0] = r.x + (r.width / 2);
     centerCoor[1]= r.y + (r.height/2);
-    return centerCoor;
+    return centerCoor;*/
     }
 }

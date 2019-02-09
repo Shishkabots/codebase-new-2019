@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
   public static Encoder e1;
   public static Encoder e2;
 
-  //public static AnalogGyro gyro;
+  public static AnalogGyro gyro;
   public static int count;
   
   
@@ -102,8 +102,8 @@ public class Robot extends TimedRobot {
               r = Imgproc.minAreaRect(m2);
               m_centerX = r.center.x;
               count++;
-              rect2 = Imgproc.boundingRect(m);
-              m_centerX2 = rect2.x + (rect2.width / 2);
+              //rect2 = Imgproc.boundingRect(m);
+              //m_centerX2 = rect2.x + (rect2.width / 2);
               
               System.out.println("CAMERA VALUE" + m_centerX);
 		 	      }
@@ -112,7 +112,7 @@ public class Robot extends TimedRobot {
         synchronized(imgLock){
 
           r = null;
-          rect2 = null;
+          //rect2 = null;
         }
       }
 		}); 
@@ -153,6 +153,7 @@ public class Robot extends TimedRobot {
 
     e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
     e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+    gyro = new AnalogGyro(3);
     //gyro = new AnalogGyro(3);
 
 
@@ -238,9 +239,9 @@ public class Robot extends TimedRobot {
     synchronized (imgLock) {
         re = r;
         ree = count;
-        cent = m_centerX2;
+        //cent = m_centerX2;
     }
-    SmartDashboard.putNumber("other: ", cent);
+    //SmartDashboard.putNumber("other: ", cent);
     if(re != null){
       SmartDashboard.putNumber("Angle: ", re.angle);
       SmartDashboard.putNumber("Height: ", re.size.height);
