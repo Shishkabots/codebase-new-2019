@@ -122,11 +122,11 @@ public class Robot extends TimedRobot {
     side = new WPI_VictorSPX(2);
 
     leftTalon = new WPI_TalonSRX(5);
-    leftVictor = new WPI_VictorSPX(3);
+    leftVictor = new WPI_VictorSPX(1);
     //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
 
     rightTalon = new WPI_TalonSRX(6);
-    rightVictor = new WPI_VictorSPX(4);
+    rightVictor = new WPI_VictorSPX(3);
     //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
   
     leftTalon.setSafetyEnabled(false);
@@ -145,7 +145,7 @@ public class Robot extends TimedRobot {
     leftVictor.setInverted(true);
     rightVictor.setInverted(true);
 
-    m_drive.setRightSideInverted(false);
+    //m_drive.setRightSideInverted(false);
     m_drivetrain =new DriveTrain();
     ds = new DoubleSolenoid(6, 7);
     m_hatch = new Hatch();

@@ -21,10 +21,15 @@ public class DriveTrainControl extends Command {
 
     protected void execute() {
         double speed = Robot.m_oi.boost.get() ? 1.0 : .5;
+        double lTrigger = Robot.m_oi.xbox.getRawAxis(2);
+        double rTrigger = Robot.m_oi.xbox.getRawAxis(3);
+        double turnAxis = Robot.m_oi.xbox.getRawAxis(0);
         
         //3 is right trigger, 2 is left trigger, 0 is x axis of left stick, unsure of math
     	Robot.m_drivetrain.moveWithCurve(
-            (Robot.m_oi.xbox.getRawAxis(3) - Robot.m_oi.xbox.getRawAxis(2)) * speed, Robot.m_oi.xbox.getRawAxis(0)* 0.5* Math.signum(0.1 + Robot.m_oi.xbox.getRawAxis(3) - Robot.m_oi.xbox.getRawAxis(2)),true);
+            (rTrigger - lTrigger) * speed,
+            turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1),
+            true);
         
         //alternative drive mode, can't go backwards
         //Robot.m_drivetrain.arcadeDrive(Robot.m_oi.xbox.getRawAxis(3), Robot.m_oi.xbox.getRawAxis(0)* 0.5);
