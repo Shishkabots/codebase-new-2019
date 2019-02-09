@@ -27,4 +27,15 @@ public class VisionHelper
    Mat dst;
    Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
     }
+
+    public double[] findCenter(MatOfPoint img){
+    //[x,y]
+    double[] centerCoor = new double[2];
+    GripPipeline pipeline = new GripPipeline();
+    pipeline.process(undistorted);
+    Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+    centerCoor[0] = r.x + (r.width / 2);
+    centerCoor[1]= r.y + (r.height/2);
+    return centerCoor;
+    }
 }
