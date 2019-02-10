@@ -20,7 +20,7 @@ import org.opencv.objdetect.*;
 
 public class VisionHelper
 {
-    public Mat undistort(Mat img, Mat mapx, Mat mapy) {
+    /*public Mat undistort(Mat img, Mat mapx, Mat mapy) {
   // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
    Mat gray = null;
    Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
@@ -129,6 +129,6 @@ robot_offset_x = "measure this";
 robot_offset_y = "measure this as well";
 tape_offset_x = "this too";
 tape_offset_y =  "this three";
-height = "this four";
+height = "this four";*/
 
 }
