@@ -91,7 +91,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
-		theCamera.setResolution(320, 240);
+    theCamera.setResolution(320, 240);
+    theCamera.setBrightness(20);
     
     
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
@@ -153,7 +154,7 @@ public class Robot extends TimedRobot {
 
     e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
     e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    gyro = new AnalogGyro(3);
+    //gyro = new AnalogGyro(3);
     //gyro = new AnalogGyro(3);
 
 
