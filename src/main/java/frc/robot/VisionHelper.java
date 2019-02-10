@@ -119,5 +119,13 @@ public double[] get_final_R_theta(MatOfPoint img,double robot_offset_x, double r
     return rThe;
 
 }
+//"path to image" = placeholder
+Mat img = Imgcodecs.imread("path to image")
+return
+robot_offset_x = "measure this";
+robot_offset_y = "measure this as well";
+tape_offset_x = "this too";
+tape_offset_y =  "this three";
+height = "this four";
 
 }
