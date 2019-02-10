@@ -42,7 +42,7 @@ public class VisionHelper
     public double convert_dist(double pixel_dist, double height){
     return 0.0001 * (9.081 * height * pixel_dist);
     }
-/*
+
     class Tup:
     def __init__(self, distance, slope, point1, point2):
         self.distance = distance
@@ -51,30 +51,33 @@ public class VisionHelper
         self.point2 = point2
 
 // returns slope of line
-    public tuple? find_longer_line(MatOfPoint img){}
+    public tuple? find_longer_line(MatOfPoint img){
     GripPipeline pipeline = new GripPipeline();
     pipeline.process(img);
-    contours = pipeline.filter_counters_output
+    contours = pipeline.filterContoursOutput().get(0);
 
     //returns m, y0, and x0 of longer line
-    rc = cv2.minAreaRect(contours[0])
-    box = cv2.boxPoints(rc)
+    RotatedRect rc = Imgproc.minAreaRect(contours[0]);
+    box = Imgproc.boxPoints(rc, img); 
 
     tups = [] #list of tuples
 
-    for (i, p1) in enumerate(box):
-        for (j, p2) in enumerate(box):
-            if i < j:
+    
+for (int i : enumerate(box)){
+    for (int j : enumerate(box)){
+            if (i < j){}
                 ydiff = p2[1] - p1[1]// difference in y coords
                 xdiff = p2[0] - p1[0] //difference in x coords
-                distance = sqrt(xiff ** 2 + ydiff ** 2) # distance formula to find distance between 2 points
-                slope = ydiff / (xdiff * 1.0)
+                distance = sqrt(xdiff * xdiff+ ydiff *ydiff) //distance formula to find distance between 2 points
+                slope = ydiff / (xdiff * 1.0);
                 tups.append(Tup(distance, slope, p1, p2)) #add in the tuple into the list 
+    }
+    }
+}
 
     tups.sort(key=distance)
     return tups[2].slope
 }
-*/
 //########################################## 2.3b: ANGLE FROM TAPE SIDE TO CAMERA FACING #####################################################
 
 public double getCameraToTapeTheta(double m){
