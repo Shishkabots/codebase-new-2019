@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 
@@ -20,7 +22,7 @@ import org.opencv.objdetect.*;
 
 public class VisionHelper
 {
-    /*public Mat undistort(Mat img, Mat mapx, Mat mapy) {
+    public Mat undistort(Mat img, Mat mapx, Mat mapy) {
   // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
    Mat gray = null;
    Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
@@ -42,7 +44,7 @@ public class VisionHelper
     public double convert_dist(double pixel_dist, double height){
     return 0.0001 * (9.081 * height * pixel_dist);
     }
-
+    /*
     class Tup:
     def __init__(self, distance, slope, point1, point2):
         self.distance = distance
@@ -50,34 +52,95 @@ public class VisionHelper
         self.point1 = point1
         self.point2 = point2
 
-// returns slope of line
-    public tuple? find_longer_line(MatOfPoint img){
-    GripPipeline pipeline = new GripPipeline();
-    pipeline.process(img);
-    contours = pipeline.filterContoursOutput().get(0);
+# returns slope of line
+def find_longer_line(img):
+    pipeline = GripPipelinepython()
+    pipeline.process(img)
+    contours = pipeline.filter_counters_output
 
-    //returns m, y0, and x0 of longer line
-    RotatedRect rc = Imgproc.minAreaRect(contours[0]);
-    box = Imgproc.boxPoints(rc, img); 
+    # returns m, y0, and x0 of longer line
+    rc = cv2.minAreaRect(contours[0])
+    box = cv2.boxPoints(rc)
 
     tups = [] #list of tuples
 
-    
-for (int i : enumerate(box)){
-    for (int j : enumerate(box)){
-            if (i < j){}
-                ydiff = p2[1] - p1[1]// difference in y coords
-                xdiff = p2[0] - p1[0] //difference in x coords
-                distance = sqrt(xdiff * xdiff+ ydiff *ydiff) //distance formula to find distance between 2 points
-                slope = ydiff / (xdiff * 1.0);
+    for (i, p1) in enumerate(box):
+        for (j, p2) in enumerate(box):
+            if i < j:
+                ydiff = p2[1] - p1[1] # difference in y coords
+                xdiff = p2[0] - p1[0] # difference in x coords
+                distance = sqrt(xdiff ** 2 + ydiff ** 2) # distance formula to find distance between 2 points
+                slope = ydiff / (xdiff * 1.0)
                 tups.append(Tup(distance, slope, p1, p2)) #add in the tuple into the list 
-    }
-    }
-}
 
     tups.sort(key=distance)
     return tups[2].slope
+
+*/
+
+    public class Tup implements Comparable< Tup >{
+    public Double distance;
+    public double slope;
+    public Mat point1;
+    public Mat point2;
+
+    public Tup(Double distance, double slope, Mat point1, Mat point2){
+        this.distance = distance;
+        this.slope = slope;
+        this.point1 = point1;
+        this.point2 = point2;
+    }
+    public Tup(){
+        this.distance = null;
+        this.slope = 0;
+        this.point1 = null;
+        this.point2 = null;
+    }
+
+    public int compareTo(Tup other) {
+        return this.distance.compareTo(other.distance);
+    }
+        
 }
+// returns slope of line
+    public double find_longer_line(MatOfPoint img){
+    GripPipeline pipeline = new GripPipeline();
+    pipeline.process(img);
+    MatOfPoint contours = pipeline.filterContoursOutput().get(0);
+
+    //returns m, y0, and x0 of longer line
+    MatOfPoint2f myPt = new MatOfPoint2f();
+    contours.convertTo(myPt, CvType.CV_32FC2);
+    RotatedRect rc = Imgproc.minAreaRect(myPt);
+    Mat box = new Mat();    
+    Imgproc.boxPoints(rc, box); 
+
+    ArrayList<Tup> tups = new ArrayList<Tup>(); //list of tuple
+
+    
+for (int i  =0; i < box.rows(); i++){
+    for (int j =0; j < box.cols(); j++){
+            if (i < j){}
+                //double ydiff = box.get(j).get(1) - box.get(i).get(1);// difference in y coords
+                double[] y2 = box.get(j,1);
+                double[] y1 = box.get(i,1);
+                double ydiff =y2[0] - y1[0];// difference in y coords
+                //double xdiff = box.get(j).get(0) - box.get(i).get(0);; //difference in x coords
+                double[] x2 = box.get(j,0);
+                double[] x1 = box.get(i,0);
+                double xdiff = x2[0] - x1[0]; //difference in x coords
+                Double distance = Math.sqrt(xdiff * xdiff+ ydiff *ydiff); //distance formula to find distance between 2 points
+                double slope = ydiff / (xdiff * 1.0);
+                Tup t = new Tup(distance, slope, box.row(i), box.row(j));
+                tups.add(t); //add in the tuple into the list 
+    }
+    }
+
+    Collections.sort(tups);
+    
+    return tups.get(3).slope;
+}
+
 //########################################## 2.3b: ANGLE FROM TAPE SIDE TO CAMERA FACING #####################################################
 
 public double getCameraToTapeTheta(double m){
@@ -99,8 +162,8 @@ public double[] get_final_R_theta(MatOfPoint img,double robot_offset_x, double r
     double[] center = findCenter(img);
     double pixel_x = center[0];
     double pixel_y = center[1];
-    double pixel_delta_x = img.shape[0] / 2 - pixel_x;
-    double pixel_delta_y = img.shape[1] / 2 - pixel_y;
+    double pixel_delta_x = img.width() / 2 - pixel_x;
+    double pixel_delta_y = img.height()/ 2 - pixel_y;
 
     double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2)+Math.pow(pixel_delta_y, 2)), height);
     double camera_theta = Math.atan(pixel_delta_y/pixel_delta_x);//for negative pixel_delta_x, should take return a negative angle
@@ -108,7 +171,7 @@ public double[] get_final_R_theta(MatOfPoint img,double robot_offset_x, double r
     double camera_delta_x = camera_r * Math.cos(camera_theta);
     double camera_delta_y = camera_r * Math.sin(camera_theta);
 
-    double cameraToTape_theta = get_cameraToTape_Theta(find_longer_line(img));
+    double cameraToTape_theta = getCameraToTapeTheta(find_longer_line(img));
 
     double tape_delta_x = tape_offset_r * Math.cos(cameraToTape_theta + tape_offset_theta);
     double tape_delta_y = tape_offset_r * Math.sin(cameraToTape_theta + tape_offset_theta);
@@ -129,6 +192,6 @@ robot_offset_x = "measure this";
 robot_offset_y = "measure this as well";
 tape_offset_x = "this too";
 tape_offset_y =  "this three";
-height = "this four";*/
+height = "this four";
 
 }
