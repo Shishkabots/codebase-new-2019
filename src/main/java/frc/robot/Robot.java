@@ -155,7 +155,7 @@ public class Robot extends TimedRobot {
 
     e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
     e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    gyro = new AnalogGyro(3);
+    //gyro = new AnalogGyro(3);
     //gyro = new AnalogGyro(3);
 
 
