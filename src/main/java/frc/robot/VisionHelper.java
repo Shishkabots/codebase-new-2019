@@ -22,6 +22,7 @@ import org.opencv.objdetect.*;
 
 public class VisionHelper
 {
+    public static double[] centerCoor;
     public Mat undistort(Mat img, Mat mapx, Mat mapy) {
   // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
    Mat gray = null;
@@ -30,10 +31,13 @@ public class VisionHelper
    Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
     return dst;
     }
+    public VisionHelper() {
+
+    }
 
     public double[] findCenter(MatOfPoint img){
     //[x,y]
-    double[] centerCoor = new double[2];
+    centerCoor = new double[2];
     GripPipeline pipeline = new GripPipeline();
     pipeline.process(img);
     Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
@@ -41,6 +45,7 @@ public class VisionHelper
     centerCoor[1]= r.y + (r.height/2);
     return centerCoor;
     }
+    
     public double convert_dist(double pixel_dist, double height){
     return 0.0001 * (9.081 * height * pixel_dist);
     }
@@ -151,7 +156,6 @@ public double getCameraToTapeTheta(double m){
 
     //ARC TAN OF THE SLOPE BASICALLY 
     return Math.atan(m);
-    
 }
 
 public double[] get_final_R_theta(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
@@ -186,12 +190,12 @@ public double[] get_final_R_theta(MatOfPoint img,double robot_offset_x, double r
 
 }
 //"path to image" = placeholder
-Mat img = Imgcodecs.imread("path to image")
+/*Mat img = Imgcodecs.imread("path to image");
 return
 robot_offset_x = "measure this";
 robot_offset_y = "measure this as well";
 tape_offset_x = "this too";
 tape_offset_y =  "this three";
-height = "this four";
+height = "this four";*/
 
 }
