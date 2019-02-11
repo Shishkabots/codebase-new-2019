@@ -167,8 +167,8 @@ def find_longer_line(img):
         double[] center = findCenter(img);
         double pixel_x = center[0];
         double pixel_y = center[1];
-        double pixel_delta_x = img.shape[0] / 2 - pixel_x;
-        double pixel_delta_y = img.shape[1] / 2 - pixel_y;
+        double pixel_delta_x = img.width() / 2 - pixel_x;
+        double pixel_delta_y = img.height() / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2)+Math.pow(pixel_delta_y, 2)), height);
         double camera_theta = Math.atan(pixel_delta_y/pixel_delta_x);//for negative pixel_delta_x, should take return a negative angle
