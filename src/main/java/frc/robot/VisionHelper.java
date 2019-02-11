@@ -189,7 +189,7 @@ def find_longer_line(img):
         //"path to image" = placeholder
         Mat imgg = Imgcodecs.imread("path to image");
 
-        // need to load from file
+        // need to load from file 
         Mat mapx;
         Mat mapy;
 
