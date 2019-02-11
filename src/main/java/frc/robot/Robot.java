@@ -92,7 +92,8 @@ public class Robot extends TimedRobot {
     UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
     theCamera.setResolution(320, 240);
-    theCamera.setBrightness(20);
+    theCamera.setExposureManual(30);
+    theCamera.setBrightness(30);
     
     
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
