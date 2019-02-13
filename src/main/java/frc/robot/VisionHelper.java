@@ -23,11 +23,11 @@ import org.opencv.objdetect.*;
 public class VisionHelper
 {
     public static double[] centerCoor;
-    public Mat undistort(MatOfPoint img, Mat mapx, Mat mapy) {
+    public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
         // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
        // Mat gray = null;
         //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
-        Mat dst = null;
+        MatOfPoint dst = null;
         Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
         return dst;
     }
@@ -41,7 +41,6 @@ public class VisionHelper
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
          Moments moments = Imgproc.moments(img);
-         Point cent = new Point();
         centerCoor[0] = moments.get_m10() / moments.get_m00();
         centerCoor[1] = moments.get_m01() / moments.get_m00();
         return centerCoor;
@@ -110,8 +109,8 @@ public class VisionHelper
         double[] center = findCenter(img);
         double pixel_x = center[0];
         double pixel_y = center[1];
-        double pixel_delta_x = img.width / 2 - pixel_x;
-        double pixel_delta_y = img.height / 2 - pixel_y;
+        double pixel_delta_x = img.width() / 2 - pixel_x;
+        double pixel_delta_y = img.height() / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2)+Math.pow(pixel_delta_y, 2)), height);
         double camera_theta = Math.atan(pixel_delta_y/pixel_delta_x);//for negative pixel_delta_x, should take return a negative angle
