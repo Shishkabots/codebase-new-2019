@@ -23,10 +23,10 @@ import org.opencv.objdetect.*;
 public class VisionHelper
 {
     public static double[] centerCoor;
-    public Mat undistort(Mat img, Mat mapx, Mat mapy) {
+    public Mat undistort(MatOfPoint img, Mat mapx, Mat mapy) {
         // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
-        Mat gray = null;
-        Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
+       // Mat gray = null;
+        //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
         Mat dst = null;
         Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
         return dst;
@@ -35,78 +35,21 @@ public class VisionHelper
 
     }
 
-    public double[] findCenter(MatOfPoint img){
+    public double[] findCenter(MatOfPoint img) {
         //[x,y]
         double[] centerCoor = new double[2];
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
-        Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-        centerCoor[0] = r.x + (r.width / 2);
-        centerCoor[1]= r.y + (r.height/2);
+         Moments moments = Imgproc.moments(img);
+         Point cent = new Point();
+        centerCoor[0] = moments.get_m10() / moments.get_m00();
+        centerCoor[1] = moments.get_m01() / moments.get_m00();
         return centerCoor;
     }
-    
+
     public double convert_dist(double pixel_dist, double height){
         return 0.0001 * (9.081 * height * pixel_dist);
     }
-    /*
-    class Tup:
-    def __init__(self, distance, slope, point1, point2):
-        self.distance = distance
-        self.slope = slope
-        self.point1 = point1
-        self.point2 = point2
-
-# returns slope of line
-def find_longer_line(img):
-    pipeline = GripPipelinepython()
-    pipeline.process(img)
-    contours = pipeline.filter_counters_output
-
-    # returns m, y0, and x0 of longer line
-    rc = cv2.minAreaRect(contours[0])
-    box = cv2.boxPoints(rc)
-
-    tups = [] #list of tuples
-
-    for (i, p1) in enumerate(box):
-        for (j, p2) in enumerate(box):
-            if i < j:
-                ydiff = p2[1] - p1[1] # difference in y coords
-                xdiff = p2[0] - p1[0] # difference in x coords
-                distance = sqrt(xdiff ** 2 + ydiff ** 2) # distance formula to find distance between 2 points
-                slope = ydiff / (xdiff * 1.0)
-                tups.append(Tup(distance, slope, p1, p2)) #add in the tuple into the list 
-
-    tups.sort(key=distance)
-    return tups[2].slope
-
-*/
-
-    public class Tup implements Comparable< Tup >{
-        public Double distance;
-        public double slope;
-        public Mat point1;
-        public Mat point2;
-
-        public Tup(Double distance, double slope, Mat point1, Mat point2){
-            this.distance = distance;
-            this.slope = slope;
-            this.point1 = point1;
-            this.point2 = point2;
-        }
-        public Tup(){
-            this.distance = null;
-            this.slope = 0;
-            this.point1 = null;
-            this.point2 = null;
-        }
-
-        public int compareTo(Tup other) {
-            return this.distance.compareTo(other.distance);
-        }    
-    }
-    
     // returns slope of line
     public double find_longer_line(MatOfPoint img){
         GripPipeline pipeline = new GripPipeline();
@@ -167,8 +110,8 @@ def find_longer_line(img):
         double[] center = findCenter(img);
         double pixel_x = center[0];
         double pixel_y = center[1];
-        double pixel_delta_x = img.shape[0] / 2 - pixel_x;
-        double pixel_delta_y = img.shape[1] / 2 - pixel_y;
+        double pixel_delta_x = img.width / 2 - pixel_x;
+        double pixel_delta_y = img.height / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2)+Math.pow(pixel_delta_y, 2)), height);
         double camera_theta = Math.atan(pixel_delta_y/pixel_delta_x);//for negative pixel_delta_x, should take return a negative angle
@@ -216,4 +159,28 @@ def find_longer_line(img):
         return turn_theta;
     }
 
+}
+//Tup class used in find longer line
+public class Tup implements Comparable< Tup >{
+    public Double distance;
+    public double slope;
+    public Mat point1;
+    public Mat point2;
+
+    public Tup(Double distance, double slope, Mat point1, Mat point2){
+        this.distance = distance;
+        this.slope = slope;
+        this.point1 = point1;
+        this.point2 = point2;
+    }
+    public Tup(){
+        this.distance = null;
+        this.slope = 0;
+        this.point1 = null;
+        this.point2 = null;
+    }
+
+    public int compareTo(Tup other) {
+        return this.distance.compareTo(other.distance);
+    }
 }
