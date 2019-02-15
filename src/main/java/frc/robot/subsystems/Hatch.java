@@ -27,15 +27,15 @@ public class Hatch extends Subsystem {
 
     public void setState(String state){
         if(state == "Off"){
-            Piston1.set(DoubleSolenoid.Value.kOff);
+            Robot.ds.set(DoubleSolenoid.Value.kOff);
             
         }
         else if(state == "Close"){
-            Piston1.set(DoubleSolenoid.Value.kForward);
+            Robot.ds.set(DoubleSolenoid.Value.kForward);
             
         }
         else if(state == "Open"){
-            Piston1.set(DoubleSolenoid.Value.kReverse);
+            Robot.ds.set(DoubleSolenoid.Value.kReverse);
             
         }
     }

@@ -22,18 +22,22 @@ public class Succ extends Command {
     @Override
     protected void execute() {
         geytime++;
+        if(geytime > 200) {
+            succ.Succ("OFF");
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return geytime >= 10000;
+        return geytime >= 220;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
         succ.Succ("OFF");
+        geytime = 0;
     }
 
     // Called when another command which requires one or more of the same

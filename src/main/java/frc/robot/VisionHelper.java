@@ -22,7 +22,7 @@ import org.opencv.objdetect.*;
 
 public class VisionHelper
 {
-    public static double[] centerCoor;
+    /*public static double[] centerCoor;
     public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
         // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
        // Mat gray = null;
@@ -181,5 +181,5 @@ public class Tup implements Comparable< Tup >{
 
     public int compareTo(Tup other) {
         return this.distance.compareTo(other.distance);
-    }
+    }*/
 }
