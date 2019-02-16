@@ -14,7 +14,6 @@ public class HatchActivate extends Command {
     protected void initialize() {
         Robot.m_hatch.setState("Off");
         Robot.m_hatch.setState("Open");
-    
     }
         
     // Called repeatedly when this Command is scheduled to run

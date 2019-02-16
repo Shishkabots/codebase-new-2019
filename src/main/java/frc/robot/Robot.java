@@ -167,8 +167,8 @@ public class Robot extends TimedRobot {
     
     //gyro = new AnalogGyro(3);
 
-    led = new Spark(1);
-    led.set(0.41);
+    //led = new Spark(1);
+    //led.set(0.41);
 
 
     m_oi = new OI();

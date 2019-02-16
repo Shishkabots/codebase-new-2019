@@ -23,11 +23,11 @@ import org.opencv.objdetect.*;
 public class VisionHelper
 {
     public static double[] centerCoor;
-    public Mat undistort(Mat img, Mat mapx, Mat mapy) {
+    public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
         // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
-        Mat gray = null;
+        MatOfPoint gray = null;
         Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
-        Mat dst = null;
+        MatOfPoint dst = null;
         Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
         return dst;
     }
@@ -167,8 +167,8 @@ def find_longer_line(img):
         double[] center = findCenter(img);
         double pixel_x = center[0];
         double pixel_y = center[1];
-        double pixel_delta_x = img.shape[0] / 2 - pixel_x;
-        double pixel_delta_y = img.shape[1] / 2 - pixel_y;
+        double pixel_delta_x = img.width() / 2 - pixel_x;
+        double pixel_delta_y = img.height() / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2)+Math.pow(pixel_delta_y, 2)), height);
         double camera_theta = Math.atan(pixel_delta_y/pixel_delta_x);//for negative pixel_delta_x, should take return a negative angle
@@ -192,19 +192,19 @@ def find_longer_line(img):
     }
     public double[] get_move_to_correct_point(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) {
         //"path to image" = placeholder
-        Mat imgg = Imgcodecs.imread("path to image");
+        //Mat img = Imgcodecs.imread("path to image"); // don't need to read in img if already passed in
 
         // need to load from file
         Mat mapx;
         Mat mapy;
 
-        robot_offset_x = "measure this";
-        robot_offset_y = "measure this as well";
-        tape_offset_x = "this too";
-        tape_offset_y =  "this three";
-        height = "this four";
+        robot_offset_x = 0; //measure this
+        robot_offset_y = 0; //measure this as well
+        tape_offset_x = 0; //this too
+        tape_offset_y =  0; //this three
+        height = 0; //this four
 
-        img = undistort(img, mapx, mapy); 
+        //img = undistort(img, mapx, mapy); 
         double[] outputRTheta = get_final_R_theta(img,
          robot_offset_x,  robot_offset_y,  tape_offset_x,  tape_offset_y,  height);
         return outputRTheta;
