@@ -100,12 +100,8 @@ public class Robot extends TimedRobot {
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
     theCamera.setResolution(320, 240);
     theCamera.setExposureManual(30);
-<<<<<<< HEAD
-    theCamera.setBrightness(30);    
-=======
     theCamera.setBrightness(30);
     //v = new VisionHelper();
->>>>>>> cfed10e9fe05edc13f9cf4d1cebdc9d10f1fb075
     
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
       count++;
