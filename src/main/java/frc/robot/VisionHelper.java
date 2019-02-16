@@ -71,13 +71,13 @@ public class VisionHelper
                     //double ydiff = box.get(j).get(1) - box.get(i).get(1);// difference in y coords
                     double[] y2 = box.get(j,1);
                     double[] y1 = box.get(i,1);
-                    double ydiff =y2[0] - y1[0];// difference in y coords
+                    double ydiff = y2[0] - y1[0];// difference in y coords
                     //double xdiff = box.get(j).get(0) - box.get(i).get(0);; //difference in x coords
                     double[] x2 = box.get(j,0);
                     double[] x1 = box.get(i,0);
                     double xdiff = x2[0] - x1[0]; //difference in x coords
-                    Double distance = Math.sqrt(xdiff * xdiff+ ydiff *ydiff); //distance formula to find distance between 2 points
-                    double slope = ydiff / (xdiff * 1.0);
+                    Double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff); //distance formula to find distance between 2 points
+                    double slope = ydiff / xdiff;
                     Tup t = new Tup(distance, slope, box.row(i), box.row(j));
                     tups.add(t); //add in the tuple into the list 
                 }
@@ -85,7 +85,7 @@ public class VisionHelper
         }
 
         Collections.sort(tups);
-        return tups.get(3).slope;
+        return tups.get(2).slope;
     }
 
 //########################################## 2.3b: ANGLE FROM TAPE SIDE TO CAMERA FACING #####################################################
