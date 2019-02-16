@@ -93,8 +93,7 @@ public class Robot extends TimedRobot {
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
     theCamera.setResolution(320, 240);
     theCamera.setExposureManual(30);
-    theCamera.setBrightness(30);
-    
+    theCamera.setBrightness(30);    
     
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
