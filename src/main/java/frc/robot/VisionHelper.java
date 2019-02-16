@@ -22,7 +22,7 @@ import org.opencv.objdetect.*;
 
 public class VisionHelper
 {
-    /*public static double[] centerCoor;
+    public static double[] centerCoor;
     public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
         // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
        // Mat gray = null;
@@ -158,28 +158,29 @@ public class VisionHelper
         return turn_theta;
     }
 
-}
+
 //Tup class used in find longer line
-/*public class Tup implements Comparable< Tup >{
-    public Double distance;
-    public double slope;
-    public Mat point1;
-    public Mat point2;
+    public class Tup implements Comparable< Tup >{
+        public Double distance;
+        public double slope;
+        public Mat point1;
+        public Mat point2;
 
-    public Tup(Double distance, double slope, Mat point1, Mat point2){
-        this.distance = distance;
-        this.slope = slope;
-        this.point1 = point1;
-        this.point2 = point2;
-    }
-    public Tup(){
-        this.distance = null;
-        this.slope = 0;
-        this.point1 = null;
-        this.point2 = null;
-    }
+        public Tup(Double distance, double slope, Mat point1, Mat point2){
+            this.distance = distance;
+            this.slope = slope;
+            this.point1 = point1;
+            this.point2 = point2;
+        }
+        public Tup(){
+            this.distance = null;
+            this.slope = 0;
+            this.point1 = null;
+            this.point2 = null;
+        }
 
-    public int compareTo(Tup other) {
-        return this.distance.compareTo(other.distance);
-    }*/
+        public int compareTo(Tup other) {
+            return this.distance.compareTo(other.distance);
+        }
+    }
 }
