@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -158,9 +159,11 @@ public class Robot extends TimedRobot {
 
     //m_drive.setRightSideInverted(false);
     m_drivetrain =new DriveTrain();
-    ds = new DoubleSolenoid(6, 7);
+    ds = new DoubleSolenoid(0, 1);
+    //ds.set(DoubleSolenoid.Value.kForward);
     m_hatch = new Hatch();
     m_intake = new Intake();
+    //m_intake.setState("On");
 
     e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
     e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
@@ -225,6 +228,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    //ds.set(Value.kForward);
     /*m_autonomousCommand = m_chooser.getSelected();
 
     /*

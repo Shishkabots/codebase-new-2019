@@ -21,12 +21,13 @@ public class OI {
 
   public Joystick joystick = new Joystick(1);//also an xbox
   
-	public Button hatchbutt = new JoystickButton(joystick,5);
+  public Button hatchbutt = new JoystickButton(xbox,3);
+  //public Button hbutt = new JoystickButton(joystick, 2);
 	public Button succbutt = new JoystickButton(joystick, 6);
-  public Button camerabutt = new JoystickButton(joystick,3);
+  public Button camerabutt = new JoystickButton(joystick,5);
   
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
-    succbutt.whenPressed(new Succ());
+    succbutt.whenReleased(new Succ());
   }
 }

@@ -136,7 +136,7 @@ public class VisionHelper
         //"path to image" = placeholder
         //Mat img = Imgcodecs.imread("path to image"); // don't need to read in img if already passed in
 
-        // need to load from file
+        // need to load from file 
         Mat mapx;
         Mat mapy;
 
