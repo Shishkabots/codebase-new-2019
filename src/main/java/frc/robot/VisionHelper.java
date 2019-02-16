@@ -1,15 +1,12 @@
 package frc.robot;
 
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.HashMap;
+import java.util.*;
+
 
 import  edu.wpi.first.vision.VisionPipeline;
 
@@ -132,19 +129,38 @@ public class VisionHelper
         return rThe;
 
     }
-    public double[] get_move_to_correct_point(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) {
+    public double[] get_move_to_correct_point(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) throws FileNotFoundException{
         //"path to image" = placeholder
         //Mat img = Imgcodecs.imread("path to image"); // don't need to read in img if already passed in
 
         // need to load from file 
-        Mat mapx;
-        Mat mapy;
+        Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
+        Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
+
+
+        Scanner in = new Scanner(new File("mapx_values.csv"));
+        in.useDelimiter(",");
+        for(int row= 0; row <720; row++){
+            for(int col = 0; col < 1280; col++ ){
+                float num = in.nextFloat();
+                mapx.put(row, col, num);
+            }
+        }
+
+        in = new Scanner(new File("mapy_values.csv"));
+        in.useDelimiter(",");
+        for(int row= 0; row <720; row++){
+            for(int col = 0; col < 1280; col++ ){
+                float num = in.nextFloat();
+                mapy.put(row, col, num);
+            }
+        }
 
         robot_offset_x = 0; //measure this
         robot_offset_y = 0; //measure this as well
         tape_offset_x = 0; //this too
         tape_offset_y =  0; //this three
-        height = 0; //this four
+        height = 46; //this four
 
         //img = undistort(img, mapx, mapy); 
         double[] outputRTheta = get_final_R_theta(img,
