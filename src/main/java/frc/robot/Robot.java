@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,6 +35,7 @@ import edu.wpi.first.vision.VisionThread;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.Spark;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -85,7 +87,12 @@ public class Robot extends TimedRobot {
 
   public static AnalogGyro gyro;
   public static int count;
-  
+
+  public static Spark led;
+
+
+  public static double[] d;
+  public VisionHelper v;
   
   @Override
   public void robotInit() {
@@ -93,16 +100,24 @@ public class Robot extends TimedRobot {
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
     theCamera.setResolution(320, 240);
     theCamera.setExposureManual(30);
+<<<<<<< HEAD
     theCamera.setBrightness(30);    
+=======
+    theCamera.setBrightness(30);
+    //v = new VisionHelper();
+>>>>>>> cfed10e9fe05edc13f9cf4d1cebdc9d10f1fb075
     
     visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
+      count++;
       if (!pipeline.filterContoursOutput().isEmpty()) {
             synchronized (imgLock) {
               MatOfPoint m = pipeline.filterContoursOutput().get(0);
+              //d = v.findCenter(m);
+
               MatOfPoint2f m2 = new MatOfPoint2f(m.toArray());
               r = Imgproc.minAreaRect(m2);
               m_centerX = r.center.x;
-              count++;
+              
               //rect2 = Imgproc.boundingRect(m);
               //m_centerX2 = rect2.x + (rect2.width / 2);
               
@@ -148,15 +163,19 @@ public class Robot extends TimedRobot {
 
     //m_drive.setRightSideInverted(false);
     m_drivetrain =new DriveTrain();
-    ds = new DoubleSolenoid(6, 7);
+    ds = new DoubleSolenoid(0, 1);
+    //ds.set(DoubleSolenoid.Value.kForward);
     m_hatch = new Hatch();
     m_intake = new Intake();
+    //m_intake.setState("On");
 
     e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
     e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    //gyro = new AnalogGyro(3);
+    
     //gyro = new AnalogGyro(3);
 
+    led = new Spark(1);
+    led.set(0.41);
 
 
     m_oi = new OI();
@@ -213,6 +232,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    //ds.set(Value.kForward);
     /*m_autonomousCommand = m_chooser.getSelected();
 
     /*
@@ -237,9 +257,11 @@ public class Robot extends TimedRobot {
     RotatedRect re;
     double ree;
     double cent;
+    double[] cenn;
     synchronized (imgLock) {
         re = r;
         ree = count;
+        //cenn = d;
         //cent = m_centerX2;
     }
     //SmartDashboard.putNumber("other: ", cent);
@@ -249,6 +271,8 @@ public class Robot extends TimedRobot {
       SmartDashboard.putNumber("Width: ", re.size.width);
       SmartDashboard.putNumber("x: ", re.center.x);
       SmartDashboard.putNumber("y: ", re.center.y);
+      //SmartDashboard.putNumber("new x: ", d[0]);
+      //SmartDashboard.putNumber("mew y: ", d[1]);
     }
     else{
       SmartDashboard.putNumber("Angle: ", 0);
@@ -256,6 +280,8 @@ public class Robot extends TimedRobot {
       SmartDashboard.putNumber("Width: ", 0);
       SmartDashboard.putNumber("x: ", 0);
       SmartDashboard.putNumber("y: ", 0);
+      //SmartDashboard.putNumber("new x: ", 0);
+      //SmartDashboard.putNumber("mew y: ", 0);
     }
     SmartDashboard.putNumber("Number: ", ree);
     Scheduler.getInstance().run();
