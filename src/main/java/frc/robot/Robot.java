@@ -95,6 +95,7 @@ public class Robot extends TimedRobot {
 
   public static double[] d;
   public static VisionHelper v;
+  public static CvSink cv;
   
   @Override
   public void robotInit() {
@@ -104,7 +105,7 @@ public class Robot extends TimedRobot {
     theCamera.setExposureManual(30);
     theCamera.setBrightness(30);
     //v = new VisionHelper();
-    
+    cv = CameraServer.getInstance().getVideo();
     visionThread = new VisionThread(theCamera, pipe, pipeline -> {
       count++;
       if (!pipeline.filterContoursOutput().isEmpty()) {
