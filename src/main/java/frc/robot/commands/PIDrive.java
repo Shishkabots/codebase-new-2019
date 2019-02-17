@@ -31,6 +31,7 @@ public class PIDrive extends Command {
         integral += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / .02;
         Robot.m_drivetrain.arcadeDrive(P*error + I*this.integral + D*derivative,0);
+        
     }
 
     protected boolean isFinished() {
