@@ -1,15 +1,12 @@
 package frc.robot;
 
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.HashMap;
+import java.util.*;
+
 
 import  edu.wpi.first.vision.VisionPipeline;
 
@@ -135,23 +132,41 @@ public class VisionHelper
         return rThe;
 
     }
-    public double[] get_move_to_correct_point(MatOfPoint img, double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) {
-        // no need for new image input
+    public double[] get_move_to_correct_point(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) throws FileNotFoundException{
         //"path to image" = placeholder
-        //Mat imgg = Imgcodecs.imread("path to image");
+        //Mat img = Imgcodecs.imread("path to image"); // don't need to read in img if already passed in
 
-        need to load from file 
-        Mat mapx;
-        Mat mapy;
+        // need to load from file 
+        Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
+        Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
 
-        // don't override in-function (just need to pass in proper constants where the function is called)
-        // robot_offset_x = "measure this";
-        // robot_offset_y = "measure this as well";
-        // tape_offset_x = "this too";
-        // tape_offset_y =  "this three";
-        // height = "this four";
 
-        img = undistort(img, mapx, mapy); 
+        Scanner in = new Scanner(new File("mapx_values.csv"));
+        in.useDelimiter(",");
+        for(int row= 0; row <720; row++){
+            for(int col = 0; col < 1280; col++ ){
+                float num = in.nextFloat();
+                mapx.put(row, col, num);
+            }
+        }
+
+        in = new Scanner(new File("mapy_values.csv"));
+        in.useDelimiter(",");
+        for(int row= 0; row <720; row++){
+            for(int col = 0; col < 1280; col++ ){
+                float num = in.nextFloat();
+                mapy.put(row, col, num);
+            }
+        }
+
+        // don't modify in-function, since it's being passed in properly
+        // robot_offset_x = 0; //measure this
+        // robot_offset_y = 0; //measure this as well
+        // tape_offset_x = 0; //this too
+        // tape_offset_y =  0; //this three
+        // height = 46; //this four
+
+        //img = undistort(img, mapx, mapy); 
         double[] outputRTheta = get_final_R_theta(img,
          robot_offset_x,  robot_offset_y,  tape_offset_x,  tape_offset_y,  height);
         return outputRTheta;
@@ -163,4 +178,29 @@ public class VisionHelper
         return turn_theta;
     }
 
+
+//Tup class used in find longer line
+    public class Tup implements Comparable< Tup >{
+        public Double distance;
+        public double slope;
+        public Mat point1;
+        public Mat point2;
+
+        public Tup(Double distance, double slope, Mat point1, Mat point2){
+            this.distance = distance;
+            this.slope = slope;
+            this.point1 = point1;
+            this.point2 = point2;
+        }
+        public Tup(){
+            this.distance = null;
+            this.slope = 0;
+            this.point1 = null;
+            this.point2 = null;
+        }
+
+        public int compareTo(Tup other) {
+            return this.distance.compareTo(other.distance);
+        }
+    }
 }

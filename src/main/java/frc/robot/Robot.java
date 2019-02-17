@@ -90,15 +90,17 @@ public class Robot extends TimedRobot {
 
   public static Spark led;
 
+  public static UsbCamera theCamera;
+
 
   public static double[] d;
   public VisionHelper v;
   
   @Override
   public void robotInit() {
-    UsbCamera theCamera = CameraServer.getInstance().startAutomaticCapture();
+    theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
-    theCamera.setResolution(320, 240);
+    theCamera.setResolution(1280, 720);
     theCamera.setExposureManual(30);
     theCamera.setBrightness(30);
     //v = new VisionHelper();
@@ -154,6 +156,8 @@ public class Robot extends TimedRobot {
     leftTalon.setInverted(true);
     rightTalon.setInverted(true);
 
+    
+
     leftVictor.setInverted(true);
     rightVictor.setInverted(true);
 
@@ -170,8 +174,8 @@ public class Robot extends TimedRobot {
     
     //gyro = new AnalogGyro(3);
 
-    led = new Spark(1);
-    led.set(0.41);
+    //led = new Spark(1);
+    //led.set(0.41);
 
 
     m_oi = new OI();
