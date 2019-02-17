@@ -20,13 +20,15 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
 
+import frc.robot.Tup;
+
 public class VisionHelper
 {
-    /*public static double[] centerCoor;
+    public static double[] centerCoor;
     public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
-        // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
-       // Mat gray = null;
-        //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
+        //Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); // don't use this line, just use the inputted one
+        Mat gray = null;
+        Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
         MatOfPoint dst = null;
         Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
         return dst;
@@ -46,10 +48,11 @@ public class VisionHelper
         return centerCoor;
     }
 
+    // takes in height in inches, pixel_dist in 1280x720 pixel space, returns distance in inches
     public double convert_dist(double pixel_dist, double height){
         return 0.0001 * (9.081 * height * pixel_dist);
     }
-    // returns slope of line
+    //returns slope of line
     public double find_longer_line(MatOfPoint img){
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
@@ -91,7 +94,7 @@ public class VisionHelper
 //########################################## 2.3b: ANGLE FROM TAPE SIDE TO CAMERA FACING #####################################################
 
     public double getCameraToTapeTheta(double m){
-        //y = y0 + m(x - x0)
+        // y = y0 + m(x - x0)
         //using one point x = x0, another point x = x0 + 100
         //find two points on the line. camera forward defines the y of the image, so finding the angle from the camera line is the same as finding the
         //angle from just the y axis. After two points on the line are found, find delta y and delta x, and then get atan.
@@ -132,19 +135,21 @@ public class VisionHelper
         return rThe;
 
     }
-    public double[] get_move_to_correct_point(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) {
+    public double[] get_move_to_correct_point(MatOfPoint img, double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) {
+        // no need for new image input
         //"path to image" = placeholder
-        Mat imgg = Imgcodecs.imread("path to image");
+        //Mat imgg = Imgcodecs.imread("path to image");
 
-        // need to load from file 
+        need to load from file 
         Mat mapx;
         Mat mapy;
 
-        robot_offset_x = "measure this";
-        robot_offset_y = "measure this as well";
-        tape_offset_x = "this too";
-        tape_offset_y =  "this three";
-        height = "this four";
+        // don't override in-function (just need to pass in proper constants where the function is called)
+        // robot_offset_x = "measure this";
+        // robot_offset_y = "measure this as well";
+        // tape_offset_x = "this too";
+        // tape_offset_y =  "this three";
+        // height = "this four";
 
         img = undistort(img, mapx, mapy); 
         double[] outputRTheta = get_final_R_theta(img,
@@ -153,33 +158,9 @@ public class VisionHelper
     }
 
     public double get_alignedToTape_theta(MatOfPoint img) {
-        Mat img_new = Imgcodecs.imread("path to image-new?");
+        //Mat img_new = Imgcodecs.imread("path to image-new?"); // probably don't use this line, just use the image passed in
         double turn_theta = getCameraToTapeTheta(find_longer_line(img));
         return turn_theta;
     }
 
-}
-//Tup class used in find longer line
-public class Tup implements Comparable< Tup >{
-    public Double distance;
-    public double slope;
-    public Mat point1;
-    public Mat point2;
-
-    public Tup(Double distance, double slope, Mat point1, Mat point2){
-        this.distance = distance;
-        this.slope = slope;
-        this.point1 = point1;
-        this.point2 = point2;
-    }
-    public Tup(){
-        this.distance = null;
-        this.slope = 0;
-        this.point1 = null;
-        this.point2 = null;
-    }
-
-    public int compareTo(Tup other) {
-        return this.distance.compareTo(other.distance);
-    }*/
 }
