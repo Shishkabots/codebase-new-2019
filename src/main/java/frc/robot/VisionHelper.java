@@ -21,9 +21,9 @@ public class VisionHelper
 {
     public static double[] centerCoor;
     public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
-        // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
-       // Mat gray = null;
-        //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
+        //Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); // don't use this line, just use the inputted one
+        Mat gray = null;
+        Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
         MatOfPoint dst = null;
         Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
         return dst;
@@ -43,10 +43,11 @@ public class VisionHelper
         return centerCoor;
     }
 
+    // takes in height in inches, pixel_dist in 1280x720 pixel space, returns distance in inches
     public double convert_dist(double pixel_dist, double height){
         return 0.0001 * (9.081 * height * pixel_dist);
     }
-    // returns slope of line
+    //returns slope of line
     public double find_longer_line(MatOfPoint img){
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
@@ -88,7 +89,7 @@ public class VisionHelper
 //########################################## 2.3b: ANGLE FROM TAPE SIDE TO CAMERA FACING #####################################################
 
     public double getCameraToTapeTheta(double m){
-        //y = y0 + m(x - x0)
+        // y = y0 + m(x - x0)
         //using one point x = x0, another point x = x0 + 100
         //find two points on the line. camera forward defines the y of the image, so finding the angle from the camera line is the same as finding the
         //angle from just the y axis. After two points on the line are found, find delta y and delta x, and then get atan.
@@ -156,11 +157,12 @@ public class VisionHelper
             }
         }
 
-        robot_offset_x = 0; //measure this
-        robot_offset_y = 0; //measure this as well
-        tape_offset_x = 0; //this too
-        tape_offset_y =  0; //this three
-        height = 46; //this four
+        // don't modify in-function, since it's being passed in properly
+        // robot_offset_x = 0; //measure this
+        // robot_offset_y = 0; //measure this as well
+        // tape_offset_x = 0; //this too
+        // tape_offset_y =  0; //this three
+        // height = 46; //this four
 
         //img = undistort(img, mapx, mapy);
         img = undistort(img,mapx,mapy);
@@ -170,7 +172,7 @@ public class VisionHelper
     }
 
     public double get_alignedToTape_theta(MatOfPoint img) {
-        Mat img_new = Imgcodecs.imread("path to image-new?");
+        //Mat img_new = Imgcodecs.imread("path to image-new?"); // probably don't use this line, just use the image passed in
         double turn_theta = getCameraToTapeTheta(find_longer_line(img));
         return turn_theta;
     }
