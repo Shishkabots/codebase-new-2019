@@ -91,10 +91,10 @@ public class Robot extends TimedRobot {
   public static Spark led;
 
   public static UsbCamera theCamera;
-
+  public static GripPipeline pipe = new GripPipeline();
 
   public static double[] d;
-  public VisionHelper v;
+  public static VisionHelper v;
   
   @Override
   public void robotInit() {
@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     theCamera.setBrightness(30);
     //v = new VisionHelper();
     
-    visionThread = new VisionThread(theCamera, new GripPipeline(), pipeline -> {
+    visionThread = new VisionThread(theCamera, pipe, pipeline -> {
       count++;
       if (!pipeline.filterContoursOutput().isEmpty()) {
             synchronized (imgLock) {

@@ -137,7 +137,7 @@ public class VisionHelper
         Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
         Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
 
-
+        
         Scanner in = new Scanner(new File("mapx_values.csv"));
         in.useDelimiter(",");
         for(int row= 0; row <720; row++){
@@ -162,7 +162,8 @@ public class VisionHelper
         tape_offset_y =  0; //this three
         height = 46; //this four
 
-        //img = undistort(img, mapx, mapy); 
+        //img = undistort(img, mapx, mapy);
+        img = undistort(img,mapx,mapy);
         double[] outputRTheta = get_final_R_theta(img,
          robot_offset_x,  robot_offset_y,  tape_offset_x,  tape_offset_y,  height);
         return outputRTheta;
