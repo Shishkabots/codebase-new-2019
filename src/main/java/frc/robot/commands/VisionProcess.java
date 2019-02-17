@@ -35,9 +35,9 @@ public class VisionProcess extends Command {
     @Override
     protected void initialize() {
         cam = Robot.theCamera;
-        sin = CameraServer.getInstance().getVideo();
+        sin = Robot.cv;
         grip = Robot.pipe;
-        vhelp = Robot.v;
+        vhelp = new VisionHelper();
         
     }
         
