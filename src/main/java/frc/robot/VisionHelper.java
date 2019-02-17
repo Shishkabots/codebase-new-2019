@@ -17,8 +17,6 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
 
-import frc.robot.Tup;
-
 public class VisionHelper
 {
     public static double[] centerCoor;
