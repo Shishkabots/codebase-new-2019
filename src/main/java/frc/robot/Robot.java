@@ -38,6 +38,9 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Spark;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
+import edu.wpi.first.wpilibj.SPI;
+import com.kauailabs.navx.frc.AHRS;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -86,7 +89,7 @@ public class Robot extends TimedRobot {
   public static Encoder e1;
   public static Encoder e2;
 
-  public static AnalogGyro gyro;
+  public static AHRS gyro;
   public static int count;
 
   public static Spark led;
@@ -137,33 +140,46 @@ public class Robot extends TimedRobot {
 
     side = new WPI_VictorSPX(3);
 
-    leftTalon = new WPI_TalonSRX(5);
-    leftVictor = new WPI_VictorSPX(1);
+    leftTalon = new WPI_TalonSRX(6);
+    leftVictor = new WPI_VictorSPX(2);
     //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
 
-    rightTalon = new WPI_TalonSRX(6);
-    rightVictor = new WPI_VictorSPX(2);
+    rightTalon = new WPI_TalonSRX(5);
+    rightVictor = new WPI_VictorSPX(1);
     //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
   
     leftTalon.setSafetyEnabled(false);
     rightTalon.setSafetyEnabled(false);
     leftVictor.setSafetyEnabled(false);
     rightVictor.setSafetyEnabled(false);
+    side.setSafetyEnabled(false);
     
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
     
     rightVictor.follow(rightTalon);
     leftVictor.follow(leftTalon);
 
-    leftTalon.setInverted(true);
-    rightTalon.setInverted(true);
+    leftTalon.setInverted(false);
+    rightTalon.setInverted(false);
 
     leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    //rightTalon.setSensorPhase(true);
+    //leftTalon.setSensorPhase(true);
+
+    leftTalon.setSelectedSensorPosition(0);
+    rightTalon.setSelectedSensorPosition(0);
 
     leftVictor.setInverted(true);
     rightVictor.setInverted(true);
 
+    rightTalon.config_kP(0,.01);
+    rightTalon.config_kI(0,0.001);
+    rightTalon.config_kD(0,0.001);
+
+    leftTalon.config_kP(0,.01);
+    leftTalon.config_kI(0,0.001);
+    leftTalon.config_kD(0,0.001);
     //m_drive.setRightSideInverted(false);
     m_drivetrain =new DriveTrain();
     ds = new DoubleSolenoid(0, 1);
@@ -176,8 +192,8 @@ public class Robot extends TimedRobot {
     //e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
     //e1.setDistancePerPulse(6 *3.14);
     //e2.setDistancePerPulse(6*3.14);
-    //gyro = new AnalogGyro(3);
-
+    
+    gyro = new AHRS(SPI.Port.kMXP);
     //led = new Spark(1);
     //led.set(0.41);
 
@@ -201,6 +217,8 @@ public class Robot extends TimedRobot {
     rightVictor.set(ControlMode.PercentOutput, .2);
     side.set(ControlMode.PercentOutput, .2);*/
 
+    
+    //side.set(ControlMode.PercentOutput, .2);
   }
 
   @Override
@@ -259,6 +277,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    //rightTalon.set(ControlMode.PercentOutput,1);
     /*RotatedRect re;
     double ree;
     double cent;

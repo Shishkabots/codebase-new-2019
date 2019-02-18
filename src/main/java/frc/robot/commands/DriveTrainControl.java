@@ -5,6 +5,9 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.AnalogGyro;
+
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  *
@@ -17,6 +20,7 @@ public class DriveTrainControl extends Command {
     }
     Encoder e1 = Robot.e1;
     Encoder e2 = Robot.e2;
+    AHRS gyro = Robot.gyro;
 
 
     protected void initialize() {
@@ -35,10 +39,13 @@ public class DriveTrainControl extends Command {
             turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1),
             true);
         
+            
         //SmartDashboard.putNumber("Encoder 1: ", e1.getDistance());
         //SmartDashboard.putNumber("Encoder 2: ", e2.getDistance());
         SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(1));
+        SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
+
         //alternative drive mode, can't go backwards
         //Robot.m_drivetrain.arcadeDrive(Robot.m_oi.controllerOne.getRawAxis(3), Robot.m_oi.controllerOne.getRawAxis(0)* 0.5);
         
@@ -53,6 +60,6 @@ public class DriveTrainControl extends Command {
     }
 
     protected void interrupted() {
-    	//Robot.m_drivetrain.move(0, 0);
+    	Robot.m_drivetrain.move(0, 0);
     }
 }
