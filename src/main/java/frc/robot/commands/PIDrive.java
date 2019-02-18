@@ -15,6 +15,8 @@ public class PIDrive extends Command {
     int P, I, D = 1;
     double integral, previous_error, error, derivative = 0;
     double rcw;
+    double threshold = 0.5;
+    double dt = 0.02;
     
     //m_drivetrain is a drivetrain subsystem btw
     public PIDrive(double tt) {
@@ -23,19 +25,20 @@ public class PIDrive extends Command {
     }
     
     protected void initialize() {
-    	Robot.m_drivetrain.move(0, 0);
+        Robot.m_drivetrain.move(0, 0);
+        e1.reset();
     }
     
     protected void execute() {
         error = t - e1.getDistance(); // Error = Target - Actual
-        integral += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-        derivative = (error - previous_error) / .02;
+        integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
+        derivative = (error - previous_error) / dt;
         Robot.m_drivetrain.arcadeDrive(P*error + I*this.integral + D*derivative,0);
         
     }
 
     protected boolean isFinished() {
-        return (Math.abs(error) <= 0.5);
+        return (Math.abs(error) <= threshold);
     }
     
     protected void end() {
