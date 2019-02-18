@@ -5,7 +5,9 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.AnalogGyro;
+//import edu.wpi.first.wpilibj.AnalogGyro;
+
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  *
@@ -18,7 +20,7 @@ public class DriveTrainControl extends Command {
     }
     Encoder e1 = Robot.e1;
     Encoder e2 = Robot.e2;
-    AnalogGyro gyro = Robot.gyro;
+    AHRS gyro = Robot.gyro;
 
 
     protected void initialize() {

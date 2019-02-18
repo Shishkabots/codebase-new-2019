@@ -38,6 +38,9 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Spark;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
+import edu.wpi.first.wpilibj.SPI;
+import com.kauailabs.navx.frc.AHRS;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -86,7 +89,7 @@ public class Robot extends TimedRobot {
   public static Encoder e1;
   public static Encoder e2;
 
-  public static AnalogGyro gyro;
+  public static AHRS gyro;
   public static int count;
 
   public static Spark led;
@@ -190,7 +193,7 @@ public class Robot extends TimedRobot {
     //e1.setDistancePerPulse(6 *3.14);
     //e2.setDistancePerPulse(6*3.14);
     
-    gyro = new AnalogGyro(0);
+    gyro = new AHRS(SPI.Port.kMXP);
     //led = new Spark(1);
     //led.set(0.41);
 

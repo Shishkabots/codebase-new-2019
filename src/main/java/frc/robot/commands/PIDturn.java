@@ -3,7 +3,8 @@ package frc.robot.commands;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.AnalogGyro;
+//import edu.wpi.first.wpilibj.AnalogGyro;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -11,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class PIDturn extends Command {
-    public AnalogGyro g = Robot.gyro; // angles are in degrees
+    public AHRS g = Robot.gyro; // angles are in degrees
     public double t; // target
     double P = 1;
     double I = 1;
