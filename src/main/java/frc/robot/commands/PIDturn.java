@@ -34,18 +34,20 @@ public class PIDturn extends Command {
     }
     
     protected void execute() {
-        error = (1 / 180) * (t - gyro.getAngle()); // Error = Target - Actual
+        error = (1 / 180.0) * (t - gyro.getAngle()); // Error = Target - Actual
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
-        //Robot.m_drivetrain.moveWithCurve(0, P * error + I * this.integral + D * derivative, true);
+        Robot.m_drivetrain.moveWithCurve(0, P * error + I * this.integral + D * derivative, true);
+        SmartDashboard.putNumber("Voltage percentage: ", P * error + I * this.integral + D * derivative);
         SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
+        SmartDashboard.putNumber("Gyro Target Angle: ", t);
         SmartDashboard.putNumber("Gyro Integral: ", integral);
         SmartDashboard.putNumber("Gyro Error: ", error);
         SmartDashboard.putNumber("Gyro Derivative: ", derivative);
     }
 
     protected boolean isFinished() {
-        return (Math.abs(error) <= completionThreshold);
+        return (Math.abs(error * 180) <= completionThreshold);
     }
     
     protected void end() {
