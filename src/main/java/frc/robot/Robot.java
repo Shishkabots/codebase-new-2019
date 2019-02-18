@@ -36,6 +36,7 @@ import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Spark;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -106,7 +107,7 @@ public class Robot extends TimedRobot {
     theCamera.setBrightness(30);
     //v = new VisionHelper();
     cv = CameraServer.getInstance().getVideo();
-    visionThread = new VisionThread(theCamera, pipe, pipeline -> {
+    /*visionThread = new VisionThread(theCamera, pipe, pipeline -> {
       count++;
       if (!pipeline.filterContoursOutput().isEmpty()) {
             synchronized (imgLock) {
@@ -131,17 +132,17 @@ public class Robot extends TimedRobot {
         }
       }
 		}); 
-    visionThread.start();
+    visionThread.start();*/
     
 
-    side = new WPI_VictorSPX(2);
+    side = new WPI_VictorSPX(3);
 
     leftTalon = new WPI_TalonSRX(5);
     leftVictor = new WPI_VictorSPX(1);
     //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
 
     rightTalon = new WPI_TalonSRX(6);
-    rightVictor = new WPI_VictorSPX(3);
+    rightVictor = new WPI_VictorSPX(2);
     //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
   
     leftTalon.setSafetyEnabled(false);
@@ -157,7 +158,8 @@ public class Robot extends TimedRobot {
     leftTalon.setInverted(true);
     rightTalon.setInverted(true);
 
-    
+    leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
     leftVictor.setInverted(true);
     rightVictor.setInverted(true);
@@ -170,10 +172,10 @@ public class Robot extends TimedRobot {
     m_intake = new Intake();
     //m_intake.setState("On");
 
-    e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-    e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    e1.setDistancePerPulse(6 *3.14);
-    e2.setDistancePerPulse(6*3.14);
+    //e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    //e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+    //e1.setDistancePerPulse(6 *3.14);
+    //e2.setDistancePerPulse(6*3.14);
     //gyro = new AnalogGyro(3);
 
     //led = new Spark(1);
@@ -181,6 +183,7 @@ public class Robot extends TimedRobot {
 
 
     m_oi = new OI();
+    
     // VictorSPX side = new VictorSPX(2);
     // TalonSRX leftTalon = new TalonSRX(5);
     // VictorSPX leftVictor = new VictorSPX(3);
@@ -256,7 +259,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    RotatedRect re;
+    /*RotatedRect re;
     double ree;
     double cent;
     double[] cenn;
@@ -285,8 +288,9 @@ public class Robot extends TimedRobot {
       //SmartDashboard.putNumber("new x: ", 0);
       //SmartDashboard.putNumber("mew y: ", 0);
     }
-    SmartDashboard.putNumber("Number: ", ree);
+    SmartDashboard.putNumber("Number: ", ree);*/
     Scheduler.getInstance().run();
+    
   }
 
   @Override
