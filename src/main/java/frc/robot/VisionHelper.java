@@ -17,11 +17,12 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
 
+
 public class VisionHelper
 {
     public static double[] centerCoor;
     public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
-        //Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); // don't use this line, just use the inputted one
+        // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
        // Mat gray = null;
         //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
         MatOfPoint dst = null;
@@ -29,6 +30,7 @@ public class VisionHelper
         return dst;
     }
     public VisionHelper() {
+        
 
     }
 
@@ -43,11 +45,10 @@ public class VisionHelper
         return centerCoor;
     }
 
-    // takes in height in inches, pixel_dist in 1280x720 pixel space, returns distance in inches
     public double convert_dist(double pixel_dist, double height){
         return 0.0001 * (9.081 * height * pixel_dist);
     }
-    //returns slope of line
+    // returns slope of line
     public double find_longer_line(MatOfPoint img){
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
@@ -89,7 +90,7 @@ public class VisionHelper
 //########################################## 2.3b: ANGLE FROM TAPE SIDE TO CAMERA FACING #####################################################
 
     public double getCameraToTapeTheta(double m){
-        // y = y0 + m(x - x0)
+        //y = y0 + m(x - x0)
         //using one point x = x0, another point x = x0 + 100
         //find two points on the line. camera forward defines the y of the image, so finding the angle from the camera line is the same as finding the
         //angle from just the y axis. After two points on the line are found, find delta y and delta x, and then get atan.
@@ -107,20 +108,12 @@ public class VisionHelper
         double[] center = findCenter(img);
         double pixel_x = center[0];
         double pixel_y = center[1];
-        pixel_x *= 1280.0/320.0;
-        pixel_y *= 720.0/240.0;
-        double pixel_delta_x = -(img.width() / 2 - pixel_x);
+        double pixel_delta_x = img.width() / 2 - pixel_x;
         double pixel_delta_y = img.height() / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2)+Math.pow(pixel_delta_y, 2)), height);
-        double camera_theta;
-        if(pixel_delta_y == 0){
-            camera_theta = Math.copySign(Math.PI / 2, pixel_delta_x);
-        }
-        else{
-        camera_theta = Math.atan(pixel_delta_x/pixel_delta_y);//for negative pixel_delta_x, should take return a negative angle
+        double camera_theta = Math.atan(pixel_delta_y/pixel_delta_x);//for negative pixel_delta_x, should take return a negative angle
 
-        }
         double camera_delta_x = camera_r * Math.cos(camera_theta);
         double camera_delta_y = camera_r * Math.sin(camera_theta);
 
@@ -133,12 +126,7 @@ public class VisionHelper
         double delta_x = robot_offset_x + camera_delta_x + tape_delta_x;
         Math.sqrt(Math.pow(tape_offset_x,2)+Math.pow(tape_offset_y,2));
         rThe[0] =  Math.sqrt(Math.pow(delta_x,2)+Math.pow(delta_y,2));
-        if(delta_y == 0){
-            rThe[1] = Math.copySign(Math.PI / 2, delta_x);
-        }
-        else{
-            rThe[1]= Math.atan(delta_y/delta_x);
-        }
+        rThe[1]= Math.atan(delta_y/delta_x);
 
         return rThe;
 
@@ -151,7 +139,7 @@ public class VisionHelper
         Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
         Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
 
-        
+
         Scanner in = new Scanner(new File("mapx_values.csv"));
         in.useDelimiter(",");
         for(int row= 0; row <720; row++){
@@ -170,22 +158,20 @@ public class VisionHelper
             }
         }
 
-        // don't modify in-function, since it's being passed in properly
-        // robot_offset_x = 0; //measure this
-        // robot_offset_y = 0; //measure this as well
-        // tape_offset_x = 0; //this too
-        // tape_offset_y =  0; //this three
-        // height = 46; //this four
+        robot_offset_x = 0; //measure this
+        robot_offset_y = 0; //measure this as well
+        tape_offset_x = 0; //this too
+        tape_offset_y =  0; //this three
+        height = 46; //this four
 
-        //img = undistort(img, mapx, mapy);
-        img = undistort(img,mapx,mapy);
+        //img = undistort(img, mapx, mapy); 
         double[] outputRTheta = get_final_R_theta(img,
          robot_offset_x,  robot_offset_y,  tape_offset_x,  tape_offset_y,  height);
         return outputRTheta;
     }
 
     public double get_alignedToTape_theta(MatOfPoint img) {
-        //Mat img_new = Imgcodecs.imread("path to image-new?"); // probably don't use this line, just use the image passed in
+        Mat img_new = Imgcodecs.imread("path to image-new?");
         double turn_theta = getCameraToTapeTheta(find_longer_line(img));
         return turn_theta;
     }

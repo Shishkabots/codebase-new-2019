@@ -16,28 +16,19 @@ import edu.wpi.first.vision.VisionRunner;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.io.FileNotFoundException;
-
 public class VisionProcess extends Command {
 
     public VisionProcess() {
         //requires(Robot.m_hatch);
     }
 
-    UsbCamera cam;
-    CvSink sin;
+    UsbCamera cam = Robot.theCamera;
+
+
 
             // Called just before this Command runs the first time
-    MatOfPoint input;
-    GripPipeline grip;
-    VisionHelper vhelp;
-    double[] x;
     @Override
     protected void initialize() {
-        cam = Robot.theCamera;
-        sin = Robot.cv;
-        grip = Robot.pipe;
-        vhelp = new VisionHelper();
         
     }
         
@@ -45,21 +36,15 @@ public class VisionProcess extends Command {
     
     @Override
     protected void execute() {
-        sin.grabFrame(input);
-        try{
-            x = vhelp.get_move_to_correct_point(input, 0.0, 0.0, 0.0 ,0.0 ,46.0);
-        }
-        catch(FileNotFoundException f) {
-            
-        }
-        new PIDturn(x[1]).start();
-        new PIDrive(x[0]).start();
+
+        
+        
     }
     
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

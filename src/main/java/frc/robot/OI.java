@@ -28,7 +28,7 @@ public class OI {
   
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
-    succbutt.whileHeld(new Succ());
-    camerabutt.whenPressed(new VisionProcess());
+    succbutt.whenReleased(new Succ());
+    camerabutt.whenReleased(new VisionProcess());
   }
 }
