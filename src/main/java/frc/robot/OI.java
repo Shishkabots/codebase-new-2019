@@ -30,9 +30,9 @@ public class OI {
   
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
-    succbutt.whileHeld(new Succ());
+    succbutt.whenPressed(new Succ());
     camerabutt.whenPressed(new VisionProcess());
-    encoderButton.whenPressed(new PIDrive(5));
-    press.whenPressed(new PIDrive(10));
+    //encoderButton.whenPressed(new PIDrive(5));
+    press.whenPressed(new PIDrive(20));
   }
 }
