@@ -137,12 +137,12 @@ public class Robot extends TimedRobot {
 
     side = new WPI_VictorSPX(3);
 
-    leftTalon = new WPI_TalonSRX(5);
-    leftVictor = new WPI_VictorSPX(1);
+    leftTalon = new WPI_TalonSRX(6);
+    leftVictor = new WPI_VictorSPX(2);
     //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
 
-    rightTalon = new WPI_TalonSRX(6);
-    rightVictor = new WPI_VictorSPX(2);
+    rightTalon = new WPI_TalonSRX(5);
+    rightVictor = new WPI_VictorSPX(1);
     //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
   
     leftTalon.setSafetyEnabled(false);
@@ -156,15 +156,27 @@ public class Robot extends TimedRobot {
     rightVictor.follow(rightTalon);
     leftVictor.follow(leftTalon);
 
-    leftTalon.setInverted(true);
-    rightTalon.setInverted(true);
+    leftTalon.setInverted(false);
+    rightTalon.setInverted(false);
 
     leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    //rightTalon.setSensorPhase(true);
+    //leftTalon.setSensorPhase(true);
+
+    leftTalon.setSelectedSensorPosition(0);
+    rightTalon.setSelectedSensorPosition(0);
 
     leftVictor.setInverted(true);
     rightVictor.setInverted(true);
 
+    rightTalon.config_kP(0,.01);
+    rightTalon.config_kI(0,0.001);
+    rightTalon.config_kD(0,0.001);
+
+    leftTalon.config_kP(0,.01);
+    leftTalon.config_kI(0,0.001);
+    leftTalon.config_kD(0,0.001);
     //m_drive.setRightSideInverted(false);
     m_drivetrain =new DriveTrain();
     ds = new DoubleSolenoid(0, 1);
@@ -203,9 +215,7 @@ public class Robot extends TimedRobot {
     side.set(ControlMode.PercentOutput, .2);*/
 
     
-    rightTalon.set(ControlMode.Position,2000);
-    leftTalon.set(ControlMode.Position,2000);
-    side.set(ControlMode.PercentOutput, .2);
+    //side.set(ControlMode.PercentOutput, .2);
   }
 
   @Override
@@ -264,6 +274,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    //rightTalon.set(ControlMode.PercentOutput,1);
     /*RotatedRect re;
     double ree;
     double cent;

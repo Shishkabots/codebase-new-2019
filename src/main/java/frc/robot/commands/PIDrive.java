@@ -38,16 +38,22 @@ public class PIDrive extends Command {
     
     protected void execute() {
         SmartDashboard.putNumber("Running: ", 0);
-        Robot.leftTalon.follow(Robot.rightTalon);
+        SmartDashboard.putNumber("lencod: ", Robot.leftTalon.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("rigcod: ", Robot.rightTalon.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("Running: ", 0);
+        Robot.leftTalon.set(ControlMode.Position,-1*t,DemandType.Neutral,0);
         SmartDashboard.putNumber("t: ", t);
-        Robot.rightTalon.set(ControlMode.Position,2000);
+        Robot.rightTalon.set(ControlMode.Position,t,DemandType.Neutral,0);
     }
 
     protected boolean isFinished() {
-        return false;
+        return Math.abs(Robot.rightTalon.getSelectedSensorPosition(0)-t) <= 50;
+
     }
     
     protected void end() {
+        Robot.leftTalon.setSelectedSensorPosition(0);
+        Robot.rightTalon.setSelectedSensorPosition(0);
     	//Robot.m_drivetrain.move(0, 0);
     }
 
