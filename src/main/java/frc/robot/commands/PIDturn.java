@@ -16,6 +16,7 @@ public class PIDturn extends Command {
     int P, I, D = 1;
     double integral, previous_error, error, derivative = 0;
     double rcw;
+    double dt = 0.02;
     
     //m_drivetrain is a drivetrain subsystem btw
     public PIDturn(double tt) {
@@ -29,8 +30,8 @@ public class PIDturn extends Command {
     
     protected void execute() {
         error = t - g.getAngle(); // Error = Target - Actual
-        integral += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-        derivative = (error - previous_error) / .02;
+        integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
+        derivative = (error - previous_error) / dt;
         Robot.m_drivetrain.arcadeDrive(0,P*error + I*this.integral + D*derivative);
         SmartDashboard.putNumber("Gyro Output Angle: ", g.getAngle());
         SmartDashboard.putNumber("Gyro Integral: ", integral);
