@@ -35,8 +35,10 @@ public class DriveTrainControl extends Command {
             turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1),
             true);
         
-        SmartDashboard.putNumber("Encoder 1: ", e1.getDistance());
-        SmartDashboard.putNumber("Encoder 2: ", e2.getDistance());
+        //SmartDashboard.putNumber("Encoder 1: ", e1.getDistance());
+        //SmartDashboard.putNumber("Encoder 2: ", e2.getDistance());
+        SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(0));
         //alternative drive mode, can't go backwards
         //Robot.m_drivetrain.arcadeDrive(Robot.m_oi.xbox.getRawAxis(3), Robot.m_oi.xbox.getRawAxis(0)* 0.5);
         
