@@ -13,10 +13,12 @@ public class PIDrive extends Command {
     //public Encoder e1 = Robot.e1;
     //public Encoder e2 = Robot.e2;
     public double t;
-    int P, I, D = 1;
+    double P = 1;
+    double I = 1;
+    double D = 1;
     double integral, previous_error, error, derivative = 0;
     double rcw;
-    double threshold = 0.5;
+    double completionThreshold = 0.5;
     double dt = 0.02;
     
     //m_drivetrain is a drivetrain subsystem btw
@@ -41,7 +43,7 @@ public class PIDrive extends Command {
         }
 
     protected boolean isFinished() {
-        return (Math.abs(error) <= threshold);
+        return (Math.abs(error) <= completionThreshold);
     }
     
     protected void end() {

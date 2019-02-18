@@ -11,13 +11,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class PIDturn extends Command {
-    public AnalogGyro g = Robot.gyro;
+    public AnalogGyro g = Robot.gyro; // angles are in degrees
     public double t; // target
-    int P, I, D = 1;
+    double P = 1;
+    double I = 1;
+    double D = 1;
     double integral, previous_error, error, derivative = 0;
     double rcw;
     double dt = 0.02;
-    double threshold = 0.5;
+    double completionThreshold = 0.5;
     
     //m_drivetrain is a drivetrain subsystem btw
     public PIDturn(double tt) {
@@ -41,7 +43,7 @@ public class PIDturn extends Command {
     }
 
     protected boolean isFinished() {
-        return (Math.abs(error) <= threshold);
+        return (Math.abs(error) <= completionThreshold);
     }
     
     protected void end() {
