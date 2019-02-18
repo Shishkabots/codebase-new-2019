@@ -1,0 +1,4 @@
+-MUST CALIBRATE GYRO, otherwise the values are not valid(https://www.chiefdelphi.com/t/gyro-returning-wrong-numbers/164516/2)
+-IF YOU INCREASE THE PID CONSTANTS, MUST LOWER THE DISTANCE
+-DON'T DOWNLOAD THE MASTER VERSION OF THE REPOSITORIES
+-
