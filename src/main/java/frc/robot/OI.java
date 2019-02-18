@@ -16,19 +16,21 @@ import frc.robot.subsystems.*;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  public Joystick xbox = new Joystick(0);
-	public Button boost = new JoystickButton(xbox,6);
+  public Joystick controllerOne = new Joystick(0);
+	public Button boost = new JoystickButton(controllerOne,6);
 
-  public Joystick joystick = new Joystick(1);//also an xbox
+  public Joystick controllerTwo = new Joystick(1);//also an controllerOne
   
-  public Button hatchbutt = new JoystickButton(joystick,3);
-  //public Button hbutt = new JoystickButton(joystick, 2);
-	public Button succbutt = new JoystickButton(joystick, 2);
-  public Button camerabutt = new JoystickButton(joystick,1);
+  public Button hatchbutt = new JoystickButton(controllerOne,3);
+  //public Button hbutt = new JoystickButton(controllerTwo, 2);
+	public Button succbutt = new JoystickButton(controllerTwo, 6);
+  public Button camerabutt = new JoystickButton(controllerTwo,5);
+  public Button encoderButton = new JoystickButton(controllerTwo, 1);
   
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
     succbutt.whileHeld(new Succ());
     camerabutt.whenPressed(new VisionProcess());
+    encoderButton.whenPressed(new PIDrive(5));
   }
 }

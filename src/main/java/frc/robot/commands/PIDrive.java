@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FollowerType;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -26,7 +27,8 @@ public class PIDrive extends Command {
     }
     
     protected void initialize() {
-    	Robot.m_drivetrain.move(0, 0);
+        Robot.m_drivetrain.move(0, 0);
+        //e1.reset();
     }
     
     protected void execute() {
