@@ -10,11 +10,12 @@ import edu.wpi.first.wpilibj.AnalogGyro;
  */
 public class PIDturn extends Command {
     public AnalogGyro g = Robot.gyro;
-    public double t;
+    public double t; // target
     int P, I, D = 1;
     double integral, previous_error, error, derivative = 0;
     double rcw;
     double dt = 0.02;
+    double threshold = 0.5;
     
     //m_drivetrain is a drivetrain subsystem btw
     public PIDturn(double tt) {
@@ -30,11 +31,11 @@ public class PIDturn extends Command {
         error = t - g.getAngle(); // Error = Target - Actual
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
-        Robot.m_drivetrain.arcadeDrive(0,P*error + I*this.integral + D*derivative);
+        Robot.m_drivetrain.arcadeDrive(0, P * error + I * this.integral + D * derivative);
     }
 
     protected boolean isFinished() {
-        return (Math.abs(error) <= 0.5);
+        return (Math.abs(error) <= threshold);
     }
     
     protected void end() {
