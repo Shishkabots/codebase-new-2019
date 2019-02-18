@@ -26,11 +26,13 @@ public class OI {
 	public Button succbutt = new JoystickButton(controllerTwo, 6);
   public Button camerabutt = new JoystickButton(controllerTwo,5);
   public Button encoderButton = new JoystickButton(controllerTwo, 1);
+  public Button press = new JoystickButton(controllerTwo,2);
   
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
     succbutt.whileHeld(new Succ());
     camerabutt.whenPressed(new VisionProcess());
     encoderButton.whenPressed(new PIDrive(5));
+    press.whenPressed(new PIDrive(10));
   }
 }
