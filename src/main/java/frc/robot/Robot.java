@@ -172,7 +172,8 @@ public class Robot extends TimedRobot {
 
     e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
     e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    
+    e1.setDistancePerPulse(6 *3.14);
+    e2.setDistancePerPulse(6*3.14);
     //gyro = new AnalogGyro(3);
 
     //led = new Spark(1);

@@ -3,7 +3,8 @@ package frc.robot.commands;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -14,6 +15,9 @@ public class DriveTrainControl extends Command {
     public DriveTrainControl() {
         requires(Robot.m_drivetrain);
     }
+    Encoder e1 = Robot.e1;
+    Encoder e2 = Robot.e2;
+
 
     protected void initialize() {
     		Robot.m_drivetrain.move(0, 0);
@@ -31,6 +35,8 @@ public class DriveTrainControl extends Command {
             turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1),
             true);
         
+        SmartDashboard.putNumber("Encoder 1: ", e1.getDistance());
+        SmartDashboard.putNumber("Encoder 2: ", e2.getDistance());
         //alternative drive mode, can't go backwards
         //Robot.m_drivetrain.arcadeDrive(Robot.m_oi.xbox.getRawAxis(3), Robot.m_oi.xbox.getRawAxis(0)* 0.5);
         

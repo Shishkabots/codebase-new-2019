@@ -22,8 +22,8 @@ public class VisionHelper
     public static double[] centerCoor;
     public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
         //Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); // don't use this line, just use the inputted one
-        Mat gray = null;
-        Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
+       // Mat gray = null;
+        //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
         MatOfPoint dst = null;
         Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
         return dst;
@@ -107,12 +107,20 @@ public class VisionHelper
         double[] center = findCenter(img);
         double pixel_x = center[0];
         double pixel_y = center[1];
-        double pixel_delta_x = img.width() / 2 - pixel_x;
+        pixel_x *= 1280.0/320.0;
+        pixel_y *= 720.0/240.0;
+        double pixel_delta_x = -(img.width() / 2 - pixel_x);
         double pixel_delta_y = img.height() / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2)+Math.pow(pixel_delta_y, 2)), height);
-        double camera_theta = Math.atan(pixel_delta_y/pixel_delta_x);//for negative pixel_delta_x, should take return a negative angle
+        double camera_theta;
+        if(pixel_delta_y == 0){
+            camera_theta = Math.copySign(Math.PI / 2, pixel_delta_x);
+        }
+        else{
+        camera_theta = Math.atan(pixel_delta_x/pixel_delta_y);//for negative pixel_delta_x, should take return a negative angle
 
+        }
         double camera_delta_x = camera_r * Math.cos(camera_theta);
         double camera_delta_y = camera_r * Math.sin(camera_theta);
 
@@ -125,7 +133,12 @@ public class VisionHelper
         double delta_x = robot_offset_x + camera_delta_x + tape_delta_x;
         Math.sqrt(Math.pow(tape_offset_x,2)+Math.pow(tape_offset_y,2));
         rThe[0] =  Math.sqrt(Math.pow(delta_x,2)+Math.pow(delta_y,2));
-        rThe[1]= Math.atan(delta_y/delta_x);
+        if(delta_y == 0){
+            rThe[1] = Math.copySign(Math.PI / 2, delta_x);
+        }
+        else{
+            rThe[1]= Math.atan(delta_y/delta_x);
+        }
 
         return rThe;
 
