@@ -46,8 +46,13 @@ public class VisionProcess extends Command {
     @Override
     protected void execute() {
         sin.grabFrame(input);
+        double robot_offset_x = 0.0;
+        double robot_offset_y = 0.0;
+        double tape_offset_x = 0.0;
+        double tape_offset_y = 0.0;
+        double height = 46.0;
         try{
-            x = vhelp.get_move_to_correct_point(input, 0.0, 0.0, 0.0 ,0.0 ,46.0);
+            x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
         }
         catch(FileNotFoundException f) {
             
@@ -59,7 +64,7 @@ public class VisionProcess extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return true;
+        return true; // only run command once
     }
 
     // Called once after isFinished returns true
