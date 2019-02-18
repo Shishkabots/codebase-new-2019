@@ -3,6 +3,11 @@ package frc.robot.commands;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,18 +18,12 @@ public class PIDrive extends Command {
     //public Encoder e1 = Robot.e1;
     //public Encoder e2 = Robot.e2;
     public double t;
-    double P = 1;
-    double I = 1;
-    double D = 1;
-    double integral, previous_error, error, derivative = 0;
-    double rcw;
-    double completionThreshold = 0.5;
-    double dt = 0.02;
+    
     
     //m_drivetrain is a drivetrain subsystem btw
     public PIDrive(double tt) {
-        t = tt;
-        requires(Robot.m_drivetrain);
+        t = 4096 * tt/(6*3.14);
+        //requires(Robot.m_drivetrain);
     }
     
     protected void initialize() {
@@ -33,21 +32,16 @@ public class PIDrive extends Command {
     }
     
     protected void execute() {
-        error = t - 0; // Error = Target - Actual
-        integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-        derivative = (error - previous_error) / dt;
-        Robot.m_drivetrain.arcadeDrive(P*error + I*this.integral + D*derivative,0);
-        SmartDashboard.putNumber("Encoder Integral: ", integral);
-        SmartDashboard.putNumber("Encoder Error: ", error);
-        SmartDashboard.putNumber("Encoder Derivative: ", derivative);
-        }
+        Robot.leftTalon.follow(Robot.rightTalon);
+        Robot.rightTalon.set(ControlMode.Position,t,DemandType.Neutral,0);
+    }
 
     protected boolean isFinished() {
-        return (Math.abs(error) <= completionThreshold);
+        return true;
     }
     
     protected void end() {
-    	Robot.m_drivetrain.move(0, 0);
+    	//Robot.m_drivetrain.move(0, 0);
     }
 
     protected void interrupted() {
