@@ -5,6 +5,8 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.AnalogGyro;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  *
  */
@@ -32,6 +34,10 @@ public class PIDturn extends Command {
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
         Robot.m_drivetrain.arcadeDrive(0, P * error + I * this.integral + D * derivative);
+        SmartDashboard.putNumber("Gyro Output Angle: ", g.getAngle());
+        SmartDashboard.putNumber("Gyro Integral: ", integral);
+        SmartDashboard.putNumber("Gyro Error: ", error);
+        SmartDashboard.putNumber("Gyro Derivative: ", derivative);
     }
 
     protected boolean isFinished() {

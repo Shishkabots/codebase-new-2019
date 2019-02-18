@@ -4,6 +4,7 @@ import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -34,8 +35,10 @@ public class PIDrive extends Command {
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
         Robot.m_drivetrain.arcadeDrive(P*error + I*this.integral + D*derivative,0);
-        
-    }
+        SmartDashboard.putNumber("Encoder Integral: ", integral);
+        SmartDashboard.putNumber("Encoder Error: ", error);
+        SmartDashboard.putNumber("Encoder Derivative: ", derivative);
+        }
 
     protected boolean isFinished() {
         return (Math.abs(error) <= threshold);
