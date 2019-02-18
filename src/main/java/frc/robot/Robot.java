@@ -149,6 +149,7 @@ public class Robot extends TimedRobot {
     rightTalon.setSafetyEnabled(false);
     leftVictor.setSafetyEnabled(false);
     rightVictor.setSafetyEnabled(false);
+    side.setSafetyEnabled(false);
     
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
     
@@ -201,6 +202,10 @@ public class Robot extends TimedRobot {
     rightVictor.set(ControlMode.PercentOutput, .2);
     side.set(ControlMode.PercentOutput, .2);*/
 
+    
+    rightTalon.set(ControlMode.Position,2000);
+    leftTalon.set(ControlMode.Position,2000);
+    side.set(ControlMode.PercentOutput, .2);
   }
 
   @Override
