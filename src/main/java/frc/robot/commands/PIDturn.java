@@ -11,12 +11,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class PIDturn extends Command {
-    public AnalogGyro g = Robot.gyro;
-    public double t;
-    int P, I, D = 1;
+    public AnalogGyro g = Robot.gyro; // angles are in degrees
+    public double t; // target
+    double P = 1;
+    double I = 1;
+    double D = 1;
     double integral, previous_error, error, derivative = 0;
     double rcw;
     double dt = 0.02;
+    double completionThreshold = 0.5;
     
     //m_drivetrain is a drivetrain subsystem btw
     public PIDturn(double tt) {
@@ -32,7 +35,7 @@ public class PIDturn extends Command {
         error = t - g.getAngle(); // Error = Target - Actual
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
-        Robot.m_drivetrain.arcadeDrive(0,P*error + I*this.integral + D*derivative);
+        Robot.m_drivetrain.arcadeDrive(0, P * error + I * this.integral + D * derivative);
         SmartDashboard.putNumber("Gyro Output Angle: ", g.getAngle());
         SmartDashboard.putNumber("Gyro Integral: ", integral);
         SmartDashboard.putNumber("Gyro Error: ", error);
@@ -40,7 +43,7 @@ public class PIDturn extends Command {
     }
 
     protected boolean isFinished() {
-        return (Math.abs(error) <= 0.5);
+        return (Math.abs(error) <= completionThreshold);
     }
     
     protected void end() {
