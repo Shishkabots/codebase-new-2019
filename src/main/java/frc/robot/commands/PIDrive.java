@@ -33,6 +33,7 @@ public class PIDrive extends Command {
     
     protected void execute() {
         Robot.leftTalon.follow(Robot.rightTalon);
+        
         Robot.rightTalon.set(ControlMode.Position,t,DemandType.Neutral,0);
     }
 

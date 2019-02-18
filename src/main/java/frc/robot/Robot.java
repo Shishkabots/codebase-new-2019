@@ -164,6 +164,13 @@ public class Robot extends TimedRobot {
     leftVictor.setInverted(true);
     rightVictor.setInverted(true);
 
+    rightTalon.config_kP(0,0.005);
+    rightTalon.config_kI(0,0);
+    rightTalon.config_kD(0,0.001);
+
+    leftTalon.config_kP(0,0.005);
+    leftTalon.config_kI(0,0);
+    leftTalon.config_kD(0,0.001);
     //m_drive.setRightSideInverted(false);
     m_drivetrain =new DriveTrain();
     ds = new DoubleSolenoid(0, 1);
