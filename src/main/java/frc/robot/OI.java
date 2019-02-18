@@ -25,14 +25,14 @@ public class OI {
   //public Button hbutt = new JoystickButton(controllerTwo, 2);
 	public Button succbutt = new JoystickButton(controllerTwo, 6);
   public Button camerabutt = new JoystickButton(controllerTwo,5);
-  public Button encoderButton = new JoystickButton(controllerTwo, 1);
+  public Button gyroButton = new JoystickButton(controllerTwo, 1);
   public Button press = new JoystickButton(controllerTwo,2);
   
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
     succbutt.whenPressed(new Succ());
     camerabutt.whenPressed(new VisionProcess());
-    //encoderButton.whenPressed(new PIDrive(5));
+    gyroButton.whenPressed(new PIDturn(90));
     press.whenPressed(new PIDrive(20));
   }
 }

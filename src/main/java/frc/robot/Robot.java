@@ -194,6 +194,8 @@ public class Robot extends TimedRobot {
     //e2.setDistancePerPulse(6*3.14);
     
     gyro = new AHRS(SPI.Port.kMXP);
+
+    
     //led = new Spark(1);
     //led.set(0.41);
 

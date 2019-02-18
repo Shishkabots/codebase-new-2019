@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class PIDturn extends Command {
-    public AHRS g = Robot.gyro; // angles are in degrees
+    public AHRS gyro = Robot.gyro; // angles are in degrees
     public double t; // target
     double P = 1;
-    double I = 1;
-    double D = 1;
+    double I = 0;
+    double D = 0;
     double integral, previous_error, error, derivative = 0;
     double rcw;
     double dt = 0.02;
@@ -29,15 +29,16 @@ public class PIDturn extends Command {
     }
     
     protected void initialize() {
-    	Robot.m_drivetrain.move(0, 0);
+        Robot.m_drivetrain.move(0, 0);
+        gyro.zeroYaw();
     }
     
     protected void execute() {
-        error = t - g.getAngle(); // Error = Target - Actual
+        error = (1 / 180) * (t - gyro.getAngle()); // Error = Target - Actual
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
-        Robot.m_drivetrain.arcadeDrive(0, P * error + I * this.integral + D * derivative);
-        SmartDashboard.putNumber("Gyro Output Angle: ", g.getAngle());
+        //Robot.m_drivetrain.moveWithCurve(0, P * error + I * this.integral + D * derivative, true);
+        SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
         SmartDashboard.putNumber("Gyro Integral: ", integral);
         SmartDashboard.putNumber("Gyro Error: ", error);
         SmartDashboard.putNumber("Gyro Derivative: ", derivative);
@@ -48,7 +49,8 @@ public class PIDturn extends Command {
     }
     
     protected void end() {
-    	Robot.m_drivetrain.move(0, 0);
+        Robot.m_drivetrain.move(0, 0);
+        new TeleOpCommands().start();
     }
 
     protected void interrupted() {
