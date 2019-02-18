@@ -39,6 +39,7 @@ public class DriveTrainControl extends Command {
             turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1),
             true);
         
+            
         //SmartDashboard.putNumber("Encoder 1: ", e1.getDistance());
         //SmartDashboard.putNumber("Encoder 2: ", e2.getDistance());
         SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
