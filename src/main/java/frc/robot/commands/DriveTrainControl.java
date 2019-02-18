@@ -22,6 +22,7 @@ public class DriveTrainControl extends Command {
 
 
     protected void initialize() {
+        SmartDashboard.putNumber("Interrupt: ", 0);
     		Robot.m_drivetrain.move(0, 0);
     }
 
@@ -57,6 +58,7 @@ public class DriveTrainControl extends Command {
     }
 
     protected void interrupted() {
-    	Robot.m_drivetrain.move(0, 0);
+        //Robot.m_drivetrain.move(0, 0);
+        SmartDashboard.putNumber("Interrupt: ", 1);
     }
 }
