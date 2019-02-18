@@ -158,8 +158,8 @@ public class Robot extends TimedRobot {
     leftTalon.setInverted(true);
     rightTalon.setInverted(true);
 
-    leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 1, 0);
 
     leftVictor.setInverted(true);
     rightVictor.setInverted(true);

@@ -21,18 +21,11 @@ public class OI {
 
   public Joystick controllerTwo = new Joystick(1);//also an controllerOne
   
-<<<<<<< HEAD
   public Button hatchbutt = new JoystickButton(controllerOne,3);
   //public Button hbutt = new JoystickButton(controllerTwo, 2);
 	public Button succbutt = new JoystickButton(controllerTwo, 6);
   public Button camerabutt = new JoystickButton(controllerTwo,5);
   public Button encoderButton = new JoystickButton(controllerTwo, 1);
-=======
-  public Button hatchbutt = new JoystickButton(joystick,3);
-  //public Button hbutt = new JoystickButton(joystick, 2);
-	public Button succbutt = new JoystickButton(joystick, 2);
-  public Button camerabutt = new JoystickButton(joystick,1);
->>>>>>> f7711d89a2d170ef4abcf8366eb90128a6635ca7
   
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
