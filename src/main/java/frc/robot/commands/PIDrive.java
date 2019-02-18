@@ -25,7 +25,7 @@ public class PIDrive extends Command {
     public PIDrive(double tt) {
         t = 4096 * tt/(diameter*Math.PI);
         SmartDashboard.putNumber("Running: ", 2);
-        //requires(Robot.m_drivetrain);
+        requires(Robot.m_drivetrain);
     }
     
     protected void initialize() {
