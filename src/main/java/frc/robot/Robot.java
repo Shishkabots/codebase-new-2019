@@ -106,16 +106,19 @@ public class Robot extends TimedRobot {
     theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
     theCamera.setResolution(1280, 720);
-    theCamera.setExposureManual(30);
-    theCamera.setBrightness(30);
+    theCamera.setExposureManual(50);
+    theCamera.setBrightness(50);
     //v = new VisionHelper();
     cv = CameraServer.getInstance().getVideo();
+    CvSource out = CameraServer.getInstance().putVideo("boi", 1280, 720);
+    
     if(cv == null){
       SmartDashboard.putNumber("cv is null", 1);
     }
     else{
       SmartDashboard.putNumber("cv is null", 0);
     }
+    
     // visionThread = new VisionThread(theCamera, pipe, pipeline -> {
     //   count++;
     //   if (!pipeline.filterContoursOutput().isEmpty()) {
@@ -159,7 +162,6 @@ public class Robot extends TimedRobot {
     leftVictor.setSafetyEnabled(false);
     rightVictor.setSafetyEnabled(false);
     side.setSafetyEnabled(false);
-    
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
     
     rightVictor.follow(rightTalon);
@@ -208,6 +210,8 @@ public class Robot extends TimedRobot {
 
     m_oi = new OI();
     
+    SmartDashboard.putNumber("Start: ", 0);
+    SmartDashboard.putNumber("End: ", 0);
     // VictorSPX side = new VictorSPX(2);
     // TalonSRX leftTalon = new TalonSRX(5);
     // VictorSPX leftVictor = new VictorSPX(3);
