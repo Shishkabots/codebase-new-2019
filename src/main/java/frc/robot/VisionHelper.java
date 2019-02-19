@@ -38,7 +38,7 @@ public class VisionHelper
         double[] centerCoor = new double[2];
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
-         Moments moments = Imgproc.moments(img);
+        Moments moments = Imgproc.moments(pipeline.filterContoursOutput().get(0));
         centerCoor[0] = moments.get_m10() / moments.get_m00();
         centerCoor[1] = moments.get_m01() / moments.get_m00();
         return centerCoor;
