@@ -22,19 +22,10 @@ public class VisionProcess extends Command {
         //requires(Robot.m_hatch);
     }
 
-<<<<<<< HEAD
-    UsbCamera cam = Robot.theCamera;
-
-
-
-            // Called just before this Command runs the first time
-    @Override
-    protected void initialize() {
-        
-=======
+    
     UsbCamera cam;
     CvSink sin;
-    CvSource outputStream = CameraServer.getInstance().putVideo("Blur",620,480);
+    CvSource outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
 
             // Called just before this Command runs the first time
     Mat input = new Mat();
@@ -43,6 +34,7 @@ public class VisionProcess extends Command {
     VisionHelper vhelp;
     double[] x;
     long returnTime;
+    
     @Override
     protected void initialize() {
         SmartDashboard.putNumber("Start: ", 1);
@@ -53,26 +45,18 @@ public class VisionProcess extends Command {
         sin.grabFrame(input);
         //Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
         outputStream.putFrame(input);
-<<<<<<< HEAD
         SmartDashboard.putNumber("Radius: ", -123);
->>>>>>> fe5efcc5c606922912f6a905ac0bd6d29263ea1b
-=======
         SmartDashboard.putNumber("End: ", 1);
         
->>>>>>> ad6f5cc2e6c06ef1e518b6547137fd9f347a3b1d
     }
         
     // Called repeatedly when this Command is scheduled to run
     
     @Override
     protected void execute() {
-<<<<<<< HEAD
 
         
-        
-=======
-        
-        SmartDashboard.putNumber("Returntime: ", returnTime);
+        //SmartDashboard.putNumber("Returntime: ", returnTime);
 
         double robot_offset_x = 0.0;
         double robot_offset_y = 0.0;
@@ -87,21 +71,17 @@ public class VisionProcess extends Command {
         // catch(FileNotFoundException f) {
         //     SmartDashboard.putString("Driver: ", "filenotfound");
         // }
-        SmartDashboard.putNumber("Radius: ", -123);
-<<<<<<< HEAD
-        double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        SmartDashboard.putNumber("Radius: ", rThe[0]);
-        SmartDashboard.putNumber("Theta: ", rThe[1]);
-        new PIDturn(rThe[1]).start();
-        new PIDrive(rThe[0]).start();
->>>>>>> fe5efcc5c606922912f6a905ac0bd6d29263ea1b
-=======
+        //SmartDashboard.putNumber("Radius: ", -123);
+        //double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        //SmartDashboard.putNumber("Radius: ", rThe[0]);
+        //SmartDashboard.putNumber("Theta: ", rThe[1]);
+       // new PIDturn(rThe[1]).start();
+        //new PIDrive(rThe[0]).start();
         //double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
        // SmartDashboard.putNumber("Radius: ", rThe[0]);
         //SmartDashboard.putNumber("Theta: ", rThe[1]);
         //new PIDturn(rThe[1]).start();
         //new PIDrive(rThe[0]).start();
->>>>>>> ad6f5cc2e6c06ef1e518b6547137fd9f347a3b1d
     }
     
     // Make this return true when this Command no longer needs to run execute()

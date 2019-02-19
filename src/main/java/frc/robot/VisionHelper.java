@@ -22,13 +22,8 @@ import org.opencv.objdetect.*;
 public class VisionHelper
 {
     public static double[] centerCoor;
-<<<<<<< HEAD
-    public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
-        // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
-=======
     public MatOfPoint undistort(Mat img, Mat mapx, Mat mapy) {
         //Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); // don't use this line, just use the inputted one
->>>>>>> ad6f5cc2e6c06ef1e518b6547137fd9f347a3b1d
        // Mat gray = null;
         //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
         MatOfPoint dst = null;
@@ -54,13 +49,8 @@ public class VisionHelper
     public double convert_dist(double pixel_dist, double height){
         return 0.0001 * (9.081 * height * pixel_dist);
     }
-<<<<<<< HEAD
-    // returns slope of line
-    public double find_longer_line(MatOfPoint img){
-=======
     //returns slope of line
     public double find_longer_line(Mat img){
->>>>>>> ad6f5cc2e6c06ef1e518b6547137fd9f347a3b1d
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
         MatOfPoint contours = pipeline.filterContoursOutput().get(0);
