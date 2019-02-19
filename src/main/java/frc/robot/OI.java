@@ -28,7 +28,7 @@ public class OI {
   public Button camerabutt = new JoystickButton(controllerTwo,3);
   //public Button gyroButton = new JoystickButton(controllerTwo, 3);     
   public Button press = new JoystickButton(controllerTwo, 4);         
-  
+  public Button reverse = new JoystickButton(controllerOne, 9);
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
     //succbutt.whenPressed(new Succ());
@@ -39,5 +39,6 @@ public class OI {
     //gyroButton.whenPressed(new PIDturn(-45));
     //press.whenPressed(new PIDrive(20));
     press.whenPressed(new VisionProcess());
+    reverse.whenPressed(new Reverse());
   }
 }

@@ -141,7 +141,7 @@ public class VisionHelper
         Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
 
         SmartDashboard.putString("Path:", System.getProperty("user.dir"));
-        Scanner in = new Scanner(new File("mapx_values.csv"));
+        Scanner in = new Scanner(new File("/Users/FireLordAzula/Desktop/codebase-new-2019/src/main/java/frc/robot/mapx_values.csv"));
         SmartDashboard.putString("Scanner successfully init:", "yes");
         in.useDelimiter(",");
         for(int row= 0; row <720; row++){
