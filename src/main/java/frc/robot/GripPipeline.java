@@ -9,11 +9,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 
-import  edu.wpi.first.vision.VisionPipeline ;
-
 import org.opencv.core.*;
 import org.opencv.core.Core.*;
-//import org.opencv.features2d.FeatureDetector;
+import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
@@ -25,7 +23,7 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class GripPipeline implements VisionPipeline {
+public class GripPipeline {
 
 	//Outputs
 	private Mat resizeImageOutput = new Mat();
@@ -42,17 +40,17 @@ public class GripPipeline implements VisionPipeline {
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
-	@Override	public void process(Mat source0) {
+	public void process(Mat source0) {
 		// Step Resize_Image0:
 		Mat resizeImageInput = source0;
-		double resizeImageWidth = 320.0;
-		double resizeImageHeight = 240.0;
+		double resizeImageWidth = 500.0;
+		double resizeImageHeight = 400.0;
 		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
 		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = resizeImageOutput;
-		double[] hsvThresholdHue = {0.0, 107.30375036037825};
+		double[] hsvThresholdHue = {0.0, 67.90981096643884};
 		double[] hsvThresholdSaturation = {0.0, 79.48806844066841};
 		double[] hsvThresholdValue = {131.47482050837374, 255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
@@ -61,7 +59,7 @@ public class GripPipeline implements VisionPipeline {
 		Mat cvDilateSrc = hsvThresholdOutput;
 		Mat cvDilateKernel = new Mat();
 		Point cvDilateAnchor = new Point(-1, -1);
-		double cvDilateIterations = 7.0;
+		double cvDilateIterations = 3.0;
 		int cvDilateBordertype = Core.BORDER_CONSTANT;
 		Scalar cvDilateBordervalue = new Scalar(-1);
 		cvDilate(cvDilateSrc, cvDilateKernel, cvDilateAnchor, cvDilateIterations, cvDilateBordertype, cvDilateBordervalue, cvDilateOutput);
@@ -70,7 +68,7 @@ public class GripPipeline implements VisionPipeline {
 		Mat cvErodeSrc = cvDilateOutput;
 		Mat cvErodeKernel = new Mat();
 		Point cvErodeAnchor = new Point(-1, -1);
-		double cvErodeIterations = 9.0;
+		double cvErodeIterations = 3.0;
 		int cvErodeBordertype = Core.BORDER_CONSTANT;
 		Scalar cvErodeBordervalue = new Scalar(-1);
 		cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
@@ -82,14 +80,14 @@ public class GripPipeline implements VisionPipeline {
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 0.0;
+		double filterContoursMinArea = 5000.0;
 		double filterContoursMinPerimeter = 0.0;
-		double filterContoursMinWidth = 30.0;
+		double filterContoursMinWidth = 20.0;
 		double filterContoursMaxWidth = 1000.0;
-		double filterContoursMinHeight = 50.0;
+		double filterContoursMinHeight = 40.0;
 		double filterContoursMaxHeight = 1000.0;
 		double[] filterContoursSolidity = {0, 100};
-		double filterContoursMaxVertices = 1000000.0;
+		double filterContoursMaxVertices = 200.0;
 		double filterContoursMinVertices = 0.0;
 		double filterContoursMinRatio = 0.0;
 		double filterContoursMaxRatio = 1000.0;

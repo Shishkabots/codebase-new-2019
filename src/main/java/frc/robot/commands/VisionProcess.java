@@ -51,6 +51,7 @@ public class VisionProcess extends Command {
         double tape_offset_x = 0.0;
         double tape_offset_y = 0.0;
         double height = 46.0;
+        //SmartDashboard.putData("Img", input);
         try{
             x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
         }
