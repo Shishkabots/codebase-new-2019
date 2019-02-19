@@ -26,6 +26,7 @@ public class VisionProcess extends Command {
 
     UsbCamera cam;
     CvSink sin;
+    CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 1280, 720);
 
             // Called just before this Command runs the first time
     MatOfPoint input = new MatOfPoint();
@@ -40,6 +41,7 @@ public class VisionProcess extends Command {
         grip = Robot.pipe;
         vhelp = new VisionHelper();
         returnTime = sin.grabFrame(input);
+        outputStream.putFrame(input);
         SmartDashboard.putNumber("Radius: ", -123);
     }
         
