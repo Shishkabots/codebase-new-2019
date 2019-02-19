@@ -28,40 +28,47 @@ public class VisionProcess extends Command {
     CvSink sin;
 
             // Called just before this Command runs the first time
-    MatOfPoint input;
+    MatOfPoint input = new MatOfPoint();
     GripPipeline grip;
     VisionHelper vhelp;
     double[] x;
+    long returnTime;
     @Override
     protected void initialize() {
         cam = Robot.theCamera;
         sin = Robot.cv;
         grip = Robot.pipe;
         vhelp = new VisionHelper();
-        
+        returnTime = sin.grabFrame(input);
+        SmartDashboard.putNumber("Radius: ", -123);
     }
         
     // Called repeatedly when this Command is scheduled to run
     
     @Override
     protected void execute() {
-        sin.grabFrame(input);
+        
+        SmartDashboard.putNumber("Returntime: ", returnTime);
+
         double robot_offset_x = 0.0;
         double robot_offset_y = 0.0;
         double tape_offset_x = 0.0;
         double tape_offset_y = 0.0;
         double height = 46.0;
-        try{
-            x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        }
-        catch(FileNotFoundException f) {
-            SmartDashboard.putString("Driver: ", "Ur a tard");
-        }
+        
+        SmartDashboard.putNumber("Radius: ", -123);
+        // try{
+        //     x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        // }
+        // catch(FileNotFoundException f) {
+        //     SmartDashboard.putString("Driver: ", "filenotfound");
+        // }
+        SmartDashboard.putNumber("Radius: ", -123);
         double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
         SmartDashboard.putNumber("Radius: ", rThe[0]);
         SmartDashboard.putNumber("Theta: ", rThe[1]);
-        new PIDturn(x[1]).start();
-        new PIDrive(x[0]).start();
+        new PIDturn(rThe[1]).start();
+        new PIDrive(rThe[0]).start();
     }
     
     // Make this return true when this Command no longer needs to run execute()

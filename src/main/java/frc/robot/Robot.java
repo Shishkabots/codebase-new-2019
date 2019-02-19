@@ -110,32 +110,38 @@ public class Robot extends TimedRobot {
     theCamera.setBrightness(30);
     //v = new VisionHelper();
     cv = CameraServer.getInstance().getVideo();
-    /*visionThread = new VisionThread(theCamera, pipe, pipeline -> {
-      count++;
-      if (!pipeline.filterContoursOutput().isEmpty()) {
-            synchronized (imgLock) {
-              MatOfPoint m = pipeline.filterContoursOutput().get(0);
-              //d = v.findCenter(m);
+    if(cv == null){
+      SmartDashboard.putNumber("cv is null", 1);
+    }
+    else{
+      SmartDashboard.putNumber("cv is null", 0);
+    }
+    // visionThread = new VisionThread(theCamera, pipe, pipeline -> {
+    //   count++;
+    //   if (!pipeline.filterContoursOutput().isEmpty()) {
+    //         synchronized (imgLock) {
+    //           MatOfPoint m = pipeline.filterContoursOutput().get(0);
+    //           //d = v.findCenter(m);
 
-              MatOfPoint2f m2 = new MatOfPoint2f(m.toArray());
-              r = Imgproc.minAreaRect(m2);
-              m_centerX = r.center.x;
+    //           MatOfPoint2f m2 = new MatOfPoint2f(m.toArray());
+    //           r = Imgproc.minAreaRect(m2);
+    //           m_centerX = r.center.x;
               
-              //rect2 = Imgproc.boundingRect(m);
-              //m_centerX2 = rect2.x + (rect2.width / 2);
+    //           //rect2 = Imgproc.boundingRect(m);
+    //           //m_centerX2 = rect2.x + (rect2.width / 2);
               
-              System.out.println("CAMERA VALUE" + m_centerX);
-		 	      }
-      }
-      else{
-        synchronized(imgLock){
+    //           System.out.println("CAMERA VALUE" + m_centerX);
+		//  	      }
+    //   }
+    //   else{
+    //     synchronized(imgLock){
 
-          r = null;
-          //rect2 = null;
-        }
-      }
-		}); 
-    visionThread.start();*/
+    //       r = null;
+    //       //rect2 = null;
+    //     }
+    //   }
+		// }); 
+    // visionThread.start();
     
 
     side = new WPI_VictorSPX(3);
