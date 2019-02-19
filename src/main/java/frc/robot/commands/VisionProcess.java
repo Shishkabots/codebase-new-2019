@@ -55,7 +55,7 @@ public class VisionProcess extends Command {
             x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
         }
         catch(FileNotFoundException f) {
-            
+            SmartDashboard.putString("Driver: ", "Ur a tard");
         }
         double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
         SmartDashboard.putNumber("Radius: ", rThe[0]);
