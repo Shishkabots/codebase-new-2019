@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
+import frc.robot.OI;
 import edu.wpi.first.wpilibj.command.Command;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -29,15 +30,19 @@ public class Succ extends Command {
     @Override
     protected void execute() {
         gtime++;
-        if(gtime > 100) {
-            succ.set(ControlMode.PercentOutput, 0);
-        }
+        succ.set(ControlMode.PercentOutput, 0.2);
+        
+        //succ.set(ControlMode.PercentOutput, Robot.m_oi.succbutt.whileHeld() ? 0.2 : 0)
+        // if(gtime > 100) {
+        //     succ.set(ControlMode.PercentOutput, 0);
+        // }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return gtime >= 220;
+        return true;
+        //return gtime >= 220;
     }
 
     // Called once after isFinished returns true

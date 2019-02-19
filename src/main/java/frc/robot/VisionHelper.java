@@ -9,6 +9,7 @@ import java.util.*;
 
 
 import  edu.wpi.first.vision.VisionPipeline;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.opencv.core.*;
 import org.opencv.core.Core.*;
@@ -39,7 +40,7 @@ public class VisionHelper
         double[] centerCoor = new double[2];
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
-         Moments moments = Imgproc.moments(img);
+        Moments moments = Imgproc.moments(pipeline.filterContoursOutput().get(0));
         centerCoor[0] = moments.get_m10() / moments.get_m00();
         centerCoor[1] = moments.get_m01() / moments.get_m00();
         return centerCoor;
@@ -139,8 +140,9 @@ public class VisionHelper
         Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
         Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
 
-
+        SmartDashboard.putString("Path:", System.getProperty("user.dir"));
         Scanner in = new Scanner(new File("mapx_values.csv"));
+        SmartDashboard.putString("Scanner successfully init:", "yes");
         in.useDelimiter(",");
         for(int row= 0; row <720; row++){
             for(int col = 0; col < 1280; col++ ){
@@ -148,10 +150,10 @@ public class VisionHelper
                 mapx.put(row, col, num);
             }
         }
-
+        //in = new Scanner(new File("/src/main/java/frc/robot/mapy_values.csv"));
         in = new Scanner(new File("mapy_values.csv"));
         in.useDelimiter(",");
-        for(int row= 0; row <720; row++){
+        for(int row= 0; row < 720; row++){
             for(int col = 0; col < 1280; col++ ){
                 float num = in.nextFloat();
                 mapy.put(row, col, num);

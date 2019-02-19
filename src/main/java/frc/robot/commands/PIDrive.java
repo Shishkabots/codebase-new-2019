@@ -54,6 +54,7 @@ public class PIDrive extends Command {
     protected void end() {
         Robot.leftTalon.setSelectedSensorPosition(0);
         Robot.rightTalon.setSelectedSensorPosition(0);
+        new TeleOpCommands().start();
     	//Robot.m_drivetrain.move(0, 0);
     }
 

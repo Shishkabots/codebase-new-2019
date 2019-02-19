@@ -44,9 +44,9 @@ public class DriveTrain extends Subsystem {
      * @param angle
      * @param DO_YOU_WANT_IT_FAST
      */
-    public void moveWithCurve(double forward, double angle, boolean DO_YOU_WANT_IT_FAST)
+    public void moveWithCurve(double forward, double angle, boolean inPlaceTurn)
     {
-    		drivy.curvatureDrive(forward, angle, DO_YOU_WANT_IT_FAST);
+    		drivy.curvatureDrive(forward, angle, inPlaceTurn);
     }
     public void arcadeDrive(double forward, double angle){
         drivy.arcadeDrive(forward, angle);
