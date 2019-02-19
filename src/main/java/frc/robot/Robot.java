@@ -106,8 +106,8 @@ public class Robot extends TimedRobot {
     theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
     theCamera.setResolution(1280, 720);
-    theCamera.setExposureManual(30);
-    theCamera.setBrightness(30);
+    theCamera.setExposureManual(50);
+    theCamera.setBrightness(50);
     //v = new VisionHelper();
     cv = CameraServer.getInstance().getVideo();
     if(cv == null){
@@ -207,6 +207,8 @@ public class Robot extends TimedRobot {
 
     m_oi = new OI();
     
+    SmartDashboard.putNumber("Start: ", 0);
+    SmartDashboard.putNumber("End: ", 0);
     // VictorSPX side = new VictorSPX(2);
     // TalonSRX leftTalon = new TalonSRX(5);
     // VictorSPX leftVictor = new VictorSPX(3);
