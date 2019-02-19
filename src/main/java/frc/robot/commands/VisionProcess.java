@@ -57,18 +57,23 @@ public class VisionProcess extends Command {
         double height = 46.0;
         
         SmartDashboard.putNumber("Radius: ", -123);
-        // try{
-        //     x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        // }
-        // catch(FileNotFoundException f) {
-        //     SmartDashboard.putString("Driver: ", "filenotfound");
-        // }
+        SmartDashboard.putString("Driver: ", "file is found");
+        try{
+            x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        }
+        catch(FileNotFoundException f) {
+            SmartDashboard.putString("Driver: ", "filenotfound");
+        }
         SmartDashboard.putNumber("Radius: ", -123);
-        double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        SmartDashboard.putNumber("Radius: ", rThe[0]);
-        SmartDashboard.putNumber("Theta: ", rThe[1]);
-        new PIDturn(rThe[1]).start();
-        new PIDrive(rThe[0]).start();
+        SmartDashboard.putNumber("Radius: ", x[0]);
+        SmartDashboard.putNumber("Theta: ", x[1]);
+        new PIDturn(x[1]).start();
+        new PIDrive(x[0]).start();
+        //double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        //SmartDashboard.putNumber("Radius: ", rThe[0]);
+        //SmartDashboard.putNumber("Theta: ", rThe[1]);
+        //new PIDturn(rThe[1]).start();
+        //new PIDrive(rThe[0]).start();
     }
     
     // Make this return true when this Command no longer needs to run execute()

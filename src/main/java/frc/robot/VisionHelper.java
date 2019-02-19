@@ -9,6 +9,7 @@ import java.util.*;
 
 
 import  edu.wpi.first.vision.VisionPipeline;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.opencv.core.*;
@@ -145,25 +146,22 @@ public class VisionHelper
 
     }
     public double[] get_move_to_correct_point(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) throws FileNotFoundException{
-        //"path to image" = placeholder
-        //Mat img = Imgcodecs.imread("path to image"); // don't need to read in img if already passed in
-
         // need to load from file 
         Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
         Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
 
-        SmartDashboard.putString("Path:", System.getProperty("user.dir"));
-        Scanner in = new Scanner(new File("mapx_values.csv"));
+        //SmartDashboard.putString("Path:", System.getProperty("user.dir"));
+        Scanner in = new Scanner(new File(Filesystem.getDeployDirectory() + "/mapx_values.csv"));
         SmartDashboard.putString("Scanner successfully init:", "yes");
         in.useDelimiter(",");
         for(int row= 0; row <720; row++){
-            for(int col = 0; col < 1280; col++ ){
+            for(int col = 0; col < 1280; col++){
                 float num = in.nextFloat();
                 mapx.put(row, col, num);
             }
         }
         //in = new Scanner(new File("/src/main/java/frc/robot/mapy_values.csv"));
-        in = new Scanner(new File("mapy_values.csv"));
+        in = new Scanner(new File(Filesystem.getDeployDirectory() + "/mapy_values.csv"));
         in.useDelimiter(",");
         for(int row= 0; row < 720; row++){
             for(int col = 0; col < 1280; col++ ){
