@@ -30,7 +30,8 @@ public class OI {
   
   public OI() {
     hatchbutt.whenPressed(new HatchActivate());
-    succbutt.whenPressed(new Succ());
+    //succbutt.whenPressed(new Succ());
+    succbutt.whileHeld(new Succ());
     camerabutt.whenPressed(new VisionProcess());
     gyroButton.whenPressed(new PIDturn(30));
     press.whenPressed(new PIDrive(20));

@@ -181,7 +181,7 @@ public class Robot extends TimedRobot {
     leftTalon.config_kI(0,0.001);
     leftTalon.config_kD(0,0.001);
     //m_drive.setRightSideInverted(false);
-    m_drivetrain =new DriveTrain();
+    m_drivetrain = new DriveTrain();
     ds = new DoubleSolenoid(0, 1);
     //ds.set(DoubleSolenoid.Value.kForward);
     m_hatch = new Hatch();
