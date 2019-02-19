@@ -24,7 +24,7 @@ public class VisionProcess extends Command {
 
     
     UsbCamera cam;
-    CvSink sin;
+    CvSink sin = CameraServer.getInstance().getVideo();
     CvSource outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
 
             // Called just before this Command runs the first time
@@ -39,12 +39,12 @@ public class VisionProcess extends Command {
     protected void initialize() {
         SmartDashboard.putNumber("Start: ", 1);
         cam = Robot.theCamera;
-        sin = Robot.cv;
         grip = Robot.pipe;
         //vhelp = new VisionHelper();
         sin.grabFrame(input);
-        //Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-        outputStream.putFrame(input);
+        
+       // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
+        outputStream.putFrame(output);
         SmartDashboard.putNumber("Radius: ", -123);
         SmartDashboard.putNumber("End: ", 1);
         

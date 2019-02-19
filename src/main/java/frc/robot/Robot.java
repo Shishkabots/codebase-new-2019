@@ -110,12 +110,15 @@ public class Robot extends TimedRobot {
     theCamera.setBrightness(50);
     //v = new VisionHelper();
     cv = CameraServer.getInstance().getVideo();
+    CvSource out = CameraServer.getInstance().putVideo("boi", 1280, 720);
+    
     if(cv == null){
       SmartDashboard.putNumber("cv is null", 1);
     }
     else{
       SmartDashboard.putNumber("cv is null", 0);
     }
+    
     // visionThread = new VisionThread(theCamera, pipe, pipeline -> {
     //   count++;
     //   if (!pipeline.filterContoursOutput().isEmpty()) {
