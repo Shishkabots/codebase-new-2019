@@ -33,7 +33,8 @@ public class OI {
     //succbutt.whenPressed(new Succ());
     succbutt.whileHeld(new Succ());
     camerabutt.whenPressed(new VisionProcess());
-    gyroButton.whenPressed(new PIDturn(-45));
-    press.whenPressed(new PIDrive(20));
+    //gyroButton.whenPressed(new PIDturn(-45));
+    //press.whenPressed(new PIDrive(20));
+    press.whenPressed(new VisionProcess());
   }
 }
