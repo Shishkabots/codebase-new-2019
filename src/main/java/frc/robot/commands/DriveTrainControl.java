@@ -25,7 +25,7 @@ public class DriveTrainControl extends Command {
 
     protected void initialize() {
         SmartDashboard.putNumber("Interrupt: ", 0);
-    		Robot.m_drivetrain.move(0, 0);
+    	Robot.m_drivetrain.move(0, 0);
     }
 
     protected void execute() {
@@ -33,12 +33,15 @@ public class DriveTrainControl extends Command {
         double lTrigger = Robot.m_oi.controllerOne.getRawAxis(2);
         double rTrigger = Robot.m_oi.controllerOne.getRawAxis(3);
         double turnAxis = Robot.m_oi.controllerOne.getRawAxis(0);
+
+
         
         //3 is right trigger, 2 is left trigger, 0 is x axis of left stick, unsure of math
     	Robot.m_drivetrain.moveWithCurve(
-            (rTrigger - lTrigger) * speed,
-            turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1),
+            (Robot.m_drivetrain.reverse ? -1 : 1) * (rTrigger - lTrigger) * speed,
+            turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1) * (Robot.m_drivetrain.reverse ? -1 : 1), // might not need to flip turn direction
             true);
+        
         
             
         //SmartDashboard.putNumber("Encoder 1: ", e1.getDistance());

@@ -159,7 +159,6 @@ public class Robot extends TimedRobot {
     leftVictor.setSafetyEnabled(false);
     rightVictor.setSafetyEnabled(false);
     side.setSafetyEnabled(false);
-    
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
     
     rightVictor.follow(rightTalon);
