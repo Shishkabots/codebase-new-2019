@@ -22,8 +22,13 @@ import org.opencv.objdetect.*;
 public class VisionHelper
 {
     public static double[] centerCoor;
+<<<<<<< HEAD
     public MatOfPoint undistort(MatOfPoint img, Mat mapx, Mat mapy) {
         // Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); 
+=======
+    public MatOfPoint undistort(Mat img, Mat mapx, Mat mapy) {
+        //Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); // don't use this line, just use the inputted one
+>>>>>>> ad6f5cc2e6c06ef1e518b6547137fd9f347a3b1d
        // Mat gray = null;
         //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
         MatOfPoint dst = null;
@@ -35,7 +40,7 @@ public class VisionHelper
 
     }
 
-    public double[] findCenter(MatOfPoint img) {
+    public double[] findCenter(Mat img) {
         //[x,y]
         double[] centerCoor = new double[2];
         GripPipeline pipeline = new GripPipeline();
@@ -49,8 +54,13 @@ public class VisionHelper
     public double convert_dist(double pixel_dist, double height){
         return 0.0001 * (9.081 * height * pixel_dist);
     }
+<<<<<<< HEAD
     // returns slope of line
     public double find_longer_line(MatOfPoint img){
+=======
+    //returns slope of line
+    public double find_longer_line(Mat img){
+>>>>>>> ad6f5cc2e6c06ef1e518b6547137fd9f347a3b1d
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
         MatOfPoint contours = pipeline.filterContoursOutput().get(0);
@@ -101,7 +111,7 @@ public class VisionHelper
         
     }
 
-    public double[] get_final_R_theta(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
+    public double[] get_final_R_theta(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
         double[] rThe = new double[2];
         double tape_offset_r = Math.sqrt(Math.pow(tape_offset_x,2)+Math.pow(tape_offset_y,2));
         double tape_offset_theta = Math.atan(tape_offset_y / tape_offset_x);
@@ -132,7 +142,7 @@ public class VisionHelper
         return rThe;
 
     }
-    public double[] get_move_to_correct_point(MatOfPoint img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) throws FileNotFoundException{
+    public double[] get_move_to_correct_point(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) throws FileNotFoundException{
         //"path to image" = placeholder
         //Mat img = Imgcodecs.imread("path to image"); // don't need to read in img if already passed in
 
