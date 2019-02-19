@@ -14,14 +14,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class PIDturn extends Command {
     public AHRS gyro = Robot.gyro; // angles are in degrees
     public double t; // target
-    double P = 1;
+    double P = 2;
     double I = 0;
     double D = 0;
     double integral, previous_error, error, derivative = 0;
     double rcw;
     double dt = 0.02;
     double completionThreshold = 0.5;
-    
+    double ff = 0.166;
+
     //m_drivetrain is a drivetrain subsystem btw
     public PIDturn(double tt) {
         t = tt;
@@ -37,12 +38,16 @@ public class PIDturn extends Command {
         error = (1 / 180.0) * (t - gyro.getAngle()); // Error = Target - Actual
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
-        Robot.m_drivetrain.moveWithCurve(0, P * error + I * this.integral + D * derivative, true);
-        SmartDashboard.putNumber("Voltage percentage: ", P * error + I * this.integral + D * derivative);
+        previous_error = error;
+        //Robot.m_drivetrain.moveWithCurve(0, -0.5, true);
+        double voltage = P * (-error) + I * (-this.integral) + D * (-derivative);
+        Robot.m_drivetrain.moveWithCurve(0, voltage + (voltage > 0 ? ff : -ff), true);
+        SmartDashboard.putNumber("Voltage percentage: ", -(P * error + I * this.integral + D * derivative));
         SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
         SmartDashboard.putNumber("Gyro Target Angle: ", t);
         SmartDashboard.putNumber("Gyro Integral: ", integral);
         SmartDashboard.putNumber("Gyro Error: ", error);
+        SmartDashboard.putNumber("Gyro Angle Error: ", 180 * error);
         SmartDashboard.putNumber("Gyro Derivative: ", derivative);
     }
 
