@@ -45,6 +45,9 @@ public class VisionProcess extends Command {
         vhelp = new VisionHelper();
         sin.grabFrame(input,20000);
         
+        SmartDashboard.putNumber("img width", input.width());
+        SmartDashboard.putNumber("img length", input.height());
+        
         SmartDashboard.putNumber("numero uno:", input.get(35, 214)[0]);
         SmartDashboard.putNumber("numero rwo:", input.get(35, 214)[1]);
         SmartDashboard.putNumber("numero rsan:", input.get(35, 214)[2]);
@@ -82,21 +85,21 @@ public class VisionProcess extends Command {
             SmartDashboard.putString("REEEEEEEEERERERERE: ", "shit is past");
         }
 
-        try{
-            x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        }
-        catch(FileNotFoundException f) {
-            SmartDashboard.putString("Driver: ", "filenotfound");
-        }
-        SmartDashboard.putNumber("Radius: ", -123);
-        SmartDashboard.putNumber("Radius: ", x[0]);
-        SmartDashboard.putNumber("Theta: ", x[1]);
+        // try{
+        //     x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        // }
+        // catch(FileNotFoundException f) {
+        //     SmartDashboard.putString("Driver: ", "filenotfound");
+        // }
+        // SmartDashboard.putNumber("Radius: ", -123);
+        // SmartDashboard.putNumber("Radius: ", x[0]);
+        // SmartDashboard.putNumber("Theta: ", x[1]);
         // new PIDturn(x[1]).start();
         // new PIDrive(x[0]).start();
 
-        //double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        //SmartDashboard.putNumber("Radius: ", rThe[0]);
-        //SmartDashboard.putNumber("Theta: ", rThe[1]);
+        double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        SmartDashboard.putNumber("Radius: ", rThe[0]);
+        SmartDashboard.putNumber("Theta: ", rThe[1]);
         //new PIDturn(rThe[1]).start();
         //new PIDrive(rThe[0]).start();
     }
@@ -104,7 +107,7 @@ public class VisionProcess extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

@@ -20,7 +20,7 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain()
 	{
         drivy = Robot.m_drive;
-        reverse = false;
+        reverse = true;
 		//super("DriveTrain",0.2,0,0);
         //setAbsoluteTolerance(0.05);
         
