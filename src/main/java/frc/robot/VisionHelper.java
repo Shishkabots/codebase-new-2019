@@ -9,6 +9,7 @@ import java.util.*;
 
 
 import  edu.wpi.first.vision.VisionPipeline;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.opencv.core.*;
@@ -104,71 +105,65 @@ public class VisionHelper
     public double[] get_final_R_theta(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
         double[] rThe = new double[2];
         double tape_offset_r = Math.sqrt(Math.pow(tape_offset_x,2)+Math.pow(tape_offset_y,2));
-        double tape_offset_theta = Math.atan(tape_offset_y / tape_offset_x);
+        double tape_offset_theta = (tape_offset_y == 0 ? Math.PI / 2 * Math.signum(tape_offset_x) : Math.atan(tape_offset_x / tape_offset_y));
 
         double[] center = findCenter(img);
         double pixel_x = center[0];
         double pixel_y = center[1];
-        double pixel_delta_x = img.width() / 2 - pixel_x;
+        pixel_x *= 1280.0/320.0;
+        pixel_y *= 720.0/240.0;
+
+        double pixel_delta_x = -(img.width() / 2 - pixel_x);
         double pixel_delta_y = img.height() / 2 - pixel_y;
 
-        double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2)+Math.pow(pixel_delta_y, 2)), height);
-        double camera_theta = Math.atan(pixel_delta_y/pixel_delta_x);//for negative pixel_delta_x, should take return a negative angle
+        double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2) + Math.pow(pixel_delta_y, 2)), height);
+        double camera_theta = (pixel_delta_y == 0 ? Math.PI * Math.signum(pixel_delta_x): Math.atan(pixel_delta_x/pixel_delta_y)); //for negative pixel_delta_x, should take return a negative angle
 
-        double camera_delta_x = camera_r * Math.cos(camera_theta);
-        double camera_delta_y = camera_r * Math.sin(camera_theta);
+        double camera_delta_x = camera_r * Math.sin(camera_theta);
+        double camera_delta_y = camera_r * Math.cos(camera_theta);
 
         double cameraToTape_theta = getCameraToTapeTheta(find_longer_line(img));
 
-        double tape_delta_x = tape_offset_r * Math.cos(cameraToTape_theta + tape_offset_theta);
-        double tape_delta_y = tape_offset_r * Math.sin(cameraToTape_theta + tape_offset_theta);
+        double tape_delta_x = tape_offset_r * Math.sin(cameraToTape_theta + tape_offset_theta);
+        double tape_delta_y = tape_offset_r * Math.cos(cameraToTape_theta + tape_offset_theta);
 
         double delta_y = robot_offset_y + camera_delta_y + tape_delta_y;
         double delta_x = robot_offset_x + camera_delta_x + tape_delta_x;
-        Math.sqrt(Math.pow(tape_offset_x,2)+Math.pow(tape_offset_y,2));
-        rThe[0] =  Math.sqrt(Math.pow(delta_x,2)+Math.pow(delta_y,2));
-        rThe[1]= Math.atan(delta_y/delta_x);
+        rThe[0] =  Math.sqrt(Math.pow(delta_x, 2) + Math.pow(delta_y, 2));
+        rThe[1] = (delta_y == 0 ? Math.PI * Math.signum(pixel_x) : Math.atan(delta_x/delta_y));
 
         return rThe;
 
     }
     public double[] get_move_to_correct_point(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) throws FileNotFoundException{
-        //"path to image" = placeholder
-        //Mat img = Imgcodecs.imread("path to image"); // don't need to read in img if already passed in
-
-        // need to load from file 
+        
         Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
         Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
 
-        SmartDashboard.putString("Path:", System.getProperty("user.dir"));
-        Scanner in = new Scanner(new File("/Users/FireLordAzula/Desktop/codebase-new-2019/src/main/java/frc/robot/mapx_values.csv"));
+        Scanner in = new Scanner(new File(Filesystem.getDeployDirectory() + "/mapx_values.csv"));
         SmartDashboard.putString("Scanner successfully init:", "yes");
         in.useDelimiter(",");
         for(int row= 0; row <720; row++){
-            for(int col = 0; col < 1280; col++ ){
+            for(int col = 0; col < 1280; col++){
                 float num = in.nextFloat();
                 mapx.put(row, col, num);
             }
         }
-        //in = new Scanner(new File("/src/main/java/frc/robot/mapy_values.csv"));
-        in = new Scanner(new File("mapy_values.csv"));
+        in = new Scanner(new File(Filesystem.getDeployDirectory() + "/mapy_values.csv"));
+        SmartDashboard.putString("yeah BoiOIIIIIii ", "onE TWO OHOTMEAL");
         in.useDelimiter(",");
-        for(int row= 0; row < 720; row++){
+        for(int row = 0; row < 720; row++){
             for(int col = 0; col < 1280; col++ ){
                 float num = in.nextFloat();
                 mapy.put(row, col, num);
             }
         }
-
-        robot_offset_x = 0; //measure this
-        robot_offset_y = 0; //measure this as well
-        tape_offset_x = 0; //this too
-        tape_offset_y =  0; //this three
-        height = 46; //this four
+        
+        SmartDashboard.putString("Hey miester: ", "LLLLLLLL");
 
         //img = undistort(img, mapx, mapy); 
-        double[] outputRTheta = get_final_R_theta(img,
-         robot_offset_x,  robot_offset_y,  tape_offset_x,  tape_offset_y,  height);
+        SmartDashboard.putString("Hey miester: ", "onE TWO OHOTMEAL");
+        double[] outputRTheta = get_final_R_theta(img, robot_offset_x,  robot_offset_y,  tape_offset_x,  tape_offset_y,  height);
         return outputRTheta;
     }
 
