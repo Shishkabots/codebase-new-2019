@@ -42,8 +42,15 @@ public class VisionProcess extends Command {
         SmartDashboard.putNumber("Start: ", 1);
         cam = Robot.theCamera;
         grip = Robot.pipe;
-        //vhelp = new VisionHelper();
-        sin.grabFrame(input);
+        vhelp = new VisionHelper();
+        sin.grabFrame(input,20000);
+        
+        SmartDashboard.putNumber("numero uno:", input.get(35, 214)[0]);
+        SmartDashboard.putNumber("numero rwo:", input.get(35, 214)[1]);
+        SmartDashboard.putNumber("numero rsan:", input.get(35, 214)[2]);
+        SmartDashboard.putNumber("numero duno:", input.get(123, 214)[0]);
+        SmartDashboard.putNumber("numero drwo:", input.get(123, 214)[1]);
+        SmartDashboard.putNumber("numero drsan:", input.get(123, 214)[2]);
         
        // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
         outputStream.putFrame(input);
@@ -66,17 +73,24 @@ public class VisionProcess extends Command {
         double tape_offset_y = 0.0;
         double height = 46.0;
         
-        // SmartDashboard.putNumber("Radius: ", -123);
-        // SmartDashboard.putString("Driver: ", "file is found");
-        // try{
-        //     x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        // }
-        // catch(FileNotFoundException f) {
-        //     SmartDashboard.putString("Driver: ", "filenotfound");
-        // }
-        // SmartDashboard.putNumber("Radius: ", -123);
-        // SmartDashboard.putNumber("Radius: ", x[0]);
-        // SmartDashboard.putNumber("Theta: ", x[1]);
+        SmartDashboard.putNumber("Radius: ", -123);
+        SmartDashboard.putString("Driver: ", "file is found");
+        if(input == null){
+            SmartDashboard.putString("REEEEEEEEERERERERE: ", "onE TWO OHOTMEAL");
+        }
+        else{
+            SmartDashboard.putString("REEEEEEEEERERERERE: ", "shit is past");
+        }
+
+        try{
+            x = vhelp.get_move_to_correct_point(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        }
+        catch(FileNotFoundException f) {
+            SmartDashboard.putString("Driver: ", "filenotfound");
+        }
+        SmartDashboard.putNumber("Radius: ", -123);
+        SmartDashboard.putNumber("Radius: ", x[0]);
+        SmartDashboard.putNumber("Theta: ", x[1]);
         // new PIDturn(x[1]).start();
         // new PIDrive(x[0]).start();
 
