@@ -20,14 +20,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionProcess extends Command {
 
-    public VisionProcess() {
-        //requires(Robot.m_hatch);
-    }
 
-    
     UsbCamera cam;
-    CvSink sin = CameraServer.getInstance().getVideo();
-    CvSource outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
+    CvSink sin;
+    CvSource outputStream;;
 
             // Called just before this Command runs the first time
     Mat input = new Mat();
@@ -36,13 +32,24 @@ public class VisionProcess extends Command {
     VisionHelper vhelp;
     double[] x;
     long returnTime;
+    public VisionProcess() {
+        //requires(Robot.m_hatch);
+        cam = Robot.theCamera;
+        grip = Robot.pipe;
+        sin = new CvSink("sink");
+        sin.setSource(Robot.theCamera);
+        outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
+    }
+
+    
+   
     
     @Override
     protected void initialize() {
         SmartDashboard.putNumber("Start: ", 1);
-        cam = Robot.theCamera;
-        grip = Robot.pipe;
+       
         vhelp = new VisionHelper();
+        
         sin.grabFrame(input,20000);
         
         SmartDashboard.putNumber("img width", input.width());
