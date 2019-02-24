@@ -109,7 +109,8 @@ public class Robot extends TimedRobot {
     theCamera.setExposureManual(50);
     theCamera.setBrightness(50);
     //v = new VisionHelper();
-    cv = CameraServer.getInstance().getVideo();
+    cv = new CvSink("suk my cok");
+    cv.setSource(theCamera);
     CvSource out = CameraServer.getInstance().putVideo("boi", 1280, 720);
     
     if(cv == null){

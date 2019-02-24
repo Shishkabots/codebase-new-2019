@@ -38,7 +38,7 @@ public class HatchActivate extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        if(gtime > 9s0) {
+        if(gtime > 90) {
             SmartDashboard.putString("pogyes?: ", "POG");
             return true;
         }else {
