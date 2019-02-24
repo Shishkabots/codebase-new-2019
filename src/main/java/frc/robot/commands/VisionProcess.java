@@ -49,8 +49,10 @@ public class VisionProcess extends Command {
         SmartDashboard.putNumber("Start: ", 1);
        
         vhelp = new VisionHelper();
-        
+
         sin.grabFrame(input,20000);
+
+        // SmartDashboard.putNumber("initial number of contours:", 21)
         
         SmartDashboard.putNumber("img width", input.width());
         SmartDashboard.putNumber("img length", input.height());
