@@ -135,6 +135,8 @@ public class VisionHelper
         return rThe;
 
     }
+
+    // undistort + get_final_r_theta
     public double[] get_move_to_correct_point(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) throws FileNotFoundException{
         
         Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
@@ -157,6 +159,7 @@ public class VisionHelper
                 float num = in.nextFloat();
                 mapy.put(row, col, num);
             }
+            SmartDashboard.putNumber("loops", row);
         }
         
         SmartDashboard.putString("Hey miester: ", "LLLLLLLL");

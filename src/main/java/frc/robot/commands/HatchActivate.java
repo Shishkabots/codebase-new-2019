@@ -28,7 +28,7 @@ public class HatchActivate extends Command {
     @Override
     protected void execute() {
         gtime++;
-        if(gtime > 80) {
+        if(gtime > 30) {
             Robot.ds.set(DoubleSolenoid.Value.kForward);
             SmartDashboard.putString("pogyes?: ", "pog");
                 }            
@@ -38,7 +38,7 @@ public class HatchActivate extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        if(gtime > 90) {
+        if(gtime > 60) {
             SmartDashboard.putString("pogyes?: ", "POG");
             return true;
         }else {
