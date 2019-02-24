@@ -283,6 +283,7 @@ public class Robot extends TimedRobot {
     /*if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }*/
+    //new VisionProcess().start();
   }
 
   /**

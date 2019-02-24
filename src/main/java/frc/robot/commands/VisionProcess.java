@@ -34,11 +34,8 @@ public class VisionProcess extends Command {
     long returnTime;
     public VisionProcess() {
         //requires(Robot.m_hatch);
-        cam = Robot.theCamera;
-        grip = Robot.pipe;
-        sin = new CvSink("sink");
-        sin.setSource(Robot.theCamera);
-        outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
+        
+        //SmartDashboard.putNumber("Eatbutt", 4444);
     }
 
     
@@ -46,11 +43,16 @@ public class VisionProcess extends Command {
     
     @Override
     protected void initialize() {
+        cam = Robot.theCamera;
+        grip = Robot.pipe;
+        sin = new CvSink("sink");
+        sin.setSource(Robot.theCamera);
+        outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
         SmartDashboard.putNumber("Start: ", 1);
        
         vhelp = new VisionHelper();
         
-        sin.grabFrame(input,20000);
+        sin.grabFrame(input,2000);
         
         SmartDashboard.putNumber("img width", input.width());
         SmartDashboard.putNumber("img length", input.height());
