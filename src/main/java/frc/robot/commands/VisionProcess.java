@@ -35,7 +35,6 @@ public class VisionProcess extends Command {
     public VisionProcess() {
         //requires(Robot.m_hatch);
         
-        //SmartDashboard.putNumber("Eatbutt", 4444);
     }
 
     
@@ -48,18 +47,19 @@ public class VisionProcess extends Command {
         sin = new CvSink("sink");
         sin.setSource(Robot.theCamera);
         outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
+        
         SmartDashboard.putNumber("Start: ", 1);
        
         vhelp = new VisionHelper();
         
-        sin.grabFrame(input,2000);
+        sin.grabFrame(input,20000);
         
         SmartDashboard.putNumber("img width", input.width());
         SmartDashboard.putNumber("img length", input.height());
         
-        SmartDashboard.putNumber("numero uno:", input.get(35, 214)[0]);
-        SmartDashboard.putNumber("numero rwo:", input.get(35, 214)[1]);
-        SmartDashboard.putNumber("numero rsan:", input.get(35, 214)[2]);
+        SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
+        SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
+        SmartDashboard.putNumber("numero rsan:", input.get(640, 360)[2]);
         SmartDashboard.putNumber("numero duno:", input.get(123, 214)[0]);
         SmartDashboard.putNumber("numero drwo:", input.get(123, 214)[1]);
         SmartDashboard.putNumber("numero drsan:", input.get(123, 214)[2]);

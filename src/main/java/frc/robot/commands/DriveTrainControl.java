@@ -39,7 +39,7 @@ public class DriveTrainControl extends Command {
         //3 is right trigger, 2 is left trigger, 0 is x axis of left stick, unsure of math
     	Robot.m_drivetrain.moveWithCurve(
             (Robot.m_drivetrain.reverse ? -1 : 1) * (rTrigger - lTrigger) * speed,
-            turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1) * (Robot.m_drivetrain.reverse ? -1 : 1), // might not need to flip turn direction
+            turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1), 
             true);
         
         
