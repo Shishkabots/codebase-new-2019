@@ -106,11 +106,11 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotInit() {
-    // theCamera = CameraServer.getInstance().startAutomaticCapture();
+    theCamera = CameraServer.getInstance().startAutomaticCapture();
 		// //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
-    // theCamera.setResolution(1280, 720);
-    // theCamera.setExposureManual(50);
-    // theCamera.setBrightness(50);
+    theCamera.setResolution(1280, 720);
+    theCamera.setExposureManual(50);
+    theCamera.setBrightness(50);
     // cv = new CvSink("sink");
     // cv.setSource(Robot.theCamera);
     // out = CameraServer.getInstance().putVideo("sink",1280,720);
