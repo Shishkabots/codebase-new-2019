@@ -100,25 +100,23 @@ public class Robot extends TimedRobot {
   public static double[] d;
   public static VisionHelper v;
   public static CvSink cv;
+  public static CvSource out;
+
+  Mat input = new Mat();
   
   @Override
   public void robotInit() {
-    theCamera = CameraServer.getInstance().startAutomaticCapture();
-		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
-    theCamera.setResolution(1280, 720);
-    theCamera.setExposureManual(50);
-    theCamera.setBrightness(50);
-    //v = new VisionHelper();
-    cv = new CvSink("suk my cok");
-    cv.setSource(theCamera);
-    CvSource out = CameraServer.getInstance().putVideo("boi", 1280, 720);
+    // theCamera = CameraServer.getInstance().startAutomaticCapture();
+		// //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
+    // theCamera.setResolution(1280, 720);
+    // theCamera.setExposureManual(50);
+    // theCamera.setBrightness(50);
+    // cv = new CvSink("sink");
+    // cv.setSource(Robot.theCamera);
+    // out = CameraServer.getInstance().putVideo("sink",1280,720);
     
-    if(cv == null){
-      SmartDashboard.putNumber("cv is null", 1);
-    }
-    else{
-      SmartDashboard.putNumber("cv is null", 0);
-    }
+    //v = new VisionHelper();
+    
     
     // visionThread = new VisionThread(theCamera, pipe, pipeline -> {
     //   count++;
@@ -232,6 +230,8 @@ public class Robot extends TimedRobot {
 
     
     //side.set(ControlMode.PercentOutput, .2);
+    //cv.grabFrame(input);
+    //out.putFrame(input);
   }
 
   @Override
@@ -284,6 +284,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.start();
     }*/
     //new VisionProcess().start();
+    
   }
 
   /**

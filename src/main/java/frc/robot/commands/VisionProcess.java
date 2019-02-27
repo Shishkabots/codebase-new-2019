@@ -42,17 +42,22 @@ public class VisionProcess extends Command {
     
     @Override
     protected void initialize() {
-        cam = Robot.theCamera;
+        //cam = Robot.theCamera;
+        cam = CameraServer.getInstance().startAutomaticCapture();
         grip = Robot.pipe;
+        //sin = CameraServer.getInstance().getVideo(cam);
         sin = new CvSink("sink");
-        sin.setSource(Robot.theCamera);
-        outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
+        sin.setSource(cam);
+        outputStream = CameraServer.getInstance().putVideo("sink",1280,720);
         
         SmartDashboard.putNumber("Start: ", 1);
        
         vhelp = new VisionHelper();
+        SmartDashboard.putNumber("img initw", input.width());
+        SmartDashboard.putNumber("img initl", input.height());
         
-        sin.grabFrame(input,20000);
+        
+        sin.grabFrame(input);
         
         SmartDashboard.putNumber("img width", input.width());
         SmartDashboard.putNumber("img length", input.height());
@@ -79,7 +84,7 @@ public class VisionProcess extends Command {
         
         //SmartDashboard.putNumber("Returntime: ", returnTime);
 
-        double robot_offset_x = 0.0;
+        /*double robot_offset_x = 0.0;
         double robot_offset_y = 0.0;
         double tape_offset_x = 0.0;
         double tape_offset_y = 0.0;
@@ -110,7 +115,7 @@ public class VisionProcess extends Command {
         SmartDashboard.putNumber("Radius: ", rThe[0]);
         SmartDashboard.putNumber("Theta: ", rThe[1]);
         //new PIDturn(rThe[1]).start();
-        //new PIDrive(rThe[0]).start();
+        //new PIDrive(rThe[0]).start();*/
     }
     
     // Make this return true when this Command no longer needs to run execute()

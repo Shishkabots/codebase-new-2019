@@ -43,8 +43,8 @@ public class GripPipeline {
 	public void process(Mat source0) {
 		// Step Resize_Image0:
 		Mat resizeImageInput = source0;
-		double resizeImageWidth = 500.0;
-		double resizeImageHeight = 400.0;
+		double resizeImageWidth = 1280.0;
+		double resizeImageHeight = 720.0;
 		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
 		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
