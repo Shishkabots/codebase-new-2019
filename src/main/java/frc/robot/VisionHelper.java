@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 
-import  edu.wpi.first.vision.VisionPipeline;
+import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

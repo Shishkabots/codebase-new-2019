@@ -348,6 +348,11 @@ public class Robot extends TimedRobot {
     
   }
 
+  @Override
+  public void testInit(){
+    
+  }
+
   /**
    * This function is called periodically during test mode.
    */
