@@ -106,8 +106,10 @@ public class Robot extends TimedRobot {
     theCamera = CameraServer.getInstance().startAutomaticCapture();
 		//theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
     theCamera.setResolution(1280, 720);
-    theCamera.setExposureManual(50);
+    //theCamera.setExposureManual(50);
     theCamera.setBrightness(50);
+    theCamera.setExposureAuto();
+    theCamera.setWhiteBalanceAuto();
     //v = new VisionHelper();
     cv = new CvSink("suk my cok");
     cv.setSource(theCamera);
