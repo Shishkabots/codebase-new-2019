@@ -122,6 +122,7 @@ public class VisionProcess extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        SmartDashboard.putNumber("Done", 1);
         
     }
 
