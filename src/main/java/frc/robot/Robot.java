@@ -109,12 +109,10 @@ public class Robot extends TimedRobot {
     theCamera = CameraServer.getInstance().startAutomaticCapture();
 		// //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
     theCamera.setResolution(1280, 720);
-    theCamera.setExposureManual(50);
+    //theCamera.setExposureManual(50);
     theCamera.setBrightness(50);
-    // cv = new CvSink("sink");
-    // cv.setSource(Robot.theCamera);
-    // out = CameraServer.getInstance().putVideo("sink",1280,720);
-    
+    theCamera.setExposureAuto();
+    theCamera.setWhiteBalanceAuto();
     //v = new VisionHelper();
     
     
@@ -346,6 +344,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    
+  }
+
+  @Override
+  public void testInit(){
     
   }
 
