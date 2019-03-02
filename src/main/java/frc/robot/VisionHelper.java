@@ -61,7 +61,7 @@ public class VisionHelper
         //MatOfPoint contours = pipeline.filterContoursOutput().get(0);
 
         // FINDCONTOURS OUTPUT NOT FILTER, SHOULD CHANGE BACK AFTER
-        MatOfPoint contours = pipeline.filterContoursOutput().get(0);
+        MatOfPoint contours = pipeline.findContoursOutput().get(0);
 
 
         //returns m, y0, and x0 of longer line
@@ -73,9 +73,9 @@ public class VisionHelper
 
         ArrayList<Tup> tups = new ArrayList<Tup>(); //list of tuple
 
-        
+        // box.rows() should be the number of points, and each row is a point
         for (int i = 0; i < box.rows(); i++){
-            for (int j = 0; j < box.cols(); j++){
+            for (int j = 0; j < box.rows(); j++){
                 if (i < j){
                     //double ydiff = box.get(j).get(1) - box.get(i).get(1);// difference in y coords
                     double[] y2 = box.get(j,1);
