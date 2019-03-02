@@ -18,6 +18,8 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
 * GripPipeline class.
 *
@@ -79,6 +81,7 @@ public class GripPipeline implements VisionPipeline {
 		Mat findContoursInput = cvErodeOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
+		SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
@@ -98,6 +101,7 @@ public class GripPipeline implements VisionPipeline {
 		double maxPerimeter = 250.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, maxArea, maxPerimeter);
 
+		SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
 	}
 
 	/**
