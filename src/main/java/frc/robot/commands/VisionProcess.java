@@ -107,6 +107,7 @@ public class VisionProcess extends Command {
         // new PIDrive(x[0]).start();
 
         double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        SmartDashboard.putNumber("completed vision:", 1);
         SmartDashboard.putNumber("Radius: ", rThe[0]);
         SmartDashboard.putNumber("Theta: ", rThe[1]);
         //new PIDturn(rThe[1]).start();
