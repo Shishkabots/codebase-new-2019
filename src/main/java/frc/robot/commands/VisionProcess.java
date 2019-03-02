@@ -43,14 +43,17 @@ public class VisionProcess extends Command {
     @Override
     protected void initialize() {
         //cam = Robot.theCamera;
-        cam = CameraServer.getInstance().startAutomaticCapture();
+        
+        //cam = CameraServer.getInstance().startAutomaticCapture();
+        
         grip = Robot.pipe;
         //sin = CameraServer.getInstance().getVideo(cam);
         sin = new CvSink("sink");
-        sin.setSource(cam);
-        outputStream = CameraServer.getInstance().putVideo("sink",1280,720);
+        sin.setSource(Robot.theCamera);
+        //outputStream = CameraServer.getInstance().putVideo("sink",1280,720);
         
         SmartDashboard.putNumber("Start: ", 1);
+        SmartDashboard.putString("NUT", "NO");
        
         vhelp = new VisionHelper();
         SmartDashboard.putNumber("img initw", input.width());
@@ -62,17 +65,23 @@ public class VisionProcess extends Command {
         SmartDashboard.putNumber("img width", input.width());
         SmartDashboard.putNumber("img length", input.height());
         
-        SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
-        SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
-        SmartDashboard.putNumber("numero rsan:", input.get(640, 360)[2]);
-        SmartDashboard.putNumber("numero duno:", input.get(123, 214)[0]);
-        SmartDashboard.putNumber("numero drwo:", input.get(123, 214)[1]);
-        SmartDashboard.putNumber("numero drsan:", input.get(123, 214)[2]);
+         SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
+         SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
+         SmartDashboard.putNumber("numero rsan:", input.get(640, 360)[2]);
+    //     // SmartDashboard.putNumber("numero duno:", input.get(123, 214)[0]);
+    //     // SmartDashboard.putNumber("numero drwo:", input.get(123, 214)[1]);
+    //     // SmartDashboard.putNumber("numero drsan:", input.get(123, 214)[2]);
         
-       // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-        outputStream.putFrame(input);
-        SmartDashboard.putNumber("Radius: ", -123);
-        SmartDashboard.putNumber("End: ", 1);
+    //    // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
+       if(input == null ) {
+           SmartDashboard.putString("NUT", "YES");
+       }else {
+        SmartDashboard.putString("NUT", "MONKEY");
+       }
+       
+    //     //outputStream.putFrame(input);
+    //     SmartDashboard.putNumber("Radius: ", -123);
+    //     SmartDashboard.putNumber("End: ", 1);
         
     }
         
