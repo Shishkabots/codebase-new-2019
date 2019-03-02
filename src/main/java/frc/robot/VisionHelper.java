@@ -40,7 +40,10 @@ public class VisionHelper
         double[] centerCoor = new double[2];
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
-        Moments moments = Imgproc.moments(pipeline.filterContoursOutput().get(0));
+        //Moments moments = Imgproc.moments(pipeline.filterContoursOutput().get(0));
+        
+        //USING THE FINDCONTOURSOUTPUT NOT FILTERED
+        Moments moments = Imgproc.moments(pipeline.findContoursOutput().get(0));
         centerCoor[0] = moments.get_m10() / moments.get_m00();
         centerCoor[1] = moments.get_m01() / moments.get_m00();
         return centerCoor;
@@ -53,7 +56,12 @@ public class VisionHelper
     public double find_longer_line(Mat img){
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
-        MatOfPoint contours = pipeline.filterContoursOutput().get(0);
+        
+        //MatOfPoint contours = pipeline.filterContoursOutput().get(0);
+
+        // FINDCONTOURS OUTPUT NOT FILTER, SHOULD CHANGE BACK AFTER
+        MatOfPoint contours = pipeline.findContoursOutput().get(0);
+
 
         //returns m, y0, and x0 of longer line
         MatOfPoint2f myPt = new MatOfPoint2f();
@@ -64,9 +72,9 @@ public class VisionHelper
 
         ArrayList<Tup> tups = new ArrayList<Tup>(); //list of tuple
 
-        
+        // box.rows() should be the number of points, and each row is a point
         for (int i = 0; i < box.rows(); i++){
-            for (int j = 0; j < box.cols(); j++){
+            for (int j = 0; j < box.rows(); j++){
                 if (i < j){
                     //double ydiff = box.get(j).get(1) - box.get(i).get(1);// difference in y coords
                     double[] y2 = box.get(j,1);
