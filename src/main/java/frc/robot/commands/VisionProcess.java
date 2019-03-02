@@ -65,9 +65,9 @@ public class VisionProcess extends Command {
         SmartDashboard.putNumber("img width", input.width());
         SmartDashboard.putNumber("img length", input.height());
         
-         SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
-         SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
-         SmartDashboard.putNumber("numero rsan:", input.get(640, 360)[2]);
+        SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
+        SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
+        SmartDashboard.putNumber("numero rsan:", input.get(640, 360)[2]);
     //     // SmartDashboard.putNumber("numero duno:", input.get(123, 214)[0]);
     //     // SmartDashboard.putNumber("numero drwo:", input.get(123, 214)[1]);
     //     // SmartDashboard.putNumber("numero drsan:", input.get(123, 214)[2]);
