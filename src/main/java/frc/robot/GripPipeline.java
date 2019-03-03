@@ -1,3 +1,10 @@
+/*
+IMPORTANT!!!!!!!!!
+There are changes in this grippipeline, such as modified contour filtering, printing number of
+contours prefilter/postfilter, and printing contour image. If you swap out the pipeline, DON'T
+JUST DELETE AND REPLACE. please copy over changes thank you much appreciated.
+*/
+
 package frc.robot;
 
 import java.io.File;
@@ -19,6 +26,9 @@ import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 
 /**
 * GripPipeline class.
@@ -36,6 +46,8 @@ public class GripPipeline implements VisionPipeline {
 	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
+	
+    CvSource contoursPrefilter = CameraServer.getInstance().putVideo("Prefilter", 320, 240);
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -83,6 +95,9 @@ public class GripPipeline implements VisionPipeline {
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 		SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
 
+		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 0, 255));
+		contoursPrefilter.putFrame(resizeImageOutput);
+
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 1300.0;
@@ -98,7 +113,7 @@ public class GripPipeline implements VisionPipeline {
 		double filterContoursMaxRatio = 1000.0;
 
 		double maxArea = 1000000.0; // we don't want this constraint
-		double maxPerimeter = 250.0;
+		double maxPerimeter = 400.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, maxArea, maxPerimeter);
 
 		SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
