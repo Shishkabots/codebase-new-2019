@@ -112,7 +112,7 @@ public class VisionHelper
 
     public double[] get_final_R_theta(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
         double[] rThe = new double[2];
-        double tape_offset_r = Math.sqrt(Math.pow(tape_offset_x,2)+Math.pow(tape_offset_y,2));
+        double tape_offset_r = Math.sqrt(Math.pow(tape_offset_x, 2) + Math.pow(tape_offset_y, 2));
         double tape_offset_theta = (tape_offset_y == 0 ? Math.PI / 2 * Math.signum(tape_offset_x) : Math.atan(tape_offset_x / tape_offset_y));
 
         double[] center = findCenter(img);
@@ -151,7 +151,7 @@ public class VisionHelper
         Mat mapy = new Mat(720, 1280, CvType.CV_64FC1);
 
         Scanner in = new Scanner(new File(Filesystem.getDeployDirectory() + "/mapx_values.csv"));
-        SmartDashboard.putString("Scanner successfully init:", "yes");
+        //SmartDashboard.putString("Scanner init:", "yes 1");
         in.useDelimiter(",");
         for(int row= 0; row <720; row++){
             for(int col = 0; col < 1280; col++){
@@ -160,26 +160,26 @@ public class VisionHelper
             }
         }
         in = new Scanner(new File(Filesystem.getDeployDirectory() + "/mapy_values.csv"));
-        SmartDashboard.putString("yeah BoiOIIIIIii ", "onE TWO OHOTMEAL");
+        //SmartDashboard.putString("Scanner init:", "yes 2");
         in.useDelimiter(",");
         for(int row = 0; row < 720; row++){
             for(int col = 0; col < 1280; col++ ){
                 float num = in.nextFloat();
                 mapy.put(row, col, num);
             }
-            SmartDashboard.putNumber("loops", row);
+            //SmartDashboard.putNumber("loops", row);
         }
         
-        SmartDashboard.putString("Hey miester: ", "LLLLLLLL");
+        //SmartDashboard.putString("Progress:", "Finished mapx/mapy init");
 
         //img = undistort(img, mapx, mapy); 
-        SmartDashboard.putString("Hey miester: ", "onE TWO OHOTMEAL");
+        //SmartDashboard.putString("Progress:", "Finished img undistort");
         double[] outputRTheta = get_final_R_theta(img, robot_offset_x,  robot_offset_y,  tape_offset_x,  tape_offset_y,  height);
         return outputRTheta;
     }
 
     public double get_alignedToTape_theta(MatOfPoint img) {
-        Mat img_new = Imgcodecs.imread("path to image-new?");
+        //Mat img_new = Imgcodecs.imread("path to image-new?");
         double turn_theta = getCameraToTapeTheta(find_longer_line(img));
         return turn_theta;
     }

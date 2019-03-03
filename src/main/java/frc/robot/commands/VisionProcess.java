@@ -23,13 +23,13 @@ public class VisionProcess extends Command {
 
     UsbCamera cam;
     CvSink sin;
-    CvSource outputStream;;
+    //CvSource outputStream;
 
             // Called just before this Command runs the first time
     Mat input = new Mat();
     Mat output = new Mat();
     GripPipeline grip;
-    VisionHelper vhelp;
+    VisionHelper vhelp = new VisionHelper();
     double[] x;
     long returnTime;
     public VisionProcess() {
@@ -46,28 +46,25 @@ public class VisionProcess extends Command {
         grip = Robot.pipe;
         sin = new CvSink("sink");
         sin.setSource(Robot.theCamera);
-        outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
-        
+        //outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
+
         SmartDashboard.putNumber("Start: ", 1);
-       
-        vhelp = new VisionHelper();
         
         sin.grabFrame(input,20000);
         
         SmartDashboard.putNumber("img width", input.width());
         SmartDashboard.putNumber("img length", input.height());
         
-        SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
-        SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
-        SmartDashboard.putNumber("numero rsan:", input.get(640, 360)[2]);
-        SmartDashboard.putNumber("numero duno:", input.get(123, 214)[0]);
-        SmartDashboard.putNumber("numero drwo:", input.get(123, 214)[1]);
-        SmartDashboard.putNumber("numero drsan:", input.get(123, 214)[2]);
+        // SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
+        // SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
+        // SmartDashboard.putNumber("numero rsan:", input.get(640, 360)[2]);
+        // SmartDashboard.putNumber("numero duno:", input.get(123, 214)[0]);
+        // SmartDashboard.putNumber("numero drwo:", input.get(123, 214)[1]);
+        // SmartDashboard.putNumber("numero drsan:", input.get(123, 214)[2]);
         
        // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-        outputStream.putFrame(input);
-        SmartDashboard.putNumber("Radius: ", -123);
-        SmartDashboard.putNumber("End: ", 1);
+        //outputStream.putFrame(input);
+        SmartDashboard.putNumber("End VP Init: ", 1);
         
     }
         
@@ -85,13 +82,12 @@ public class VisionProcess extends Command {
         double tape_offset_y = 0.0;
         double height = 46.0;
         
-        SmartDashboard.putNumber("Radius: ", -123);
-        SmartDashboard.putString("Driver: ", "file is found");
+        //SmartDashboard.putString("Driver: ", "file is found");
         if(input == null){
-            SmartDashboard.putString("REEEEEEEEERERERERE: ", "onE TWO OHOTMEAL");
+            SmartDashboard.putString("Input img", "None found");
         }
         else{
-            SmartDashboard.putString("REEEEEEEEERERERERE: ", "shit is past");
+            SmartDashboard.putString("Input img", "Loaded");
         }
 
         // try{
@@ -107,9 +103,9 @@ public class VisionProcess extends Command {
         // new PIDrive(x[0]).start();
 
         double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        SmartDashboard.putNumber("completed vision:", 1);
-        SmartDashboard.putNumber("Radius: ", rThe[0]);
-        SmartDashboard.putNumber("Theta: ", rThe[1]);
+        SmartDashboard.putNumber("VHelp Done:", 1);
+        SmartDashboard.putNumber("Radius: (inches)", rThe[0]);
+        SmartDashboard.putNumber("Theta: (degrees)", rThe[1] * 180.0 / Math.PI);
         //new PIDturn(rThe[1]).start();
         //new PIDrive(rThe[0]).start();
     }
@@ -123,7 +119,7 @@ public class VisionProcess extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        SmartDashboard.putNumber("Done", 1);
+        SmartDashboard.putNumber("VP Done", 1);
         
     }
 
