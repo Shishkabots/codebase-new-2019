@@ -33,7 +33,6 @@ public class VisionHelper
     }
     public VisionHelper() {
         
-
     }
 
     public double[] findCenter(Mat img) {

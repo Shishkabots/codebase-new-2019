@@ -106,15 +106,18 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotInit() {
-    theCamera = CameraServer.getInstance().startAutomaticCapture();
-		// //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
-    theCamera.setResolution(1280, 720);
-    //theCamera.setExposureManual(50);
-    theCamera.setBrightness(50);
-    theCamera.setExposureAuto();
-    theCamera.setWhiteBalanceAuto();
-    //v = new VisionHelper();
-    
+    new Thread(() -> {
+      theCamera = CameraServer.getInstance().startAutomaticCapture();
+		  // //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
+      theCamera.setResolution(1280, 720);
+      //theCamera.setExposureManual(50);
+      theCamera.setBrightness(30);
+      theCamera.setExposureAuto();
+      theCamera.setWhiteBalanceAuto();
+      //v = new VisionHelper();
+      cv = CameraServer.getInstance().getVideo();
+      out = CameraServer.getInstance().putVideo("Prefilter", 320, 240);
+    }).start();
     
     // visionThread = new VisionThread(theCamera, pipe, pipeline -> {
     //   count++;
