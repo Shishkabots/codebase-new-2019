@@ -44,6 +44,8 @@ public class VisionProcess extends Command {
     protected void initialize() {
         cam = Robot.theCamera;
         grip = Robot.pipe;
+
+        // replaces CvSink cvSink = CameraServer.getInstance().getVideo(); from tutorial
         sin = new CvSink("sink");
         sin.setSource(Robot.theCamera);
         //outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);

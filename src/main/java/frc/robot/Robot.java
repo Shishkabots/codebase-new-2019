@@ -210,7 +210,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Start: ", 0);
     SmartDashboard.putNumber("End: ", 0);
     SmartDashboard.putNumber("img initw", -1);
-        SmartDashboard.putNumber("img initl", -1);
+    SmartDashboard.putNumber("img initl", -1);
     // VictorSPX side = new VictorSPX(2);
     // TalonSRX leftTalon = new TalonSRX(5);
     // VictorSPX leftVictor = new VictorSPX(3);
@@ -336,7 +336,7 @@ public class Robot extends TimedRobot {
     /*if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }*/
-    SmartDashboard.putString("NUT", "BOO");
+    SmartDashboard.putString("Progress:", "Reached T_OP Init");
     new TeleOpCommands().start();
     //new VisionProcess().start();
   }
