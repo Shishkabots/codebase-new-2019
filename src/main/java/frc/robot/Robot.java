@@ -178,8 +178,8 @@ public class Robot extends TimedRobot {
     leftTalon.setSelectedSensorPosition(0);
     rightTalon.setSelectedSensorPosition(0);
 
-    leftVictor.setInverted(true);
-    rightVictor.setInverted(true);
+    leftVictor.setInverted(false);
+    rightVictor.setInverted(false);
 
     rightTalon.config_kP(0,.01);
     rightTalon.config_kI(0,0.001);

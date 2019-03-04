@@ -75,10 +75,11 @@ public class VisionProcess extends Command {
         
         //SmartDashboard.putNumber("Returntime: ", returnTime);
 
+        // tune these values
         double robot_offset_x = 0.0;
         double robot_offset_y = 0.0;
         double tape_offset_x = 0.0;
-        double tape_offset_y = 0.0;
+        double tape_offset_y = 8.5;
         double height = 46.0;
         
         //SmartDashboard.putString("Driver: ", "file is found");
