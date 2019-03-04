@@ -102,11 +102,22 @@ public class VisionProcess extends Command {
         // new PIDrive(x[0]).start();
 
         double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        SmartDashboard.putNumber("VHelp Done:", 1);
-        SmartDashboard.putNumber("Radius: (inches)", rThe[0]);
-        SmartDashboard.putNumber("Theta: (degrees)", rThe[1] * 180.0 / Math.PI);
-        //new PIDturn(rThe[1]).start();
-        //new PIDrive(rThe[0]).start();
+        if(rThe[0] == -1 && rThe[1] == -1){
+            SmartDashboard.putString("Successful Macro", "No");
+            SmartDashboard.putNumber("VHelp Done:", 1);
+            SmartDashboard.putNumber("Radius: (inches)", -1);
+            SmartDashboard.putNumber("Theta: (degrees)", -1);
+        }
+        else{
+            SmartDashboard.putString("Successful Macro", "Yes");
+            
+            SmartDashboard.putNumber("VHelp Done:", 1);
+            SmartDashboard.putNumber("Radius: (inches)", rThe[0]);
+            SmartDashboard.putNumber("Theta: (degrees)", rThe[1] * 180.0 / Math.PI);
+            //new PIDturn(rThe[1]).start();
+            //new PIDrive(rThe[0]).start();
+        }
+        
     }
     
     // Make this return true when this Command no longer needs to run execute()

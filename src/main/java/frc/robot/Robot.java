@@ -147,10 +147,10 @@ public class Robot extends TimedRobot {
     // visionThread.start();
     
 
-    side = new WPI_VictorSPX(3);
+    side = new WPI_VictorSPX(2);
 
     leftTalon = new WPI_TalonSRX(6);
-    leftVictor = new WPI_VictorSPX(2);
+    leftVictor = new WPI_VictorSPX(3);
     //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
 
     rightTalon = new WPI_TalonSRX(5);

@@ -94,6 +94,13 @@ public class GripPipeline implements VisionPipeline {
 		Mat findContoursInput = cvErodeOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
+
+		SmartDashboard.putString("Sink attached to contoursPrefilter: ", contoursPrefilter.enumerateSinks()[0].getName());
+		SmartDashboard.putString("Sink attached to contoursPrefilter description: ", contoursPrefilter.enumerateSinks()[0].getDescription());
+		SmartDashboard.putNumber("sinks attached to contoursPrefilter count: ", contoursPrefilter.enumerateSinks().length);
+		SmartDashboard.putString("Sink type:", contoursPrefilter.enumerateSinks()[0].getKind().toString());
+
+
 		SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
 		Point[] pen0r = findContoursOutput.get(0).toArray();
 		SmartDashboard.putNumber("Pen0r size", pen0r.length);
