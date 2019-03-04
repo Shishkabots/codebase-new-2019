@@ -29,7 +29,8 @@ public class DriveTrainControl extends Command {
     }
 
     protected void execute() {
-        double speed = Robot.m_oi.boost.get() ? 1.0 : .5;
+        double speed = Robot.m_oi.boost.get() ? 0.8 : .4;
+        double turnCoef = 0.4;
         double lTrigger = Robot.m_oi.controllerOne.getRawAxis(2);
         double rTrigger = Robot.m_oi.controllerOne.getRawAxis(3);
         double turnAxis = Robot.m_oi.controllerOne.getRawAxis(0);
@@ -39,7 +40,7 @@ public class DriveTrainControl extends Command {
         //3 is right trigger, 2 is left trigger, 0 is x axis of left stick, unsure of math
     	Robot.m_drivetrain.moveWithCurve(
             (Robot.m_drivetrain.reverse ? -1 : 1) * (rTrigger - lTrigger) * speed,
-            turnAxis * 0.5 * (rTrigger > lTrigger ? 1 : -1), 
+            turnAxis * turnCoef /* *(rTrigger > lTrigger ? 1 : -1)*/, 
             true);
         
         
