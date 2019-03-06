@@ -47,7 +47,7 @@ public class GripPipeline implements VisionPipeline {
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 	
-    CvSource contoursPrefilter = Robot.out;
+	CvSource contoursPrefilter = Robot.out;
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -100,8 +100,9 @@ public class GripPipeline implements VisionPipeline {
 		// SmartDashboard.putNumber("sinks attached to contoursPrefilter count: ", contoursPrefilter.enumerateSinks().length);
 		// SmartDashboard.putString("Sink type:", contoursPrefilter.enumerateSinks()[0].getKind().toString());
 
-
-		SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
+		
+			SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
+		
 		// Point[] pen0r = findContoursOutput.get(0).toArray();
 		// SmartDashboard.putNumber("Pen0r size", pen0r.length);
 		// SmartDashboard.putNumber("Pen0r 1", pen0r[0].x);
@@ -129,8 +130,9 @@ public class GripPipeline implements VisionPipeline {
 		double maxArea = 1000000.0; // we don't want this constraint
 		double maxPerimeter = 400.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, maxArea, maxPerimeter);
-
-		SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
+		
+			SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
+		
 	}
 
 	/**
