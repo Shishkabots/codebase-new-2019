@@ -191,8 +191,8 @@ public class Robot extends TimedRobot {
     leftTalon.setSelectedSensorPosition(0);
     rightTalon.setSelectedSensorPosition(0);
 
-    leftVictor.setInverted(true);
-    rightVictor.setInverted(true);
+    leftVictor.setInverted(false);
+    rightVictor.setInverted(false);
 
     rightTalon.config_kP(0,.01);
     rightTalon.config_kI(0,0.001);
@@ -226,9 +226,13 @@ public class Robot extends TimedRobot {
     /*SmartDashboard.putNumber("Start: ", 0);
     SmartDashboard.putNumber("End: ", 0);
     SmartDashboard.putNumber("img initw", -1);
+<<<<<<< HEAD
         SmartDashboard.putNumber("img initl", -1);*/
 
     SmartDashboard.putString("OrMiss", "NUT");
+=======
+    SmartDashboard.putNumber("img initl", -1);
+>>>>>>> e486891fd7b1c2c673d5ba2e6fdb2283822bd625
     // VictorSPX side = new VictorSPX(2);
     // TalonSRX leftTalon = new TalonSRX(5);
     // VictorSPX leftVictor = new VictorSPX(3);
@@ -354,7 +358,7 @@ public class Robot extends TimedRobot {
     /*if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }*/
-    SmartDashboard.putString("NUT", "BOO");
+    SmartDashboard.putString("Progress:", "Reached T_OP Init");
     new TeleOpCommands().start();
     //new VisionProcess().start();
   }

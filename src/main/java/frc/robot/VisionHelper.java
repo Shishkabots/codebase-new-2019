@@ -35,65 +35,68 @@ public class VisionHelper
         
     }
 
+    // returns -1, -1 if no contours found or multiple contours found
     public double[] findCenter(Mat img) {
         //[x,y]
-        double[] centerCoor = new double[2];
+        double[] centerCoor = {-1, -1}; // set in case of exception
+
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
-        //Moments moments = Imgproc.moments(pipeline.filterContoursOutput().get(0));
-        
-        //USING THE FINDCONTOURSOUTPUT NOT FILTERED
-        Moments moments = Imgproc.moments(pipeline.findContoursOutput().get(0));
-        centerCoor[0] = moments.get_m10() / moments.get_m00();
-        centerCoor[1] = moments.get_m01() / moments.get_m00();
+
+        if(pipeline.filterContoursOutput().size() == 1){
+            Moments moments = Imgproc.moments(pipeline.filterContoursOutput().get(0));
+            centerCoor[0] = moments.get_m10() / moments.get_m00();
+            centerCoor[1] = moments.get_m01() / moments.get_m00();
+            return centerCoor;
+        }
         return centerCoor;
     }
 
     public double convert_dist(double pixel_dist, double height){
         return 0.0001 * (9.081 * height * pixel_dist);
     }
-    //returns slope of line
+
+    //returns slope of line, returns -1 if no contour found OR multiple contours found
     public double find_longer_line(Mat img){
         GripPipeline pipeline = new GripPipeline();
         pipeline.process(img);
-        
-        //MatOfPoint contours = pipeline.filterContoursOutput().get(0);
 
-        // FINDCONTOURS OUTPUT NOT FILTER, SHOULD CHANGE BACK AFTER
-        MatOfPoint contours = pipeline.findContoursOutput().get(0);
+        if(pipeline.filterContoursOutput().size() == 1){
+            MatOfPoint contours = pipeline.filterContoursOutput().get(0);
+            //returns m, y0, and x0 of longer line
+            MatOfPoint2f myPt = new MatOfPoint2f();
+            contours.convertTo(myPt, CvType.CV_32FC2);
+            RotatedRect rc = Imgproc.minAreaRect(myPt);
+            Mat box = new Mat();    
+            Imgproc.boxPoints(rc, box); 
 
+            ArrayList<Tup> tups = new ArrayList<Tup>(); //list of tuple
 
-        //returns m, y0, and x0 of longer line
-        MatOfPoint2f myPt = new MatOfPoint2f();
-        contours.convertTo(myPt, CvType.CV_32FC2);
-        RotatedRect rc = Imgproc.minAreaRect(myPt);
-        Mat box = new Mat();    
-        Imgproc.boxPoints(rc, box); 
-
-        ArrayList<Tup> tups = new ArrayList<Tup>(); //list of tuple
-
-        // box.rows() should be the number of points, and each row is a point
-        for (int i = 0; i < box.rows(); i++){
-            for (int j = 0; j < box.rows(); j++){
-                if (i < j){
-                    //double ydiff = box.get(j).get(1) - box.get(i).get(1);// difference in y coords
-                    double[] y2 = box.get(j,1);
-                    double[] y1 = box.get(i,1);
-                    double ydiff = y2[0] - y1[0];// difference in y coords
-                    //double xdiff = box.get(j).get(0) - box.get(i).get(0);; //difference in x coords
-                    double[] x2 = box.get(j,0);
-                    double[] x1 = box.get(i,0);
-                    double xdiff = x2[0] - x1[0]; //difference in x coords
-                    Double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff); //distance formula to find distance between 2 points
-                    double slope = ydiff / xdiff;
-                    Tup t = new Tup(distance, slope, box.row(i), box.row(j));
-                    tups.add(t); //add in the tuple into the list 
+            // box.rows() should be the number of points, and each row is a point
+            for (int i = 0; i < box.rows(); i++){
+                for (int j = 0; j < box.rows(); j++){
+                    if (i < j){
+                        //double ydiff = box.get(j).get(1) - box.get(i).get(1);// difference in y coords
+                        double[] y2 = box.get(j,1);
+                        double[] y1 = box.get(i,1);
+                        double ydiff = y2[0] - y1[0];// difference in y coords
+                        //double xdiff = box.get(j).get(0) - box.get(i).get(0);; //difference in x coords
+                        double[] x2 = box.get(j,0);
+                        double[] x1 = box.get(i,0);
+                        double xdiff = x2[0] - x1[0]; //difference in x coords
+                        Double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff); //distance formula to find distance between 2 points
+                        double slope = ydiff / xdiff;
+                        Tup t = new Tup(distance, slope, box.row(i), box.row(j));
+                        tups.add(t); //add in the tuple into the list 
+                    }
                 }
             }
+
+            Collections.sort(tups);
+            return tups.get(2).slope;
         }
 
-        Collections.sort(tups);
-        return tups.get(2).slope;
+        return -1;
     }
 
 //########################################## 2.3b: ANGLE FROM TAPE SIDE TO CAMERA FACING #####################################################
@@ -109,12 +112,16 @@ public class VisionHelper
         
     }
 
+    // returns -1, -1 if no contour found postfilter
     public double[] get_final_R_theta(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
-        double[] rThe = new double[2];
+        double[] rThe = {-1, -1};
         double tape_offset_r = Math.sqrt(Math.pow(tape_offset_x, 2) + Math.pow(tape_offset_y, 2));
         double tape_offset_theta = (tape_offset_y == 0 ? Math.PI / 2 * Math.signum(tape_offset_x) : Math.atan(tape_offset_x / tape_offset_y));
 
         double[] center = findCenter(img);
+        if(center[0] == -1 && center[1] == -1){
+            return rThe;
+        }
         double pixel_x = center[0];
         double pixel_y = center[1];
         pixel_x *= 1280.0/320.0;
@@ -129,7 +136,11 @@ public class VisionHelper
         double camera_delta_x = camera_r * Math.sin(camera_theta);
         double camera_delta_y = camera_r * Math.cos(camera_theta);
 
-        double cameraToTape_theta = getCameraToTapeTheta(find_longer_line(img));
+        double slope = find_longer_line(img);
+        if(slope == -1){
+            return rThe;            
+        }
+        double cameraToTape_theta = getCameraToTapeTheta(slope);
 
         double tape_delta_x = tape_offset_r * Math.sin(cameraToTape_theta + tape_offset_theta);
         double tape_delta_y = tape_offset_r * Math.cos(cameraToTape_theta + tape_offset_theta);
@@ -140,10 +151,11 @@ public class VisionHelper
         rThe[1] = (delta_y == 0 ? Math.PI * Math.signum(pixel_x) : Math.atan(delta_x/delta_y));
 
         return rThe;
-
     }
 
     // undistort + get_final_r_theta
+    // CURRENTLY, UNDISTORT IS NOT BEING USED (find a way to make it take less time)
+    // returns -1, -1 if no contours or more than one contour found
     public double[] get_move_to_correct_point(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height) throws FileNotFoundException{
         
         Mat mapx = new Mat(720, 1280, CvType.CV_64FC1);
@@ -177,9 +189,16 @@ public class VisionHelper
         return outputRTheta;
     }
 
+    // returns -1 if no contour detected
     public double get_alignedToTape_theta(MatOfPoint img) {
         //Mat img_new = Imgcodecs.imread("path to image-new?");
-        double turn_theta = getCameraToTapeTheta(find_longer_line(img));
+        double slope = find_longer_line(img);
+
+        if(slope == -1){
+            return slope;
+        }
+
+        double turn_theta = getCameraToTapeTheta(slope);
         return turn_theta;
     }
 

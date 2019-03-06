@@ -56,7 +56,8 @@ public class GripPipeline implements VisionPipeline {
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
-	@Override	public void process(Mat source0) {
+	@Override	
+	public void process(Mat source0) {
 		// Step Resize_Image0:
 		Mat resizeImageInput = source0;
 		double resizeImageWidth = 320.0;
@@ -93,13 +94,21 @@ public class GripPipeline implements VisionPipeline {
 		Mat findContoursInput = cvErodeOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
+
+		// SmartDashboard.putString("Sink attached to contoursPrefilter: ", contoursPrefilter.enumerateSinks()[0].getName());
+		// SmartDashboard.putString("Sink attached to contoursPrefilter description: ", contoursPrefilter.enumerateSinks()[0].getDescription());
+		// SmartDashboard.putNumber("sinks attached to contoursPrefilter count: ", contoursPrefilter.enumerateSinks().length);
+		// SmartDashboard.putString("Sink type:", contoursPrefilter.enumerateSinks()[0].getKind().toString());
+
+
 		SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
-		Point[] pen0r = findContoursOutput.get(0).toArray();
-		SmartDashboard.putNumber("Pen0r size", pen0r.length);
-		SmartDashboard.putNumber("Pen0r 1", pen0r[0].x);
-		SmartDashboard.putNumber("Pen0r 2", pen0r[0].y);
+		// Point[] pen0r = findContoursOutput.get(0).toArray();
+		// SmartDashboard.putNumber("Pen0r size", pen0r.length);
+		// SmartDashboard.putNumber("Pen0r 1", pen0r[0].x);
+		// SmartDashboard.putNumber("Pen0r 2", pen0r[0].y);
 
 		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 0, 255));
+<<<<<<< HEAD
 		SmartDashboard.putNumber("Suze", resizeImageOutput.width());
 		SmartDashboard.putNumber("Soze", resizeImageOutput.height());
 		SmartDashboard.putString("OrMiss", "BLUB");
@@ -109,6 +118,11 @@ public class GripPipeline implements VisionPipeline {
 		}else {
 			SmartDashboard.putString("OrMiss", "Empt");
 		}
+=======
+		// SmartDashboard.putNumber("Suze", resizeImageOutput.width());
+		// SmartDashboard.putNumber("Soze", resizeImageOutput.height());
+		contoursPrefilter.putFrame(resizeImageOutput);
+>>>>>>> e486891fd7b1c2c673d5ba2e6fdb2283822bd625
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
