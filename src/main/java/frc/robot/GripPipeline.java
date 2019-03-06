@@ -47,7 +47,7 @@ public class GripPipeline implements VisionPipeline {
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 	
-    CvSource contoursPrefilter = Robot.out;
+	CvSource contoursPrefilter = Robot.out;
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -102,7 +102,13 @@ public class GripPipeline implements VisionPipeline {
 		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 0, 255));
 		SmartDashboard.putNumber("Suze", resizeImageOutput.width());
 		SmartDashboard.putNumber("Soze", resizeImageOutput.height());
-		contoursPrefilter.putFrame(resizeImageOutput);
+		SmartDashboard.putString("OrMiss", "BLUB");
+		if(!Robot.t.interrupted() && !resizeImageOutput.empty()){
+			contoursPrefilter.putFrame(resizeImageOutput);
+			SmartDashboard.putString("OrMiss", "THERE");
+		}else {
+			SmartDashboard.putString("OrMiss", "Empt");
+		}
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;

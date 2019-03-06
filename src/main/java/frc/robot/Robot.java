@@ -103,10 +103,11 @@ public class Robot extends TimedRobot {
   public static CvSource out;
 
   Mat input = new Mat();
+  public static Thread t;
   
   @Override
   public void robotInit() {
-    new Thread(() -> {
+    t = new Thread(() -> {
       theCamera = CameraServer.getInstance().startAutomaticCapture();
 		  // //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
       theCamera.setResolution(1280, 720);
@@ -117,7 +118,19 @@ public class Robot extends TimedRobot {
       //v = new VisionHelper();
       cv = CameraServer.getInstance().getVideo();
       out = CameraServer.getInstance().putVideo("Prefilter", 320, 240);
-    }).start();
+
+      /*Mat input = new Mat();
+      Mat output = new Mat();
+
+      while(!Thread.interrupted()) {
+        cv.grabFrame(input);
+        //Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
+        if(!input.empty()) {
+          out.putFrame(input);
+        }
+      }*/
+    });
+    t.start();
     
     // visionThread = new VisionThread(theCamera, pipe, pipeline -> {
     //   count++;
@@ -147,10 +160,10 @@ public class Robot extends TimedRobot {
     // visionThread.start();
     
 
-    side = new WPI_VictorSPX(3);
+    side = new WPI_VictorSPX(2);
 
     leftTalon = new WPI_TalonSRX(6);
-    leftVictor = new WPI_VictorSPX(2);
+    leftVictor = new WPI_VictorSPX(3);
     //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
 
     rightTalon = new WPI_TalonSRX(5);
@@ -210,10 +223,12 @@ public class Robot extends TimedRobot {
 
     m_oi = new OI();
     
-    SmartDashboard.putNumber("Start: ", 0);
+    /*SmartDashboard.putNumber("Start: ", 0);
     SmartDashboard.putNumber("End: ", 0);
     SmartDashboard.putNumber("img initw", -1);
-        SmartDashboard.putNumber("img initl", -1);
+        SmartDashboard.putNumber("img initl", -1);*/
+
+    SmartDashboard.putString("OrMiss", "NUT");
     // VictorSPX side = new VictorSPX(2);
     // TalonSRX leftTalon = new TalonSRX(5);
     // VictorSPX leftVictor = new VictorSPX(3);

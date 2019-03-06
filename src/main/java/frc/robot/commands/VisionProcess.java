@@ -25,7 +25,7 @@ public class VisionProcess extends Command {
     CvSink sin;
     //CvSource outputStream;
 
-            // Called just before this Command runs the first time
+    // Called just before this Command runs the first time
     Mat input = new Mat();
     Mat output = new Mat();
     GripPipeline grip;
@@ -44,13 +44,8 @@ public class VisionProcess extends Command {
     protected void initialize() {
         cam = Robot.theCamera;
         grip = Robot.pipe;
-        sin = Robot.cv;
-        //outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
-
+        
         SmartDashboard.putNumber("Start: ", 1);
-        
-        sin.grabFrame(input,20000);
-        
         SmartDashboard.putNumber("img width", input.width());
         SmartDashboard.putNumber("img length", input.height());
         
@@ -72,8 +67,14 @@ public class VisionProcess extends Command {
     @Override
     protected void execute() {
 
-        
-        //SmartDashboard.putNumber("Returntime: ", returnTime);
+        sin = Robot.cv;
+        //outputStream = CameraServer.getInstance().putVideo("Blur",1280,720);
+
+        if(!Robot.t.interrupted()) {
+            sin.grabFrame(input,20000);
+        }else {
+            SmartDashboard.putString("??????: ", "I nothing am");
+        }
 
         double robot_offset_x = 0.0;
         double robot_offset_y = 0.0;
