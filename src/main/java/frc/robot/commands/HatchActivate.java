@@ -19,8 +19,9 @@ public class HatchActivate extends Command {
         if(gtime == 0) {
             Robot.ds.set(DoubleSolenoid.Value.kReverse);
         }
-        
-        SmartDashboard.putString("pogyes?: ", "BEGIN");
+        if(Robot.testing){
+            SmartDashboard.putString("pogyes?: ", "BEGIN");
+        }
     }
         
     // Called repeatedly when this Command is scheduled to run
@@ -30,9 +31,13 @@ public class HatchActivate extends Command {
         gtime++;
         if(gtime > 30) {
             Robot.ds.set(DoubleSolenoid.Value.kForward);
-            SmartDashboard.putString("pogyes?: ", "pog");
-                }            
-        SmartDashboard.putNumber("gtime", gtime);
+            if(Robot.testing){
+                SmartDashboard.putString("pogyes?: ", "pog");
+            }
+        }  
+        if(Robot.testing){          
+            SmartDashboard.putNumber("gtime", gtime);
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -54,7 +59,9 @@ public class HatchActivate extends Command {
         Robot.ds.set(DoubleSolenoid.Value.kForward);
         Robot.ds.set(DoubleSolenoid.Value.kOff);
         gtime = 0;
-        SmartDashboard.putNumber("gtime", 0);
+        if(Robot.testing){
+            SmartDashboard.putNumber("gtime", 0);
+        }
     }
 
     // Called when another command which requires one or more of the same

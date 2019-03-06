@@ -101,12 +101,16 @@ public class Robot extends TimedRobot {
   public static VisionHelper v;
   public static CvSink cv;
   public static CvSource out;
+  public static boolean testing;
 
   Mat input = new Mat();
   public static Thread t;
   
   @Override
   public void robotInit() {
+    //toggle testing mode
+    testing = true;
+    GripPipeline wede = new GripPipeline();
     t = new Thread(() -> {
       theCamera = CameraServer.getInstance().startAutomaticCapture();
 		  // //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
@@ -119,45 +123,21 @@ public class Robot extends TimedRobot {
       cv = CameraServer.getInstance().getVideo();
       out = CameraServer.getInstance().putVideo("Prefilter", 320, 240);
 
-      /*Mat input = new Mat();
-      Mat output = new Mat();
-
+      Mat input = new Mat();
+      
       while(!Thread.interrupted()) {
         cv.grabFrame(input);
-        //Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-        if(!input.empty()) {
-          out.putFrame(input);
+        wede.process(input);
+        if(wede.filterContoursOutput().size() == 1) {
+          SmartDashboard.putString("Can I run vision? ", "YES");
+        }else {
+          SmartDashboard.putString("Can I run vision? ", "NO");
         }
-      }*/
+      }
+      
     });
     t.start();
     
-    // visionThread = new VisionThread(theCamera, pipe, pipeline -> {
-    //   count++;
-    //   if (!pipeline.filterContoursOutput().isEmpty()) {
-    //         synchronized (imgLock) {
-    //           MatOfPoint m = pipeline.filterContoursOutput().get(0);
-    //           //d = v.findCenter(m);
-
-    //           MatOfPoint2f m2 = new MatOfPoint2f(m.toArray());
-    //           r = Imgproc.minAreaRect(m2);
-    //           m_centerX = r.center.x;
-              
-    //           //rect2 = Imgproc.boundingRect(m);
-    //           //m_centerX2 = rect2.x + (rect2.width / 2);
-              
-    //           System.out.println("CAMERA VALUE" + m_centerX);
-		//  	      }
-    //   }
-    //   else{
-    //     synchronized(imgLock){
-
-    //       r = null;
-    //       //rect2 = null;
-    //     }
-    //   }
-		// }); 
-    // visionThread.start();
     
 
     side = new WPI_VictorSPX(2);
@@ -209,10 +189,7 @@ public class Robot extends TimedRobot {
     m_intake = new Intake();
     //m_intake.setState("On");
 
-    //e1 = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-    //e2 = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    //e1.setDistancePerPulse(6 *3.14);
-    //e2.setDistancePerPulse(6*3.14);
+   
     
     gyro = new AHRS(SPI.Port.kMXP);
 
@@ -223,37 +200,7 @@ public class Robot extends TimedRobot {
 
     m_oi = new OI();
     
-    /*SmartDashboard.putNumber("Start: ", 0);
-    SmartDashboard.putNumber("End: ", 0);
-    SmartDashboard.putNumber("img initw", -1);
-<<<<<<< HEAD
-        SmartDashboard.putNumber("img initl", -1);*/
-
-    SmartDashboard.putString("OrMiss", "NUT");
-=======
-    SmartDashboard.putNumber("img initl", -1);
->>>>>>> e486891fd7b1c2c673d5ba2e6fdb2283822bd625
-    // VictorSPX side = new VictorSPX(2);
-    // TalonSRX leftTalon = new TalonSRX(5);
-    // VictorSPX leftVictor = new VictorSPX(3);
-    // //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
-    // TalonSRX rightTalon = new TalonSRX(6);
-    // VictorSPX rightVictor = new VictorSPX(4);
-    //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
-
-    /*m_chooser.setDefaultOption("Default Auto", new DriveTrainControl());
-    SmartDashboard.putData("Auto mode", m_chooser);
-
-    leftTalon.set(ControlMode.PercentOutput, .2);
-    rightTalon.set(ControlMode.PercentOutput, .2);
-    leftVictor.set(ControlMode.PercentOutput, .2);
-    rightVictor.set(ControlMode.PercentOutput, .2);
-    side.set(ControlMode.PercentOutput, .2);*/
-
     
-    //side.set(ControlMode.PercentOutput, .2);
-    //cv.grabFrame(input);
-    //out.putFrame(input);
   }
 
   @Override
@@ -314,37 +261,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    //rightTalon.set(ControlMode.PercentOutput,1);
-    /*RotatedRect re;
-    double ree;
-    double cent;
-    double[] cenn;
-    synchronized (imgLock) {
-        re = r;
-        ree = count;
-        //cenn = d;
-        //cent = m_centerX2;
-    }
-    //SmartDashboard.putNumber("other: ", cent);
-    if(re != null){
-      SmartDashboard.putNumber("Angle: ", re.angle);
-      SmartDashboard.putNumber("Height: ", re.size.height);
-      SmartDashboard.putNumber("Width: ", re.size.width);
-      SmartDashboard.putNumber("x: ", re.center.x);
-      SmartDashboard.putNumber("y: ", re.center.y);
-      //SmartDashboard.putNumber("new x: ", d[0]);
-      //SmartDashboard.putNumber("mew y: ", d[1]);
-    }
-    else{
-      SmartDashboard.putNumber("Angle: ", 0);
-      SmartDashboard.putNumber("Height: ", 0);
-      SmartDashboard.putNumber("Width: ", 0);
-      SmartDashboard.putNumber("x: ", 0);
-      SmartDashboard.putNumber("y: ", 0);
-      //SmartDashboard.putNumber("new x: ", 0);
-      //SmartDashboard.putNumber("mew y: ", 0);
-    }
-    SmartDashboard.putNumber("Number: ", ree);*/
+    
     Scheduler.getInstance().run();
     
   }
@@ -358,7 +275,9 @@ public class Robot extends TimedRobot {
     /*if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }*/
-    SmartDashboard.putString("Progress:", "Reached T_OP Init");
+    if(testing) {
+      SmartDashboard.putString("Progress:", "Reached T_OP Init");
+    }
     new TeleOpCommands().start();
     //new VisionProcess().start();
   }

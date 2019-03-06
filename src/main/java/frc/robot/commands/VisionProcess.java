@@ -72,7 +72,7 @@ public class VisionProcess extends Command {
 
         if(!Robot.t.interrupted()) {
             sin.grabFrame(input,20000);
-        }else {
+        }else if(Robot.testing) {
             SmartDashboard.putString("??????: ", "I nothing am");
         }
 
@@ -84,10 +84,10 @@ public class VisionProcess extends Command {
         double height = 46.0;
         
         //SmartDashboard.putString("Driver: ", "file is found");
-        if(input == null){
+        if(Robot.testing && input == null){
             SmartDashboard.putString("Input img", "None found");
         }
-        else{
+        else if(Robot.testing) {
             SmartDashboard.putString("Input img", "Loaded");
         }
 
@@ -104,7 +104,7 @@ public class VisionProcess extends Command {
         // new PIDrive(x[0]).start();
 
         double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        if(rThe[0] == -1 && rThe[1] == -1){
+        if((rThe[0] == -1 && rThe[1] == -1)){
             SmartDashboard.putString("Successful Macro", "No");
             SmartDashboard.putNumber("VHelp Done:", 1);
             SmartDashboard.putNumber("Radius: (inches)", -1);

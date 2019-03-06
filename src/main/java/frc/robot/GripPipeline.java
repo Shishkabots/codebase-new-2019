@@ -100,29 +100,18 @@ public class GripPipeline implements VisionPipeline {
 		// SmartDashboard.putNumber("sinks attached to contoursPrefilter count: ", contoursPrefilter.enumerateSinks().length);
 		// SmartDashboard.putString("Sink type:", contoursPrefilter.enumerateSinks()[0].getKind().toString());
 
-
-		SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
+		
+			SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
+		
 		// Point[] pen0r = findContoursOutput.get(0).toArray();
 		// SmartDashboard.putNumber("Pen0r size", pen0r.length);
 		// SmartDashboard.putNumber("Pen0r 1", pen0r[0].x);
 		// SmartDashboard.putNumber("Pen0r 2", pen0r[0].y);
 
 		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 0, 255));
-<<<<<<< HEAD
-		SmartDashboard.putNumber("Suze", resizeImageOutput.width());
-		SmartDashboard.putNumber("Soze", resizeImageOutput.height());
-		SmartDashboard.putString("OrMiss", "BLUB");
-		if(!Robot.t.interrupted() && !resizeImageOutput.empty()){
-			contoursPrefilter.putFrame(resizeImageOutput);
-			SmartDashboard.putString("OrMiss", "THERE");
-		}else {
-			SmartDashboard.putString("OrMiss", "Empt");
-		}
-=======
 		// SmartDashboard.putNumber("Suze", resizeImageOutput.width());
 		// SmartDashboard.putNumber("Soze", resizeImageOutput.height());
 		contoursPrefilter.putFrame(resizeImageOutput);
->>>>>>> e486891fd7b1c2c673d5ba2e6fdb2283822bd625
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
@@ -141,8 +130,9 @@ public class GripPipeline implements VisionPipeline {
 		double maxArea = 1000000.0; // we don't want this constraint
 		double maxPerimeter = 400.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, maxArea, maxPerimeter);
-
-		SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
+		
+			SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
+		
 	}
 
 	/**
