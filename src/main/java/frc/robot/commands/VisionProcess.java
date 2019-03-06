@@ -78,7 +78,7 @@ public class VisionProcess extends Command {
 
         // tune these values
         double robot_offset_x = 0.0;
-        double robot_offset_y = 0.0;
+        double robot_offset_y = 11.5;
         double tape_offset_x = 0.0;
         double tape_offset_y = 0.0;
         double height = 46.0;
@@ -117,8 +117,8 @@ public class VisionProcess extends Command {
             SmartDashboard.putNumber("Radius: (inches)", rThe[0]);
             SmartDashboard.putNumber("Theta: (degrees)", rThe[1] * 180.0 / Math.PI);
             
-            new PIDturn(rThe[1] * 180.0 / Math.PI).start();
-            //new PIDrive(rThe[0]).start();
+            //new PIDturn(rThe[1] * 180.0 / Math.PI).start();
+            new PIDrive(rThe[0]).start();
         }
         
     }
