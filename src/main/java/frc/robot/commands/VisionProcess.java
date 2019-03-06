@@ -45,9 +45,9 @@ public class VisionProcess extends Command {
         cam = Robot.theCamera;
         grip = Robot.pipe;
         
-        SmartDashboard.putNumber("Start: ", 1);
-        SmartDashboard.putNumber("img width", input.width());
-        SmartDashboard.putNumber("img length", input.height());
+        //SmartDashboard.putNumber("Start: ", 1);
+        //SmartDashboard.putNumber("img width", input.width());
+        //SmartDashboard.putNumber("img length", input.height());
         
         // SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
         // SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
@@ -58,7 +58,7 @@ public class VisionProcess extends Command {
         
        // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
         //outputStream.putFrame(input);
-        SmartDashboard.putNumber("End VP Init: ", 1);
+        //SmartDashboard.putNumber("End VP Init: ", 1);
         
     }
         
@@ -85,10 +85,10 @@ public class VisionProcess extends Command {
         
         //SmartDashboard.putString("Driver: ", "file is found");
         if(Robot.testing && input == null){
-            SmartDashboard.putString("Input img", "None found");
+            //SmartDashboard.putString("Input img", "None found");
         }
         else if(Robot.testing) {
-            SmartDashboard.putString("Input img", "Loaded");
+            //SmartDashboard.putString("Input img", "Loaded");
         }
 
         // try{
@@ -106,19 +106,19 @@ public class VisionProcess extends Command {
         double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
         if((rThe[0] == -1 && rThe[1] == -1)){
             SmartDashboard.putString("Successful Macro", "No");
-            SmartDashboard.putNumber("VHelp Done:", 1);
+            //SmartDashboard.putNumber("VHelp Done:", 1);
             SmartDashboard.putNumber("Radius: (inches)", -1);
             SmartDashboard.putNumber("Theta: (degrees)", -1);
         }
         else{
             SmartDashboard.putString("Successful Macro", "Yes");
             
-            SmartDashboard.putNumber("VHelp Done:", 1);
+            //SmartDashboard.putNumber("VHelp Done:", 1);
             SmartDashboard.putNumber("Radius: (inches)", rThe[0]);
             SmartDashboard.putNumber("Theta: (degrees)", rThe[1] * 180.0 / Math.PI);
             
-            new PIDturn(rThe[1]).start();
-            new PIDrive(rThe[0]).start();
+            new PIDturn(rThe[1] * 180.0 / Math.PI).start();
+            //new PIDrive(rThe[0]).start();
         }
         
     }
@@ -132,7 +132,7 @@ public class VisionProcess extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        SmartDashboard.putNumber("VP Done", 1);
+        //SmartDashboard.putNumber("VP Done", 1);
         
     }
 

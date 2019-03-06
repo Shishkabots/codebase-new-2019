@@ -33,7 +33,7 @@ public class DriveTrainControl extends Command {
         double turnCoef = 0.4;
         double lTrigger = Robot.m_oi.controllerOne.getRawAxis(2);
         double rTrigger = Robot.m_oi.controllerOne.getRawAxis(3);
-        double turnAxis = Robot.m_oi.controllerOne.getRawAxis(0);
+        double turnAxis = Robot.m_oi.controllerOne.getRawAxis(4);
 
 
         
@@ -49,7 +49,7 @@ public class DriveTrainControl extends Command {
         //SmartDashboard.putNumber("Encoder 2: ", e2.getDistance());
         SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(1));
-        SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
+        SmartDashboard.putNumber("Gyro Output Angle modded: ", gyro.getAngle() % 360);
 
         //alternative drive mode, can't go backwards
         //Robot.m_drivetrain.arcadeDrive(Robot.m_oi.controllerOne.getRawAxis(3), Robot.m_oi.controllerOne.getRawAxis(0)* 0.5);

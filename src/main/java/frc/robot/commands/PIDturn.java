@@ -14,14 +14,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class PIDturn extends Command {
     public AHRS gyro = Robot.gyro; // angles are in degrees
     public double t; // target
-    double P = 2;
+    double P = 0.005;
     double I = 0;
     double D = 0;
     double integral, previous_error, error, derivative = 0;
-    double rcw;
     double dt = 0.02;
-    double completionThreshold = 0.5;
+    double completionThreshold = 2; // also in degrees
     double ff = 0.166;
+
+    int itersUnderThreshold = 0;
+    int itersComplete = 20;
 
     //m_drivetrain is a drivetrain subsystem btw
     public PIDturn(double tt) {
@@ -35,24 +37,34 @@ public class PIDturn extends Command {
     }
     
     protected void execute() {
-        error = (1 / 180.0) * (t - gyro.getAngle()); // Error = Target - Actual
+        error = t - gyro.getAngle(); // Error = Target - Actual
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
         previous_error = error;
         //Robot.m_drivetrain.moveWithCurve(0, -0.5, true);
-        double voltage = P * (-error) + I * (-this.integral) + D * (-derivative);
-        Robot.m_drivetrain.moveWithCurve(0, voltage + (voltage > 0 ? ff : -ff), true);
-        SmartDashboard.putNumber("Voltage percentage: ", -(P * error + I * this.integral + D * derivative));
+        double voltage = (P * error + I * this.integral + D * derivative);
+        voltage += (voltage > 0 ? ff : -ff);
+        if(Math.abs(voltage) >= 0.35){
+            voltage = Math.signum(voltage) * 0.35;
+        }
+        Robot.m_drivetrain.moveWithCurve(0, voltage, true);
+        SmartDashboard.putNumber("Voltage percentage: ", voltage);
         SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
         SmartDashboard.putNumber("Gyro Target Angle: ", t);
         SmartDashboard.putNumber("Gyro Integral: ", integral);
-        SmartDashboard.putNumber("Gyro Error: ", error);
-        SmartDashboard.putNumber("Gyro Angle Error: ", 180 * error);
+        SmartDashboard.putNumber("Gyro Angle Error: ", error);
         SmartDashboard.putNumber("Gyro Derivative: ", derivative);
+
+        if(Math.abs(error) <= completionThreshold){
+            itersUnderThreshold++;
+        }
+        else{
+            itersUnderThreshold = 0;
+        }
     }
 
     protected boolean isFinished() {
-        return (Math.abs(error * 180) <= completionThreshold);
+        return itersUnderThreshold >= itersComplete;
     }
     
     protected void end() {
