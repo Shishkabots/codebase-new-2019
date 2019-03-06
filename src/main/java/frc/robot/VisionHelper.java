@@ -113,6 +113,7 @@ public class VisionHelper
     }
 
     // returns -1, -1 if no contour found postfilter
+    // note that convention here is: negative theta is clockwise (x negative -> theta is also negative)
     public double[] get_final_R_theta(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
         double[] rThe = {-1, -1};
         double tape_offset_r = Math.sqrt(Math.pow(tape_offset_x, 2) + Math.pow(tape_offset_y, 2));

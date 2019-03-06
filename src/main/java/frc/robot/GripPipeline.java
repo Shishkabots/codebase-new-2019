@@ -107,7 +107,7 @@ public class GripPipeline implements VisionPipeline {
 		// SmartDashboard.putNumber("Pen0r 1", pen0r[0].x);
 		// SmartDashboard.putNumber("Pen0r 2", pen0r[0].y);
 
-		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 0, 255));
+		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 255, 0));
 		// SmartDashboard.putNumber("Suze", resizeImageOutput.width());
 		// SmartDashboard.putNumber("Soze", resizeImageOutput.height());
 		contoursPrefilter.putFrame(resizeImageOutput);

@@ -79,7 +79,7 @@ public class VisionProcess extends Command {
         double robot_offset_x = 0.0;
         double robot_offset_y = 0.0;
         double tape_offset_x = 0.0;
-        double tape_offset_y = 8.5;
+        double tape_offset_y = 0.0;
         double height = 46.0;
         
         //SmartDashboard.putString("Driver: ", "file is found");
@@ -115,8 +115,9 @@ public class VisionProcess extends Command {
             SmartDashboard.putNumber("VHelp Done:", 1);
             SmartDashboard.putNumber("Radius: (inches)", rThe[0]);
             SmartDashboard.putNumber("Theta: (degrees)", rThe[1] * 180.0 / Math.PI);
-            //new PIDturn(rThe[1]).start();
-            //new PIDrive(rThe[0]).start();
+            
+            new PIDturn(rThe[1]).start();
+            new PIDrive(rThe[0]).start();
         }
         
     }
