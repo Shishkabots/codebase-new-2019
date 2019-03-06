@@ -44,10 +44,10 @@ public class VisionProcess extends Command {
     protected void initialize() {
         cam = Robot.theCamera;
         grip = Robot.pipe;
-        
-        SmartDashboard.putNumber("Start: ", 1);
-        SmartDashboard.putNumber("img width", input.width());
-        SmartDashboard.putNumber("img length", input.height());
+        if(Robot.testing){
+            SmartDashboard.putNumber("Start: ", 1);
+            SmartDashboard.putNumber("img width", input.width());
+            SmartDashboard.putNumber("img length", input.height());
         
         // SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
         // SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
@@ -58,7 +58,8 @@ public class VisionProcess extends Command {
         
        // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
         //outputStream.putFrame(input);
-        SmartDashboard.putNumber("End VP Init: ", 1);
+            SmartDashboard.putNumber("End VP Init: ", 1);
+        }
         
     }
         
