@@ -117,7 +117,7 @@ public class VisionHelper
     public double[] get_final_R_theta(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
         double[] rThe = {-1, -1};
         double tape_offset_r = Math.sqrt(Math.pow(tape_offset_x, 2) + Math.pow(tape_offset_y, 2));
-        double tape_offset_theta = (tape_offset_y == 0 ? Math.PI / 2 * Math.signum(tape_offset_x) : Math.atan(tape_offset_x / tape_offset_y));
+        double tape_offset_theta = (tape_offset_y == 0 ? Math.PI / 2 * Math.signum(tape_offset_x) : Math.atan2(tape_offset_x, tape_offset_y));
 
         double[] center = findCenter(img);
         if(center[0] == -1 && center[1] == -1){
@@ -132,7 +132,7 @@ public class VisionHelper
         double pixel_delta_y = img.height() / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2) + Math.pow(pixel_delta_y, 2)), height);
-        double camera_theta = (pixel_delta_y == 0 ? Math.PI * Math.signum(pixel_delta_x): Math.atan(pixel_delta_x/pixel_delta_y)); //for negative pixel_delta_x, should take return a negative angle
+        double camera_theta = (pixel_delta_y == 0 ? Math.PI * Math.signum(pixel_delta_x): Math.atan2(pixel_delta_x, pixel_delta_y)); //for negative pixel_delta_x, should take return a negative angle
 
         double camera_delta_x = camera_r * Math.sin(camera_theta);
         double camera_delta_y = camera_r * Math.cos(camera_theta);
@@ -141,7 +141,9 @@ public class VisionHelper
         if(slope == -1){
             return rThe;            
         }
-        double cameraToTape_theta = getCameraToTapeTheta(slope);
+        double cameraToTape_theta = -getCameraToTapeTheta(slope); // intentionally reversed based on testing
+
+        //SmartDashboard.putNumber("AngleToTapeSide", cameraToTape_theta * 180.0 / Math.PI);
 
         double tape_delta_x = tape_offset_r * Math.sin(cameraToTape_theta + tape_offset_theta);
         double tape_delta_y = tape_offset_r * Math.cos(cameraToTape_theta + tape_offset_theta);
@@ -149,7 +151,7 @@ public class VisionHelper
         double delta_y = robot_offset_y + camera_delta_y + tape_delta_y;
         double delta_x = robot_offset_x + camera_delta_x + tape_delta_x;
         rThe[0] =  Math.sqrt(Math.pow(delta_x, 2) + Math.pow(delta_y, 2));
-        rThe[1] = (delta_y == 0 ? Math.PI * Math.signum(pixel_x) : Math.atan(delta_x/delta_y));
+        rThe[1] = (delta_y == 0 ? Math.PI * Math.signum(pixel_x) : Math.atan2(delta_x, delta_y));
 
         return rThe;
     }
@@ -201,6 +203,21 @@ public class VisionHelper
 
         double turn_theta = getCameraToTapeTheta(slope);
         return turn_theta;
+    }
+
+    // returns r3 (distance from first endpoint to center of tape) and final theta to turn
+    // r3 in inches, finalTheta in radians, NOT degrees
+    public double[] getSecondRTheta(double r1, double r2, double theta1_2, double theta1){
+        double theta2 = theta1_2 - theta1;
+        double r3 = Math.sqrt(r1 * r1 + r2 * r2 + 2*r1*r2*Math.cos(theta2));
+        // random values in case r3 is 0
+        if(r3 <= 0.0){
+            double[] output = {0, 0};
+            return output;
+        }
+        double finalTheta = Math.PI - Math.asin(r1 * Math.sin(theta2) / r3);
+        double[] output = {r3, finalTheta};
+        return output;
     }
 
 

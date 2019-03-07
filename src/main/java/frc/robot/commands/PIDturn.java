@@ -21,9 +21,11 @@ public class PIDturn extends Command {
     double dt = 0.02;
     double completionThreshold = 2; // also in degrees
     double ff = 0.166;
+    
+    double maxVoltage = 0.35;
 
     int itersUnderThreshold = 0;
-    int itersComplete = 20;
+    int itersComplete = 10;
 
     //m_drivetrain is a drivetrain subsystem btw
     public PIDturn(double tt) {
@@ -41,14 +43,13 @@ public class PIDturn extends Command {
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
         previous_error = error;
-        //Robot.m_drivetrain.moveWithCurve(0, -0.5, true);
         double voltage = (P * error + I * this.integral + D * derivative);
         voltage += (voltage > 0 ? ff : -ff);
-        if(Math.abs(voltage) >= 0.35){
-            voltage = Math.signum(voltage) * 0.35;
+        if(Math.abs(voltage) >= maxVoltage){
+            voltage = Math.signum(voltage) * maxVoltage;
         }
         Robot.m_drivetrain.moveWithCurve(0, voltage, true);
-        SmartDashboard.putNumber("Voltage percentage: ", voltage);
+        SmartDashboard.putNumber("Gyro Voltage percentage: ", voltage);
         SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
         SmartDashboard.putNumber("Gyro Target Angle: ", t);
         SmartDashboard.putNumber("Gyro Integral: ", integral);
@@ -69,7 +70,6 @@ public class PIDturn extends Command {
     
     protected void end() {
         Robot.m_drivetrain.move(0, 0);
-        new TeleOpCommands().start();
     }
 
     protected void interrupted() {

@@ -78,9 +78,14 @@ public class VisionProcess extends Command {
 
         // tune these values
         double robot_offset_x = 0.0;
-        double robot_offset_y = 11.5;
+        double robot_offset_y = 14.0;
+        // setting tape offset to be 0 makes problems for the theta computation for 2nd turn, make sure they aren't both 0.
         double tape_offset_x = 0.0;
-        double tape_offset_y = 0.0;
+        double tape_offset_y = -16.0;
+        // in case we need to move forward after the second turn (i.e. aligned with tape)
+        // since if we go to that final point in the first place, we might hit something when we turn second time
+        // this value is the forward distance from the CENTER of the tape
+        double tape_center_final_offset = 0.0;
         double height = 46.0;
         
         //SmartDashboard.putString("Driver: ", "file is found");
@@ -100,11 +105,13 @@ public class VisionProcess extends Command {
         // SmartDashboard.putNumber("Radius: ", -123);
         // SmartDashboard.putNumber("Radius: ", x[0]);
         // SmartDashboard.putNumber("Theta: ", x[1]);
-        // new PIDturn(x[1]).start();
-        // new PIDrive(x[0]).start();
 
-        double[] rThe = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        if((rThe[0] == -1 && rThe[1] == -1)){
+
+        double[] rTheta = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
+        double[] rThetaNoTapeOffset = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, 0, 0, height);
+        double[] secondRTheta = vhelp.getSecondRTheta(rThetaNoTapeOffset[0], rTheta[0], rTheta[1], rThetaNoTapeOffset[1]);
+
+        if((rTheta[0] == -1 && rTheta[1] == -1)){
             SmartDashboard.putString("Successful Macro", "No");
             //SmartDashboard.putNumber("VHelp Done:", 1);
             SmartDashboard.putNumber("Radius: (inches)", -1);
@@ -114,11 +121,18 @@ public class VisionProcess extends Command {
             SmartDashboard.putString("Successful Macro", "Yes");
             
             //SmartDashboard.putNumber("VHelp Done:", 1);
-            SmartDashboard.putNumber("Radius: (inches)", rThe[0]);
-            SmartDashboard.putNumber("Theta: (degrees)", rThe[1] * 180.0 / Math.PI);
+            SmartDashboard.putNumber("Radius: (inches)", rTheta[0]);
+            SmartDashboard.putNumber("Theta: (degrees)", rTheta[1] * 180.0 / Math.PI);
             
-            //new PIDturn(rThe[1] * 180.0 / Math.PI).start();
-            new PIDrive(rThe[0]).start();
+            // make the distances negative since we want robot to be moving backwards
+            // tape offset being 0 is bad since we don't know angle, don't make tape offset 0 please
+            if(tape_offset_x == 0.0 && tape_offset_y == 0.0){
+                new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], 0, 0).start();
+            }
+            else{
+                new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], secondRTheta[1] * 180.0 / Math.PI, -(secondRTheta[0]+tape_center_final_offset)).start(); // PASS IN A NEGATIVE, SINCE WE WANT TO DRIVE BACKWARDS (camera on back of robot)
+                //new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], 0, 0).start(); // PASS IN A NEGATIVE, SINCE WE WANT TO DRIVE BACKWARDS (camera on back of robot)
+            }
         }
         
     }
