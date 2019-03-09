@@ -49,14 +49,6 @@ public class VisionProcess extends Command {
             SmartDashboard.putNumber("img width", input.width());
             SmartDashboard.putNumber("img length", input.height());
         }
-        
-        // SmartDashboard.putNumber("numero uno:", input.get(640, 360)[0]);
-        // SmartDashboard.putNumber("numero rwo:", input.get(640, 360)[1]);
-        // SmartDashboard.putNumber("numero rsan:", input.get(640, 360)[2]);
-        // SmartDashboard.putNumber("numero duno:", input.get(123, 214)[0]);
-        // SmartDashboard.putNumber("numero drwo:", input.get(123, 214)[1]);
-        // SmartDashboard.putNumber("numero drsan:", input.get(123, 214)[2]);
-        
        // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
         //outputStream.putFrame(input);
         //SmartDashboard.putNumber("End VP Init: ", 1);
@@ -82,7 +74,7 @@ public class VisionProcess extends Command {
         double robot_offset_y = 14.0;
         // setting tape offset to be 0 makes problems for the theta computation for 2nd turn, make sure they aren't both 0.
         double tape_offset_x = 0.0;
-        double tape_offset_y = -16.0;
+        double tape_offset_y = 0.0;
         // in case we need to move forward after the second turn (i.e. aligned with tape)
         // since if we go to that final point in the first place, we might hit something when we turn second time
         // this value is the forward distance from the CENTER of the tape
@@ -109,8 +101,8 @@ public class VisionProcess extends Command {
 
 
         double[] rTheta = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        double[] rThetaNoTapeOffset = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, 0, 0, height);
-        double[] secondRTheta = vhelp.getSecondRTheta(rThetaNoTapeOffset[0], rTheta[0], rTheta[1], rThetaNoTapeOffset[1]);
+        //double[] rThetaNoTapeOffset = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, 0, 0, height);
+        //double[] secondRTheta = vhelp.getSecondRTheta(rThetaNoTapeOffset[0], rTheta[0], rTheta[1], rThetaNoTapeOffset[1]);
 
         if((rTheta[0] == -1 && rTheta[1] == -1)){
             SmartDashboard.putString("Successful Macro", "No");
@@ -131,8 +123,8 @@ public class VisionProcess extends Command {
                 new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], 0, 0).start();
             }
             else{
-                new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], secondRTheta[1] * 180.0 / Math.PI, -(secondRTheta[0]+tape_center_final_offset)).start(); // PASS IN A NEGATIVE, SINCE WE WANT TO DRIVE BACKWARDS (camera on back of robot)
-                //new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], 0, 0).start(); // PASS IN A NEGATIVE, SINCE WE WANT TO DRIVE BACKWARDS (camera on back of robot)
+                //new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], secondRTheta[1] * 180.0 / Math.PI, -(secondRTheta[0]+tape_center_final_offset)).start(); // PASS IN A NEGATIVE, SINCE WE WANT TO DRIVE BACKWARDS (camera on back of robot)
+                new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], 0, 0).start(); // PASS IN A NEGATIVE, SINCE WE WANT TO DRIVE BACKWARDS (camera on back of robot)
             }
         }
         

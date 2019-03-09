@@ -107,8 +107,9 @@ public class VisionHelper
         //find two points on the line. camera forward defines the y of the image, so finding the angle from the camera line is the same as finding the
         //angle from just the y axis. After two points on the line are found, find delta y and delta x, and then get atan.
 
-        //ARC TAN OF THE SLOPE BASICALLY 
-        return Math.atan(m);
+        //ARC TAN OF THE SLOPE BASICALLY
+        // but it's centered on degree pi/2 (if slope is infinity, i.e. straight up line, we want angle 0, not pi/2)
+        return Math.atan(m) - Math.PI / 2.0;
         
     }
 
@@ -141,12 +142,30 @@ public class VisionHelper
         if(slope == -1){
             return rThe;            
         }
-        double cameraToTape_theta = -getCameraToTapeTheta(slope); // intentionally reversed based on testing
 
-        //SmartDashboard.putNumber("AngleToTapeSide", cameraToTape_theta * 180.0 / Math.PI);
+        double cameraToTape_theta = -getCameraToTapeTheta(slope); //counterclockwise is negative
 
-        double tape_delta_x = tape_offset_r * Math.sin(cameraToTape_theta + tape_offset_theta);
-        double tape_delta_y = tape_offset_r * Math.cos(cameraToTape_theta + tape_offset_theta);
+        SmartDashboard.putNumber("AngleToTapeSide", cameraToTape_theta * 180.0 / Math.PI);
+
+        
+        // cos is x and sin is y intentionally based on empirical (actually swapped back again)
+        // not sure if this is because camera to tape theta is actually returning the 90 degrees off angle
+        // double tape_delta_x = tape_offset_r * Math.sin(cameraToTape_theta + tape_offset_theta);
+        // double tape_delta_y = tape_offset_r * Math.cos(cameraToTape_theta + tape_offset_theta);
+
+        // only using case where tapeoffsetx is 0 (offset is collinear to the tape)
+        double tape_delta_x = tape_offset_y * Math.sin(cameraToTape_theta);
+        double tape_delta_y = tape_offset_y * Math.cos(cameraToTape_theta);
+
+        SmartDashboard.putNumber("tape offset theta", tape_offset_theta);
+        SmartDashboard.putNumber("cameraToTape_theta", cameraToTape_theta);
+        SmartDashboard.putNumber("robot_offset_y", robot_offset_y);
+        SmartDashboard.putNumber("camera_delta_y", camera_delta_y);
+        SmartDashboard.putNumber("tape_delta_y", tape_delta_y);
+        SmartDashboard.putNumber("robot_offset_x", robot_offset_x);
+        SmartDashboard.putNumber("camera_delta_x", camera_delta_x);
+        SmartDashboard.putNumber("tape_delta_x", tape_delta_x);
+        SmartDashboard.putNumber("tape_offset_r", tape_offset_r);
 
         double delta_y = robot_offset_y + camera_delta_y + tape_delta_y;
         double delta_x = robot_offset_x + camera_delta_x + tape_delta_x;
