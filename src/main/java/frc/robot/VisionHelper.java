@@ -118,8 +118,8 @@ public class VisionHelper
     // currently does not accept a robot_offset_x, we will need to calculate more (and do casework on weird
     // scenarios so it's significant complexity)
     public double[] secondGetFinalRTheta(Mat img, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
-        double rTheta[] = {-1, -1};
-        double [] center = findCenter(img);
+        double[] rTheta = {-1, -1};
+        double[] center = findCenter(img);
         if(center[0] == -1 && center[1] == -1){
             return rTheta;
         }
@@ -156,6 +156,9 @@ public class VisionHelper
         double Ry = R * Math.cos(Math.toRadians(theta3 + theta1));
         double Dx = Rx - deltaX;
         double Dy = Ry + deltaY; // + or - deltaY depends on which way we are oriented
+
+        // need to finish function
+        return rTheta;
     }
 
     // returns -1, -1 if no contour found postfilter

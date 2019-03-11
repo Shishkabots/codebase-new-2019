@@ -18,8 +18,10 @@ import frc.robot.subsystems.*;
 public class OI {
   public Joystick controllerOne = new Joystick(0);
 	public Button boost = new JoystickButton(controllerOne, 6); 
-  public Button autoAlignButton = new JoystickButton(controllerOne, 4);  
-  public Button setReverse = new JoystickButton(controllerOne, 3);
+  public Button autoAlignButton = new JoystickButton(controllerOne, 4); // Y 
+  public Button setReverse = new JoystickButton(controllerOne, 3); // X
+  public Button toggleCoast = new JoystickButton(controllerOne, 1); // A
+  public Button toggleBrake = new JoystickButton(controllerOne, 2); // B
 
   public Joystick controllerTwo = new Joystick(1); //also an xbox
   public Button hatchButton = new JoystickButton(controllerTwo,4);
@@ -30,6 +32,8 @@ public class OI {
   public OI() {
     autoAlignButton.whenPressed(new VisionProcess());
     setReverse.whenPressed(new Reverse());
+    toggleCoast.whenPressed(new ToggleCoastMode());
+    toggleBrake.whenPressed(new ToggleBrakeMode());
 
     hatchButton.whenPressed(new HatchActivate());
     //cargoForward.whileHeld(new CargoIntake());

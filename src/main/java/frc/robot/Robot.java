@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Spark;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
@@ -144,24 +145,17 @@ public class Robot extends TimedRobot {
 
     leftTalon = new WPI_TalonSRX(6);
     leftVictor = new WPI_VictorSPX(3);
-    //SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalon, leftVictor);
-
     rightTalon = new WPI_TalonSRX(5);
     rightVictor = new WPI_VictorSPX(1);
-    //SpeedControllerGroup m_right = new SpeedControllerGroup(m_frontRight, m_rearRight);
   
     leftTalon.setSafetyEnabled(false);
     rightTalon.setSafetyEnabled(false);
     leftVictor.setSafetyEnabled(false);
     rightVictor.setSafetyEnabled(false);
     side.setSafetyEnabled(false);
-    m_drive = new DifferentialDrive(leftTalon, rightTalon);
     
     rightVictor.follow(rightTalon);
     leftVictor.follow(leftTalon);
-
-    leftTalon.setInverted(false);
-    rightTalon.setInverted(false);
 
     leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -171,17 +165,17 @@ public class Robot extends TimedRobot {
     leftTalon.setSelectedSensorPosition(0);
     rightTalon.setSelectedSensorPosition(0);
 
+    leftTalon.setInverted(false);
+    rightTalon.setInverted(false);
     leftVictor.setInverted(false);
     rightVictor.setInverted(false);
 
-    // rightTalon.config_kP(0, 0.03);
-    // rightTalon.config_kI(0, 0.0);
-    // rightTalon.config_kD(0, 0.0);
+    rightTalon.setNeutralMode(NeutralMode.Coast);
+    leftTalon.setNeutralMode(NeutralMode.Coast);
+    rightVictor.setNeutralMode(NeutralMode.Coast);
+    leftVictor.setNeutralMode(NeutralMode.Coast);
 
-    // leftTalon.config_kP(0, 0.03);
-    // leftTalon.config_kI(0, 0.0);
-    // leftTalon.config_kD(0, 0.0);
-    //m_drive.setRightSideInverted(false);
+    m_drive = new DifferentialDrive(leftTalon, rightTalon);
     m_drivetrain = new DriveTrain();
     ds = new DoubleSolenoid(0, 1);
     //ds.set(DoubleSolenoid.Value.kForward);
@@ -189,18 +183,11 @@ public class Robot extends TimedRobot {
     m_intake = new CargoIntake();
     //m_intake.setState("On");
 
-   
-    
-    gyro = new AHRS(SPI.Port.kMXP);
-
-    
+    gyro = new AHRS(SPI.Port.kMXP);    
     //led = new Spark(1);
     //led.set(0.41);
-
-
-    m_oi = new OI();
-    
-    
+    // go blue or red depending on ds input
+    m_oi = new OI();    
   }
 
   @Override
