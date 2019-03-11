@@ -115,7 +115,52 @@ public class VisionHelper
 
     // returns -1, -1 if no contour found postfilter
     // note that convention here is: negative theta is clockwise (x negative -> theta is also negative)
-    public double[] get_final_R_theta(Mat img,double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
+    // currently does not accept a robot_offset_x, we will need to calculate more (and do casework on weird
+    // scenarios so it's significant complexity)
+    public double[] secondGetFinalRTheta(Mat img, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
+        double rTheta[] = {-1, -1};
+        double [] center = findCenter(img);
+        if(center[0] == -1 && center[1] == -1){
+            return rTheta;
+        }
+
+        double pixel_x = center[0];
+        double pixel_y = center[1];
+        pixel_x *= 1280.0/320.0;
+        pixel_y *= 720.0/240.0;
+
+        double pixel_delta_x = -(img.width() / 2 - pixel_x);
+        double pixel_delta_y = img.height() / 2 - pixel_y;
+
+        double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2) + Math.pow(pixel_delta_y, 2)), height);
+        double camera_theta = (pixel_delta_y == 0 ? Math.PI / 2 * Math.signum(pixel_delta_x) : Math.atan2(pixel_delta_x, pixel_delta_y)); //for negative pixel_delta_x, should take return a negative angle
+
+        double slope = find_longer_line(img);
+        if(slope == -1){
+            return rTheta;      
+        }
+        double cameraToTape_theta = -getCameraToTapeTheta(slope); //counterclockwise is negative
+
+        // aliases; new names are the ones used in the diagram
+        double theta1 = cameraToTape_theta;
+        double theta2 = camera_theta;
+        double r = camera_r;
+        double d = robot_offset_y;
+        double deltaX = tape_offset_y; // yes this is intentionally assigning y to x, see angle diagram
+        double deltaY = tape_offset_x; // note that the tape_offset_y is the forward/backwards distance from the tape still
+
+        double R = Math.sqrt(d*d + r*r - 2*d*r*Math.cos(Math.toRadians(theta2 + 90)));
+
+        double theta3 = Math.acos((d*d + R*R - r*r) / (2*d*R));
+        double Rx = R * Math.sin(Math.toRadians(theta3 + theta1));
+        double Ry = R * Math.cos(Math.toRadians(theta3 + theta1));
+        double Dx = Rx - deltaX;
+        double Dy = Ry + deltaY; // + or - deltaY depends on which way we are oriented
+    }
+
+    // returns -1, -1 if no contour found postfilter
+    // note that convention here is: negative theta is clockwise (x negative -> theta is also negative)
+    public double[] get_final_R_theta(Mat img, double robot_offset_x, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
         double[] rThe = {-1, -1};
         double tape_offset_r = Math.sqrt(Math.pow(tape_offset_x, 2) + Math.pow(tape_offset_y, 2));
         double tape_offset_theta = (tape_offset_y == 0 ? Math.PI / 2 * Math.signum(tape_offset_x) : Math.atan2(tape_offset_x, tape_offset_y));
@@ -133,7 +178,7 @@ public class VisionHelper
         double pixel_delta_y = img.height() / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2) + Math.pow(pixel_delta_y, 2)), height);
-        double camera_theta = (pixel_delta_y == 0 ? Math.PI * Math.signum(pixel_delta_x): Math.atan2(pixel_delta_x, pixel_delta_y)); //for negative pixel_delta_x, should take return a negative angle
+        double camera_theta = (pixel_delta_y == 0 ? Math.PI / 2 * Math.signum(pixel_delta_x): Math.atan2(pixel_delta_x, pixel_delta_y)); //for negative pixel_delta_x, should take return a negative angle
 
         double camera_delta_x = camera_r * Math.sin(camera_theta);
         double camera_delta_y = camera_r * Math.cos(camera_theta);

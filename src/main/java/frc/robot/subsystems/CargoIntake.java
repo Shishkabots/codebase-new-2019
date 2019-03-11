@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 /**
  *
  */
-public class Intake extends Subsystem {
+public class CargoIntake extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -25,11 +25,7 @@ public class Intake extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
 
-    public void Succ(String s){
-        if(s.equals("ON")) {
-            intake.set(ControlMode.PercentOutput, .5);
-        }else if(s.equals("OFF")) {
-            intake.set(ControlMode.PercentOutput, 0);
-        }
+    public void spin(double voltage){
+        intake.set(ControlMode.PercentOutput, voltage);
     }
 }

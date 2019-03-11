@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
   public static DoubleSolenoid ds;
   
   public static Hatch m_hatch; 
-  public static Intake m_intake;
+  public static CargoIntake m_intake;
 
   private VisionThread visionThread;
   public static final Object imgLock = new Object();
@@ -186,7 +186,7 @@ public class Robot extends TimedRobot {
     ds = new DoubleSolenoid(0, 1);
     //ds.set(DoubleSolenoid.Value.kForward);
     m_hatch = new Hatch();
-    m_intake = new Intake();
+    m_intake = new CargoIntake();
     //m_intake.setState("On");
 
    

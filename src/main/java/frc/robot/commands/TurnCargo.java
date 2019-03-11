@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.CargoIntake;
 import frc.robot.OI;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,51 +11,44 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class Succ extends Command {
-    public Succ() {
+public class TurnCargo extends Command {
+    public TurnCargo() {
         requires(Robot.m_intake);
     }
-    //Intake succ = new Intake();
-    VictorSPX succ = Robot.side;
-            // Called just before this Command runs the first time
+    CargoIntake intake = Robot.m_intake;
+    
+    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        gtime = 0;
-        succ.set(ControlMode.PercentOutput, .2);
-    
+        intake.spin(0);
     }
         
     // Called repeatedly when this Command is scheduled to run
-    public int gtime;
     @Override
     protected void execute() {
-        gtime++;
-        succ.set(ControlMode.PercentOutput, 0.2);
-        
-        //succ.set(ControlMode.PercentOutput, Robot.m_oi.succbutt.whileHeld() ? 0.2 : 0)
-        // if(gtime > 100) {
-        //     succ.set(ControlMode.PercentOutput, 0);
-        // }
+        double speed = 1;
+        double lTrigger = Robot.m_oi.controllerTwo.getRawAxis(2);
+        double rTrigger = Robot.m_oi.controllerTwo.getRawAxis(3);
+
+        intake.spin((rTrigger - lTrigger) * speed);    
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return true;
-        //return gtime >= 220;
+        return false;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        succ.set(ControlMode.PercentOutput, 0);
-        gtime = 0;
+        intake.spin(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        succ.set(ControlMode.PercentOutput, .2);;
+        intake.spin(0);
     }
 }

@@ -35,7 +35,6 @@ public class DriveTrainControl extends Command {
         double rTrigger = Robot.m_oi.controllerOne.getRawAxis(3);
         double turnAxis = Robot.m_oi.controllerOne.getRawAxis(4);
 
-
         
         //3 is right trigger, 2 is left trigger, 0 is x axis of left stick, unsure of math
     	Robot.m_drivetrain.moveWithCurve(

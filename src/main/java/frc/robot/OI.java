@@ -17,26 +17,22 @@ import frc.robot.subsystems.*;
  */
 public class OI {
   public Joystick controllerOne = new Joystick(0);
-	public Button boost = new JoystickButton(controllerOne,6);
+	public Button boost = new JoystickButton(controllerOne, 6); 
+  public Button autoAlignButton = new JoystickButton(controllerOne, 4);  
+  public Button setReverse = new JoystickButton(controllerOne, 3);
 
-  public Joystick controllerTwo = new Joystick(1);//also an controllerOne
-  
-  public Button hatchbutt = new JoystickButton(controllerTwo,4);
-  //public Button hbutt = new JoystickButton(controllerTwo, 2);
-  public Button succbutt = new JoystickButton(controllerTwo, 1);       
-  public Button succbuttrev = new JoystickButton(controllerTwo, 2);    
-  public Button camerabutt = new JoystickButton(controllerOne,4);
-  //public Button gyroButton = new JoystickButton(controllerTwo, 3);    
-  public Button reverse = new JoystickButton(controllerOne, 3);
+  public Joystick controllerTwo = new Joystick(1); //also an xbox
+  public Button hatchButton = new JoystickButton(controllerTwo,4);
+  // moved into axis control in Succ
+  //public Button cargoForward = new JoystickButton(controllerTwo, 1);       
+  //public Button cargoReverse = new JoystickButton(controllerTwo, 2);  
+
   public OI() {
-    hatchbutt.whenPressed(new HatchActivate());
-    //succbutt.whenPressed(new Succ());
-    succbutt.whileHeld(new Succ());
-    //succbuttrev.whenPressed(new Succrev());
-    succbuttrev.whileHeld(new Succrev());
-    camerabutt.whenPressed(new VisionProcess());
-    //gyroButton.whenPressed(new PIDturn(-45));
-    //press.whenPressed(new PIDrive(20));
-    reverse.whenPressed(new Reverse());
+    autoAlignButton.whenPressed(new VisionProcess());
+    setReverse.whenPressed(new Reverse());
+
+    hatchButton.whenPressed(new HatchActivate());
+    //cargoForward.whileHeld(new CargoIntake());
+    //cargoReverse.whileHeld(new Succrev());
   }
 }
