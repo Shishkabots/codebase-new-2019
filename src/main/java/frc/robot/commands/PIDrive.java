@@ -24,7 +24,7 @@ public class PIDrive extends Command {
     double integral, previous_error, error, derivative = 0;
     double dt = 0.02;
     double completionThreshold = 30; // in ticks (each tick is 0.005 inches roughly, with circumference = 19 inches)
-    double ff = 0.10;
+    double ff = 0.12;
 
     double maxVoltage = 0.30;
 
@@ -62,14 +62,14 @@ public class PIDrive extends Command {
         }
         Robot.m_drivetrain.moveWithCurve(voltage, 0, true);
 
-        SmartDashboard.putNumber("Encoder Voltage percentage: ", voltage);
-        SmartDashboard.putNumber("Left Encoder Ticks: ", leftTicks);
-        SmartDashboard.putNumber("Right Encoder Ticks: ", rightTicks);
-        SmartDashboard.putNumber("Average Ticks: ", avgTicks);
-        SmartDashboard.putNumber("Target Ticks: ", targetTicks);
-        SmartDashboard.putNumber("Encoder Error Integral: ", integral);
-        SmartDashboard.putNumber("Encoder Error: ", error);
-        SmartDashboard.putNumber("Encoder Error Derivative: ", derivative);
+        // SmartDashboard.putNumber("Encoder Voltage percentage: ", voltage);
+        // SmartDashboard.putNumber("Left Encoder Ticks: ", leftTicks);
+        // SmartDashboard.putNumber("Right Encoder Ticks: ", rightTicks);
+        // SmartDashboard.putNumber("Average Ticks: ", avgTicks);
+        // SmartDashboard.putNumber("Target Ticks: ", targetTicks);
+        // SmartDashboard.putNumber("Encoder Error Integral: ", integral);
+        // SmartDashboard.putNumber("Encoder Error: ", error);
+        // SmartDashboard.putNumber("Encoder Error Derivative: ", derivative);
 
 
         if(Math.abs(error) <= completionThreshold){
@@ -93,7 +93,6 @@ public class PIDrive extends Command {
     protected void end() {
         Robot.leftTalon.setSelectedSensorPosition(0);
         Robot.rightTalon.setSelectedSensorPosition(0);
-        new TeleOpCommands().start();
     	//Robot.m_drivetrain.move(0, 0);
     }
 

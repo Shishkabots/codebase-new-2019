@@ -31,11 +31,13 @@ public class OI {
 
   public OI() {
     autoAlignButton.whenPressed(new VisionProcess());
+    //autoAlignButton.whenPressed(new PIDall(30, 5, true, 5));
     setReverse.whenPressed(new Reverse());
     toggleCoast.whenPressed(new ToggleCoastMode());
     toggleBrake.whenPressed(new ToggleBrakeMode());
 
     hatchButton.whenPressed(new HatchActivate());
+    // moved into axis control in TurnCargo
     //cargoForward.whileHeld(new CargoIntake());
     //cargoReverse.whileHeld(new Succrev());
   }

@@ -108,10 +108,9 @@ public class GripPipeline implements VisionPipeline {
 		// SmartDashboard.putNumber("Pen0r 1", pen0r[0].x);
 		// SmartDashboard.putNumber("Pen0r 2", pen0r[0].y);
 
-		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 255, 0));
 		// SmartDashboard.putNumber("Suze", resizeImageOutput.width());
 		// SmartDashboard.putNumber("Soze", resizeImageOutput.height());
-		contoursPrefilter.putFrame(resizeImageOutput);
+		
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
@@ -127,12 +126,14 @@ public class GripPipeline implements VisionPipeline {
 		double filterContoursMinRatio = 0.0;
 		double filterContoursMaxRatio = 1000.0;
 
-		double maxArea = 1000000.0; // we don't want this constraint
+		double maxArea = 1000000.0;
 		double maxPerimeter = 400.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, maxArea, maxPerimeter);
 		
-			SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
-		
+		SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
+		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 255, 0));
+		Imgproc.drawContours(resizeImageOutput, filterContoursOutput, -1, new Scalar(255, 0, 0));
+		contoursPrefilter.putFrame(resizeImageOutput);
 	}
 
 	/**

@@ -109,7 +109,8 @@ public class VisionHelper
 
         //ARC TAN OF THE SLOPE BASICALLY
         // but it's centered on degree pi/2 (if slope is infinity, i.e. straight up line, we want angle 0, not pi/2)
-        return Math.atan(m) - Math.PI / 2.0;
+        // don't need to do pi/2 hack anymore
+        return Math.atan(m);
         
     }
 
@@ -117,8 +118,9 @@ public class VisionHelper
     // note that convention here is: negative theta is clockwise (x negative -> theta is also negative)
     // currently does not accept a robot_offset_x, we will need to calculate more (and do casework on weird
     // scenarios so it's significant complexity)
-    public double[] secondGetFinalRTheta(Mat img, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
-        double[] rTheta = {-1, -1};
+    // now we also don't accept tape_offset_y since we can't figure out which way to put it
+    public double[] newGetThetaAndR(Mat img, double robot_offset_y, double tape_offset_x, double height){
+        double[] rTheta = {-1, -1, -1, -1}; // for theta1, Dy, and Dx
         double[] center = findCenter(img);
         if(center[0] == -1 && center[1] == -1){
             return rTheta;
@@ -133,7 +135,7 @@ public class VisionHelper
         double pixel_delta_y = img.height() / 2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2) + Math.pow(pixel_delta_y, 2)), height);
-        double camera_theta = (pixel_delta_y == 0 ? Math.PI / 2 * Math.signum(pixel_delta_x) : Math.atan2(pixel_delta_x, pixel_delta_y)); //for negative pixel_delta_x, should take return a negative angle
+        double camera_theta = (pixel_delta_x == 0 ? Math.PI / 2 * Math.signum(pixel_delta_y) : Math.atan2(pixel_delta_y, pixel_delta_x)); //for negative pixel_delta_x, should take return a negative angle
 
         double slope = find_longer_line(img);
         if(slope == -1){
@@ -142,22 +144,43 @@ public class VisionHelper
         double cameraToTape_theta = -getCameraToTapeTheta(slope); //counterclockwise is negative
 
         // aliases; new names are the ones used in the diagram
-        double theta1 = cameraToTape_theta;
+        double theta1 = -cameraToTape_theta;
         double theta2 = camera_theta;
         double r = camera_r;
         double d = robot_offset_y;
-        double deltaX = tape_offset_y; // yes this is intentionally assigning y to x, see angle diagram
-        double deltaY = tape_offset_x; // note that the tape_offset_y is the forward/backwards distance from the tape still
+        double deltaX = tape_offset_x;
+        //double deltaY = tape_offset_x; // note that the tape_offset_y is the forward/backwards distance from the tape still
 
-        double R = Math.sqrt(d*d + r*r - 2*d*r*Math.cos(Math.toRadians(theta2 + 90)));
+        // theta2 in Math.sin should always be positive
+        double R = Math.sqrt(d*d + r*r - 2*d*r*Math.sin(theta1));
 
         double theta3 = Math.acos((d*d + R*R - r*r) / (2*d*R));
-        double Rx = R * Math.sin(Math.toRadians(theta3 + theta1));
-        double Ry = R * Math.cos(Math.toRadians(theta3 + theta1));
+        theta3 *= Math.signum(theta2); // theta3 takes the sign of theta2
+        double Rx = R * Math.sin(theta3 - theta1); // it's NEGATIVE theta1, check diagram (theta1 is turn angle from vertical)
+        double Ry = R * Math.cos(theta3 - theta1);
         double Dx = Rx - deltaX;
-        double Dy = Ry + deltaY; // + or - deltaY depends on which way we are oriented
+        // hard to find which way to put the Dy (add or subtract) and we probably don't need it anyway
+        //double Dy = Ry + deltaY; // + or - deltaY depends on which way we are oriented
+        double Dy = Ry;
 
-        // need to finish function
+        rTheta[0] = theta1;
+        rTheta[1] = Dy;
+        rTheta[2] = Dx;
+        rTheta[3] = theta3;
+
+        SmartDashboard.putNumber("R", R);
+        SmartDashboard.putNumber("Rx", Rx);
+        SmartDashboard.putNumber("Ry", Ry);
+        SmartDashboard.putNumber("Dx", Dx);
+        SmartDashboard.putNumber("Dy", Dy);
+        SmartDashboard.putNumber("r", r);
+        SmartDashboard.putNumber("d", d);
+        SmartDashboard.putNumber("2dr*cos(theta2+90)", 2*d*r*Math.cos(theta2 + Math.PI/2));
+        SmartDashboard.putNumber("theta1", theta1);
+        SmartDashboard.putNumber("theta2", theta2);
+        SmartDashboard.putNumber("theta3", theta3);
+        SmartDashboard.putNumber("theta3 - theta1", theta3 - theta1);
+        
         return rTheta;
     }
 

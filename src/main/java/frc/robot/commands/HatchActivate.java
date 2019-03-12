@@ -32,11 +32,11 @@ public class HatchActivate extends Command {
         if(gtime > 30) {
             Robot.ds.set(DoubleSolenoid.Value.kForward);
             if(Robot.testing){
-                SmartDashboard.putString("pogyes?: ", "pog");
+                //SmartDashboard.putString("pogyes?: ", "pog");
             }
         }  
         if(Robot.testing){          
-            SmartDashboard.putNumber("gtime", gtime);
+            //SmartDashboard.putNumber("gtime", gtime);
         }
     }
 
@@ -44,10 +44,10 @@ public class HatchActivate extends Command {
     @Override
     protected boolean isFinished() {
         if(gtime > 60) {
-            SmartDashboard.putString("pogyes?: ", "POG");
+            //SmartDashboard.putString("pogyes?: ", "POG");
             return true;
         }else {
-            SmartDashboard.putString("pogyes?: ", "CONTINUE");
+            //SmartDashboard.putString("pogyes?: ", "CONTINUE");
             return false;
         }
     
@@ -60,7 +60,7 @@ public class HatchActivate extends Command {
         Robot.ds.set(DoubleSolenoid.Value.kOff);
         gtime = 0;
         if(Robot.testing){
-            SmartDashboard.putNumber("gtime", 0);
+            //SmartDashboard.putNumber("gtime", 0);
         }
     }
 

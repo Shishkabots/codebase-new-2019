@@ -19,8 +19,8 @@ public class PIDturn extends Command {
     double D = 0;
     double integral, previous_error, error, derivative = 0;
     double dt = 0.02;
-    double completionThreshold = 2; // also in degrees
-    double ff = 0.166;
+    double completionThreshold = 1.5; // also in degrees
+    double ff = 0.19;
     
     double maxVoltage = 0.35;
 
@@ -49,12 +49,12 @@ public class PIDturn extends Command {
             voltage = Math.signum(voltage) * maxVoltage;
         }
         Robot.m_drivetrain.moveWithCurve(0, voltage, true);
-        SmartDashboard.putNumber("Gyro Voltage percentage: ", voltage);
-        SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
-        SmartDashboard.putNumber("Gyro Target Angle: ", t);
-        SmartDashboard.putNumber("Gyro Integral: ", integral);
-        SmartDashboard.putNumber("Gyro Angle Error: ", error);
-        SmartDashboard.putNumber("Gyro Derivative: ", derivative);
+        // SmartDashboard.putNumber("Gyro Voltage percentage: ", voltage);
+        // SmartDashboard.putNumber("Gyro Output Angle: ", gyro.getAngle());
+        // SmartDashboard.putNumber("Gyro Target Angle: ", t);
+        // SmartDashboard.putNumber("Gyro Integral: ", integral);
+        // SmartDashboard.putNumber("Gyro Angle Error: ", error);
+        // SmartDashboard.putNumber("Gyro Derivative: ", derivative);
 
         if(Math.abs(error) <= completionThreshold){
             itersUnderThreshold++;

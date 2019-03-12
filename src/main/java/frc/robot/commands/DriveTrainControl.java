@@ -54,9 +54,9 @@ public class DriveTrainControl extends Command {
             true
         );
         
-        SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(1));
-        SmartDashboard.putNumber("Gyro Output Angle modded: ", gyro.getAngle() % 360);
+        // SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
+        // SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(1));
+        // SmartDashboard.putNumber("Gyro Output Angle modded: ", gyro.getAngle() % 360);
 
         //alternative drive mode, can't go backwards
         //Robot.m_drivetrain.arcadeDrive(Robot.m_oi.controllerOne.getRawAxis(3), Robot.m_oi.controllerOne.getRawAxis(0)* 0.5);
