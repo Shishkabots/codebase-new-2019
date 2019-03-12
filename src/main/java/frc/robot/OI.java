@@ -22,6 +22,7 @@ public class OI {
   public Button setReverse = new JoystickButton(controllerOne, 3); // X
   public Button toggleCoast = new JoystickButton(controllerOne, 1); // A
   public Button toggleBrake = new JoystickButton(controllerOne, 2); // B
+  public Button cancel = new JoystickButton(controllerOne,6);
 
   public Joystick controllerTwo = new Joystick(1); //also an xbox
   public Button hatchButton = new JoystickButton(controllerTwo,4);
@@ -35,6 +36,7 @@ public class OI {
     setReverse.whenPressed(new Reverse());
     toggleCoast.whenPressed(new ToggleCoastMode());
     toggleBrake.whenPressed(new ToggleBrakeMode());
+    cancel.whenPressed(new Stop());
 
     hatchButton.whenPressed(new HatchActivate());
     // moved into axis control in TurnCargo
