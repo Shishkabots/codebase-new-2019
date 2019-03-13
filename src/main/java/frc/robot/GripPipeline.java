@@ -110,11 +110,11 @@ public class GripPipeline implements VisionPipeline {
 
 		// SmartDashboard.putNumber("Suze", resizeImageOutput.width());
 		// SmartDashboard.putNumber("Soze", resizeImageOutput.height());
-		
+
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 1300.0;
+		double filterContoursMinArea = 2000.0;
 		double filterContoursMinPerimeter = 200.0;
 		double filterContoursMinWidth = 0.0;
 		double filterContoursMaxWidth = 1000.0;
@@ -315,6 +315,7 @@ public class GripPipeline implements VisionPipeline {
 			if (bb.height < minHeight || bb.height > maxHeight) continue;
 			final double area = Imgproc.contourArea(contour);
 			if (area < minArea || area > maxArea) continue;
+			//if(bb.width/bb.height < 4 && bb.height/bb.width < 4) continue;
 			double perimeter = Imgproc.arcLength(new MatOfPoint2f(contour.toArray()), true);
 			if (perimeter < minPerimeter || perimeter > maxPerimeter) continue;
 			Imgproc.convexHull(contour, hull);
