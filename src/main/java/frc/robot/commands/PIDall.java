@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PIDall extends CommandGroup {
  
@@ -17,15 +18,17 @@ public class PIDall extends CommandGroup {
     addSequential(new PIDrive(Dy));
     if(clockwise){
       addSequential(new PIDturn(90));
-      
+      SmartDashboard.putNumber("Turn2: (degrees)", 90);
     }
     else{
       addSequential(new PIDturn(-90));
-      
+      SmartDashboard.putNumber("Turn2: (degrees)", -90);
     }
-
-    
     addSequential(new PIDrive(Dx));
+
+    SmartDashboard.putNumber("Turn1: (degrees)", theta1);
+    SmartDashboard.putNumber("Dy: (inches)", Dy);
+    SmartDashboard.putNumber("Dx: (inches)", Dx);
     
     addSequential(new TeleOpCommands());
   }

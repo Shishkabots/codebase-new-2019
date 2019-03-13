@@ -152,7 +152,7 @@ public class VisionHelper
         //double deltaY = tape_offset_x; // note that the tape_offset_y is the forward/backwards distance from the tape still
 
         // theta2 in Math.sin should always be positive
-        double R = Math.sqrt(d*d + r*r - 2*d*r*Math.sin(theta1));
+        double R = Math.sqrt(d*d + r*r + 2*d*r*Math.sin(Math.abs(theta2)));
 
         double theta3 = Math.acos((d*d + R*R - r*r) / (2*d*R));
         theta3 *= Math.signum(theta2); // theta3 takes the sign of theta2
@@ -176,9 +176,9 @@ public class VisionHelper
         SmartDashboard.putNumber("r", r);
         SmartDashboard.putNumber("d", d);
         SmartDashboard.putNumber("2dr*cos(theta2+90)", 2*d*r*Math.cos(theta2 + Math.PI/2));
-        SmartDashboard.putNumber("theta1", theta1);
-        SmartDashboard.putNumber("theta2", theta2);
-        SmartDashboard.putNumber("theta3", theta3);
+        SmartDashboard.putNumber("theta1 (degrees)", Math.toDegrees(theta1));
+        SmartDashboard.putNumber("theta2 (degrees)", Math.toDegrees(theta2));
+        SmartDashboard.putNumber("theta3 (degrees)", Math.toDegrees(theta3));
         SmartDashboard.putNumber("theta3 - theta1", theta3 - theta1);
         
         return rTheta;

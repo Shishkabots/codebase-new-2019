@@ -71,7 +71,7 @@ public class VisionProcess extends Command {
 
         // tune these values (it's relative to center of turning, which is not quite physical wheel center)
         double robot_offset_x = 0.0;
-        double robot_offset_y = 10;
+        double robot_offset_y = 9.0;
         // setting tape offset to be 0 makes problems for the theta computation for 2nd turn, make sure they aren't both 0.
         double tape_offset_x = 0.0;
         double tape_offset_y = 3.0;
