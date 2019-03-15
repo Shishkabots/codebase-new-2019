@@ -71,10 +71,10 @@ public class VisionProcess extends Command {
 
         // tune these values (it's relative to center of turning, which is not quite physical wheel center)
         double robot_offset_x = 0.0;
-        double robot_offset_y = 9.0;
+        double robot_offset_y = 14.0; // 10.75 is calibrated value as of the half-cargo intake robot state
         // setting tape offset to be 0 makes problems for the theta computation for 2nd turn, make sure they aren't both 0.
-        double tape_offset_x = 0.0;
-        double tape_offset_y = 3.0;
+        double tape_offset_x = 8.0;
+        double tape_offset_y = -1.8; // there's not supposed to be any but we're doing the marketing video lmao
         // in case we need to move forward after the second turn (i.e. aligned with tape)
         // since if we go to that final point in the first place, we might hit something when we turn second time
         // this value is the forward distance from the CENTER of the tape
@@ -92,7 +92,7 @@ public class VisionProcess extends Command {
 
         //double[] rTheta = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
         //double[] rThetaNoTapeOffset = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, 0, 0, height);
-        double[] rTheta = vhelp.newGetThetaAndR(input, robot_offset_y, tape_offset_y, height);
+        double[] rTheta = vhelp.newGetThetaAndR(input, robot_offset_y, tape_offset_x, tape_offset_y, height);
 
         if(rTheta[0] == -1 && rTheta[1] == -1 && rTheta[2] == -1){
             SmartDashboard.putString("Successful Macro", "No");

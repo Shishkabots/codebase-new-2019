@@ -119,7 +119,7 @@ public class VisionHelper
     // currently does not accept a robot_offset_x, we will need to calculate more (and do casework on weird
     // scenarios so it's significant complexity)
     // now we also don't accept tape_offset_y since we can't figure out which way to put it
-    public double[] newGetThetaAndR(Mat img, double robot_offset_y, double tape_offset_x, double height){
+    public double[] newGetThetaAndR(Mat img, double robot_offset_y, double tape_offset_x, double tape_offset_y, double height){
         double[] rTheta = {-1, -1, -1, -1}; // for theta1, Dy, and Dx
         double[] center = findCenter(img);
         if(center[0] == -1 && center[1] == -1){
@@ -149,7 +149,7 @@ public class VisionHelper
         double r = camera_r;
         double d = robot_offset_y;
         double deltaX = tape_offset_x;
-        //double deltaY = tape_offset_x; // note that the tape_offset_y is the forward/backwards distance from the tape still
+        double deltaY = tape_offset_y; // note that the tape_offset_y is the forward/backwards distance from the tape still
 
         // theta2 in Math.sin should always be positive
         double R = Math.sqrt(d*d + r*r + 2*d*r*Math.sin(Math.abs(theta2)));
@@ -160,8 +160,8 @@ public class VisionHelper
         double Ry = R * Math.cos(theta3 - theta1);
         double Dx = Rx - deltaX;
         // hard to find which way to put the Dy (add or subtract) and we probably don't need it anyway
-        //double Dy = Ry + deltaY; // + or - deltaY depends on which way we are oriented
-        double Dy = Ry;
+        double Dy = Ry + deltaY; // + or - deltaY depends on which way we are oriented
+        //double Dy = Ry;
 
         rTheta[0] = theta1;
         rTheta[1] = Dy;

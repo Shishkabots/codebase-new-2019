@@ -14,18 +14,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class PIDturn extends Command {
     public AHRS gyro = Robot.gyro; // angles are in degrees
     public double t; // target
-    double P = 0.005;
-    double I = 0;
-    double D = 0;
+    double P = 0.0;
+    double I = 0.0;
+    double D = 0.0;
     double integral, previous_error, error, derivative = 0;
     double dt = 0.02;
-    double completionThreshold = 1.5; // also in degrees
-    double ff = 0.19;
+    double completionThreshold = 0.5; // also in degrees
+    double ff = 0.165; // 0.14 < ff < 0.18 on hd meeting room carpet (this is ff to overcome kinetic, not static friction)
     
-    double maxVoltage = 0.35;
+    double maxVoltage = 0.50 + ff;
 
     int itersUnderThreshold = 0;
-    int itersComplete = 10;
+    int itersComplete = 20;
 
     //m_drivetrain is a drivetrain subsystem btw
     public PIDturn(double tt) {

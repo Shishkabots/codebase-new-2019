@@ -165,6 +165,7 @@ public class Robot extends TimedRobot {
     leftTalon.setSelectedSensorPosition(0);
     rightTalon.setSelectedSensorPosition(0);
 
+    // change these as necessary
     leftTalon.setInverted(false);
     rightTalon.setInverted(false);
     leftVictor.setInverted(false);
@@ -174,6 +175,29 @@ public class Robot extends TimedRobot {
     leftTalon.setNeutralMode(NeutralMode.Coast);
     rightVictor.setNeutralMode(NeutralMode.Coast);
     leftVictor.setNeutralMode(NeutralMode.Coast);
+
+    // in ticks per 100 ms, or in terms of voltage?
+    // double maxSpeedTurn = 8;
+    // double maxSpeedDrive = 8;
+    // // dunno if this is really how the slotIdx works
+    // rightTalon.configClosedLoopPeakOutput(1, maxSpeedTurn);
+    // leftTalon.configClosedLoopPeakOutput(1, maxSpeedTurn);
+    // rightTalon.configClosedLoopPeakOutput(0, maxSpeedDrive);
+    // leftTalon.configClosedLoopPeakOutput(0, maxSpeedDrive);
+
+    // 0.1 kf is about 22 rotations/second, which is really really really fast (max speed)
+    // I guess 0.005 giving 1 rotation/second is cool for indoors testing and the real will want to
+    // be a little faster than that
+    rightTalon.config_kF(0, 1);
+    rightTalon.config_kP(0, 0.5);
+    rightTalon.config_kD(0, 0);
+    rightTalon.config_kI(0, 0);
+
+    leftTalon.config_kF(0, 0.6);
+    leftTalon.config_kP(0, 0.5);
+    leftTalon.config_kD(0, 0);
+    leftTalon.config_kI(0, 0);
+
 
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
     m_drivetrain = new DriveTrain();
