@@ -64,10 +64,16 @@ public class PIDrive extends Command {
         }
         //Robot.leftTalon.set(ControlMode.PercentOutput, 0.20);
         //Robot.rightTalon.set(ControlMode.PercentOutput, 0.20);
-        Robot.leftTalon.set(ControlMode.Velocity, 100); // using voltage output for now but it should be velocity
-        Robot.rightTalon.set(ControlMode.Velocity, 100);
-        SmartDashboard.putNumber("speed: ", Robot.leftTalon.getSelectedSensorVelocity());
-        //Robot.m_drivetrain.moveWithCurve(voltage, 0, true);
+        // Robot.leftTalon.set(ControlMode.Velocity, 200); // using voltage output for now but it should be velocity
+        // Robot.rightTalon.set(ControlMode.Velocity, 200);
+        // SmartDashboard.putNumber("left velocity target:", Robot.leftTalon.getClosedLoopTarget());
+        // SmartDashboard.putNumber("left velocity error:", Robot.leftTalon.getClosedLoopError());
+        // SmartDashboard.putNumber("left velocity current:", Robot.leftTalon.getSelectedSensorVelocity());
+
+        // SmartDashboard.putNumber("right velocity target:", Robot.rightTalon.getClosedLoopTarget());
+        // SmartDashboard.putNumber("right velocity error:", Robot.rightTalon.getClosedLoopError());
+        // SmartDashboard.putNumber("right velocity current:", Robot.rightTalon.getSelectedSensorVelocity());
+        Robot.m_drivetrain.moveWithCurve(voltage, 0, true);
 
         // SmartDashboard.putNumber("Encoder Voltage percentage: ", voltage);
         // SmartDashboard.putNumber("Left Encoder Ticks: ", leftTicks);

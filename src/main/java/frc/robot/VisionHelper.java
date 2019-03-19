@@ -131,6 +131,10 @@ public class VisionHelper
         pixel_x *= 1280.0/320.0;
         pixel_y *= 720.0/240.0;
 
+        // pixel_x *= 1280.0/160.0;
+        // pixel_y *= 720.0/120.0;
+
+
         double pixel_delta_x = -(img.width() / 2 - pixel_x);
         double pixel_delta_y = img.height() / 2 - pixel_y;
 

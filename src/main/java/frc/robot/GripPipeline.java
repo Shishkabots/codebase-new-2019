@@ -5,6 +5,11 @@ contours prefilter/postfilter, and printing contour image. If you swap out the p
 JUST DELETE AND REPLACE. please copy over changes thank you much appreciated.
 */
 
+/*
+Addressing the 160 x 120:
+Take out the resize. Modify the filter contours min/max area/perimeter.
+*/
+
 package frc.robot;
 
 import java.io.File;
@@ -58,82 +63,87 @@ public class GripPipeline implements VisionPipeline {
 	 */
 	@Override	
 	public void process(Mat source0) {
-		// Step Resize_Image0:
-		Mat resizeImageInput = source0;
-		double resizeImageWidth = 320.0;
-		double resizeImageHeight = 240.0;
-		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
-		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
+		try{
+			// Step Resize_Image0:
+			Mat resizeImageInput = source0;
+			double resizeImageWidth = 320.0;
+			double resizeImageHeight = 240.0;
+			int resizeImageInterpolation = Imgproc.INTER_CUBIC;
+			resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
-		// Step HSV_Threshold0:
-		Mat hsvThresholdInput = resizeImageOutput;
-		double[] hsvThresholdHue = {0.0, 180.0};
-		double[] hsvThresholdSaturation = {0.0, 52.21534116794114};
-		double[] hsvThresholdValue = {216.5434294550931, 255.0};
-		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
+			// Step HSV_Threshold0:
+			Mat hsvThresholdInput = resizeImageOutput;
+			double[] hsvThresholdHue = {0.0, 180.0};
+			double[] hsvThresholdSaturation = {0.0, 52.21534116794114};
+			double[] hsvThresholdValue = {216.5434294550931, 255.0};
+			hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
-		// Step CV_dilate0:
-		Mat cvDilateSrc = hsvThresholdOutput;
-		Mat cvDilateKernel = new Mat();
-		Point cvDilateAnchor = new Point(-1, -1);
-		double cvDilateIterations = 3.0;
-		int cvDilateBordertype = Core.BORDER_CONSTANT;
-		Scalar cvDilateBordervalue = new Scalar(-1);
-		cvDilate(cvDilateSrc, cvDilateKernel, cvDilateAnchor, cvDilateIterations, cvDilateBordertype, cvDilateBordervalue, cvDilateOutput);
+			// Step CV_dilate0:
+			Mat cvDilateSrc = hsvThresholdOutput;
+			Mat cvDilateKernel = new Mat();
+			Point cvDilateAnchor = new Point(-1, -1);
+			double cvDilateIterations = 3.0;
+			int cvDilateBordertype = Core.BORDER_CONSTANT;
+			Scalar cvDilateBordervalue = new Scalar(-1);
+			cvDilate(cvDilateSrc, cvDilateKernel, cvDilateAnchor, cvDilateIterations, cvDilateBordertype, cvDilateBordervalue, cvDilateOutput);
 
-		// Step CV_erode0:
-		Mat cvErodeSrc = cvDilateOutput;
-		Mat cvErodeKernel = new Mat();
-		Point cvErodeAnchor = new Point(-1, -1);
-		double cvErodeIterations = 3.0;
-		int cvErodeBordertype = Core.BORDER_CONSTANT;
-		Scalar cvErodeBordervalue = new Scalar(-1);
-		cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
+			// Step CV_erode0:
+			Mat cvErodeSrc = cvDilateOutput;
+			Mat cvErodeKernel = new Mat();
+			Point cvErodeAnchor = new Point(-1, -1);
+			double cvErodeIterations = 3.0;
+			int cvErodeBordertype = Core.BORDER_CONSTANT;
+			Scalar cvErodeBordervalue = new Scalar(-1);
+			cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
 
-		// Step Find_Contours0:
-		Mat findContoursInput = cvErodeOutput;
-		boolean findContoursExternalOnly = false;
-		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
+			// Step Find_Contours0:
+			Mat findContoursInput = cvErodeOutput;
+			boolean findContoursExternalOnly = false;
+			findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
-		// SmartDashboard.putString("Sink attached to contoursPrefilter: ", contoursPrefilter.enumerateSinks()[0].getName());
-		// SmartDashboard.putString("Sink attached to contoursPrefilter description: ", contoursPrefilter.enumerateSinks()[0].getDescription());
-		// SmartDashboard.putNumber("sinks attached to contoursPrefilter count: ", contoursPrefilter.enumerateSinks().length);
-		// SmartDashboard.putString("Sink type:", contoursPrefilter.enumerateSinks()[0].getKind().toString());
+			// SmartDashboard.putString("Sink attached to contoursPrefilter: ", contoursPrefilter.enumerateSinks()[0].getName());
+			// SmartDashboard.putString("Sink attached to contoursPrefilter description: ", contoursPrefilter.enumerateSinks()[0].getDescription());
+			// SmartDashboard.putNumber("sinks attached to contoursPrefilter count: ", contoursPrefilter.enumerateSinks().length);
+			// SmartDashboard.putString("Sink type:", contoursPrefilter.enumerateSinks()[0].getKind().toString());
 
-		
-			SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
-		
-		// Point[] pen0r = findContoursOutput.get(0).toArray();
-		// SmartDashboard.putNumber("Pen0r size", pen0r.length);
-		// SmartDashboard.putNumber("Pen0r 1", pen0r[0].x);
-		// SmartDashboard.putNumber("Pen0r 2", pen0r[0].y);
+			
+				SmartDashboard.putNumber("Contours prefilter", findContoursOutput.size());
+			
+			// Point[] pen0r = findContoursOutput.get(0).toArray();
+			// SmartDashboard.putNumber("Pen0r size", pen0r.length);
+			// SmartDashboard.putNumber("Pen0r 1", pen0r[0].x);
+			// SmartDashboard.putNumber("Pen0r 2", pen0r[0].y);
 
-		// SmartDashboard.putNumber("Suze", resizeImageOutput.width());
-		// SmartDashboard.putNumber("Soze", resizeImageOutput.height());
-		
+			// SmartDashboard.putNumber("Suze", resizeImageOutput.width());
+			// SmartDashboard.putNumber("Soze", resizeImageOutput.height());
+			
 
-		// Step Filter_Contours0:
-		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 1400.0;
-		double filterContoursMinPerimeter = 200.0;
-		double filterContoursMinWidth = 0.0;
-		double filterContoursMaxWidth = 1000.0;
-		double filterContoursMinHeight = 0.0;
-		double filterContoursMaxHeight = 1000.0;
-		double[] filterContoursSolidity = {0, 100};
-		double filterContoursMaxVertices = 1000.0;
-		double filterContoursMinVertices = 0.0;
-		double filterContoursMinRatio = 0.0;
-		double filterContoursMaxRatio = 1000.0;
+			// Step Filter_Contours0:
+			ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
+			double filterContoursMinArea = 1400.0;
+			double filterContoursMinPerimeter = 200.0;
+			double filterContoursMinWidth = 0.0;
+			double filterContoursMaxWidth = 1000.0;
+			double filterContoursMinHeight = 0.0;
+			double filterContoursMaxHeight = 1000.0;
+			double[] filterContoursSolidity = {0, 100};
+			double filterContoursMaxVertices = 1000.0;
+			double filterContoursMinVertices = 0.0;
+			double filterContoursMinRatio = 0.0;
+			double filterContoursMaxRatio = 1000.0;
 
-		double maxArea = 2000.0;
-		double maxPerimeter = 400.0;
-		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, maxArea, maxPerimeter);
-		
-		SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
-		Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 255, 0));
-		Imgproc.drawContours(resizeImageOutput, filterContoursOutput, -1, new Scalar(255, 0, 0));
-		contoursPrefilter.putFrame(resizeImageOutput);
+			double maxArea = 2000.0;
+			double maxPerimeter = 400.0;
+			filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, maxArea, maxPerimeter);
+			
+			SmartDashboard.putNumber("Contours postfilter", filterContoursOutput.size());
+			Imgproc.drawContours(resizeImageOutput, findContoursOutput, -1, new Scalar(0, 255, 0));
+			Imgproc.drawContours(resizeImageOutput, filterContoursOutput, -1, new Scalar(255, 0, 0));
+			contoursPrefilter.putFrame(resizeImageOutput);
+		}
+		catch (Exception e){
+			SmartDashboard.putString("Pipeline:", "crashed");
+		}
 	}
 
 	/**
