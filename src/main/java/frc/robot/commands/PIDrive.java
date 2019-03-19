@@ -23,10 +23,12 @@ public class PIDrive extends Command {
     double D = 0;
     double integral, previous_error, error, derivative = 0;
     double dt = 0.02;
-    double completionThreshold = 30; // in ticks (each tick is 0.005 inches roughly, with circumference = 19 inches)
+    // max estimated maybe 10 feet per second?
+    // 1 inch per second is roughly 20 ticks per 100 ms
+    double completionThreshold = 30; // in ticks (each tick is 0.005 inches roughly, with circumference = ~19 inches)
     double ff = 0.12;
 
-    double maxVoltage = 0.30;
+    double maxVoltage = 0.35;
 
     int itersUnderThreshold = 0;
     int itersComplete = 20;
@@ -60,7 +62,12 @@ public class PIDrive extends Command {
         if(Math.abs(voltage) >= maxVoltage){
             voltage = Math.signum(voltage) * maxVoltage;
         }
-        Robot.m_drivetrain.moveWithCurve(voltage, 0, true);
+        //Robot.leftTalon.set(ControlMode.PercentOutput, 0.20);
+        //Robot.rightTalon.set(ControlMode.PercentOutput, 0.20);
+        Robot.leftTalon.set(ControlMode.Velocity, 100); // using voltage output for now but it should be velocity
+        Robot.rightTalon.set(ControlMode.Velocity, 100);
+        SmartDashboard.putNumber("speed: ", Robot.leftTalon.getSelectedSensorVelocity());
+        //Robot.m_drivetrain.moveWithCurve(voltage, 0, true);
 
         // SmartDashboard.putNumber("Encoder Voltage percentage: ", voltage);
         // SmartDashboard.putNumber("Left Encoder Ticks: ", leftTicks);
@@ -93,7 +100,7 @@ public class PIDrive extends Command {
     protected void end() {
         Robot.leftTalon.setSelectedSensorPosition(0);
         Robot.rightTalon.setSelectedSensorPosition(0);
-    	//Robot.m_drivetrain.move(0, 0);
+    	Robot.m_drivetrain.move(0, 0);
     }
 
     protected void interrupted() {

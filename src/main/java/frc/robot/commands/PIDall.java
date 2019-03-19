@@ -15,6 +15,7 @@ public class PIDall extends CommandGroup {
 
   public PIDall(double theta1, double Dy, boolean clockwise, double Dx) {
     addSequential(new PIDturn(theta1));
+
     addSequential(new PIDrive(Dy));
     if(clockwise){
       addSequential(new PIDturn(90));

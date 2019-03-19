@@ -53,6 +53,7 @@ public class DriveTrainControl extends Command {
             ((turnAxis * turnCoef * turboMultiplier) + turnFF) * turnDirection, 
             true
         );
+        SmartDashboard.putNumber("speed: ", Robot.leftTalon.getSelectedSensorVelocity());
         
         // SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
         // SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(1));
