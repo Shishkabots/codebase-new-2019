@@ -114,8 +114,9 @@ public class Robot extends TimedRobot {
     GripPipeline wede = new GripPipeline();
     t = new Thread(() -> {
       theCamera = CameraServer.getInstance().startAutomaticCapture();
-		  //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
-      theCamera.setResolution(1280, 720);
+      //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
+      theCamera.setFPS(10);
+      theCamera.setResolution(160, 90);
       //theCamera.setExposureManual(50);
       theCamera.setBrightness(30);
       theCamera.setExposureAuto();

@@ -51,7 +51,7 @@ public class VisionHelper
         }
         return centerCoor;
     }
-
+    
     public double convert_dist(double pixel_dist, double height){
         return 0.0001 * (9.081 * height * pixel_dist);
     }
