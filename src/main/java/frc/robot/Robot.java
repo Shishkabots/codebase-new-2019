@@ -190,14 +190,14 @@ public class Robot extends TimedRobot {
     // I guess 0.005 giving 1 rotation/second is cool for indoors testing and the real will want to
     // be a little faster than that
     rightTalon.config_kF(0, 1);
-    rightTalon.config_kP(0, 0.5);
-    rightTalon.config_kD(0, 0);
-    rightTalon.config_kI(0, 0);
+    rightTalon.config_kP(0, 5.25);
+    rightTalon.config_kD(0, 20);
+    rightTalon.config_kI(0, 0.1);
 
     leftTalon.config_kF(0, 0.6);
-    leftTalon.config_kP(0, 0.5);
-    leftTalon.config_kD(0, 0);
-    leftTalon.config_kI(0, 0);
+    leftTalon.config_kP(0, 5.25);
+    leftTalon.config_kD(0, 20);
+    leftTalon.config_kI(0, 0.1);
 
 
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
@@ -290,7 +290,8 @@ public class Robot extends TimedRobot {
     if(testing) {
       //SmartDashboard.putString("Progress:", "Reached T_OP Init");
     }
-    new TeleOpCommands().start();
+    //new TeleOpCommands().start();
+    new PIDrive(20).start();
     //new VisionProcess().start();
   }
 

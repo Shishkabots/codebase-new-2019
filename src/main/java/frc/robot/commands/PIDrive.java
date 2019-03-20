@@ -49,7 +49,7 @@ public class PIDrive extends Command {
     
     protected void execute() {
         //SmartDashboard.putNumber("Running: ", 0);
-        double leftTicks = -Robot.leftTalon.getSelectedSensorPosition(0); // adjusted for the encoder flipped on left
+        /*double leftTicks = -Robot.leftTalon.getSelectedSensorPosition(0); // adjusted for the encoder flipped on left
         double rightTicks = Robot.rightTalon.getSelectedSensorPosition(0);
         double avgTicks = (leftTicks + rightTicks) / 2;
         error = targetTicks - avgTicks; // Error = Target - Actual
@@ -76,8 +76,13 @@ public class PIDrive extends Command {
         // SmartDashboard.putNumber("Target Ticks: ", targetTicks);
         // SmartDashboard.putNumber("Encoder Error Integral: ", integral);
         // SmartDashboard.putNumber("Encoder Error: ", error);
-        // SmartDashboard.putNumber("Encoder Error Derivative: ", derivative);
+        // SmartDashboard.putNumber("Encoder Error Derivative: ", derivative);*/
 
+        Robot.leftTalon.set(ControlMode.Velocity, -300);
+        Robot.rightTalon.set(ControlMode.Velocity, 300);
+
+        SmartDashboard.putNumber("Velocity1: ", Robot.leftTalon.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Velocity2: ", Robot.rightTalon.getSelectedSensorVelocity());
 
         if(Math.abs(error) <= completionThreshold){
             itersUnderThreshold++;
@@ -93,8 +98,8 @@ public class PIDrive extends Command {
     }
 
     protected boolean isFinished() {
-        return itersUnderThreshold >= itersComplete;
-
+        //return itersUnderThreshold >= itersComplete;
+        return Robot.leftTalon.getSelectedSensorVelocity() >= 300;
     }
     
     protected void end() {

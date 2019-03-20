@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Stop extends Command {
-    private int gtime = 0;
     public Stop() {
        requires(Robot.m_drivetrain);
     }
