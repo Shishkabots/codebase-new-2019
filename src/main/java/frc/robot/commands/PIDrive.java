@@ -45,6 +45,9 @@ public class PIDrive extends Command {
         Robot.m_drivetrain.move(0, 0);
         Robot.leftTalon.setSelectedSensorPosition(0);
         Robot.rightTalon.setSelectedSensorPosition(0);
+        SmartDashboard.putString("RAN: ", "No");
+        //Robot.leftTalon.set(ControlMode.Velocity, -300); // using voltage output for now but it should be velocity
+        //Robot.rightTalon.set(ControlMode.Velocity, 300);
     }
     
     protected void execute() {
@@ -64,9 +67,15 @@ public class PIDrive extends Command {
         }
         //Robot.leftTalon.set(ControlMode.PercentOutput, 0.20);
         //Robot.rightTalon.set(ControlMode.PercentOutput, 0.20);
-        Robot.leftTalon.set(ControlMode.Velocity, 100); // using voltage output for now but it should be velocity
-        Robot.rightTalon.set(ControlMode.Velocity, 100);
-        SmartDashboard.putNumber("speed: ", Robot.leftTalon.getSelectedSensorVelocity());
+        //Robot.leftTalon.set(ControlMode.Velocity, 4096/600 * 250); // using voltage output for now but it should be velocity
+        //Robot.rightTalon.set(ControlMode.Velocity, 4096/600 * 250);
+        SmartDashboard.putNumber("left velocity target:", Robot.leftTalon.getClosedLoopTarget());
+        SmartDashboard.putNumber("left velocity error:", Robot.leftTalon.getClosedLoopError());
+        SmartDashboard.putNumber("left velocity current:", Robot.leftTalon.getSelectedSensorVelocity());
+
+        SmartDashboard.putNumber("right velocity target:", Robot.rightTalon.getClosedLoopTarget());
+        SmartDashboard.putNumber("right velocity error:", Robot.rightTalon.getClosedLoopError());
+        SmartDashboard.putNumber("right velocity current:", Robot.rightTalon.getSelectedSensorVelocity());*/
         //Robot.m_drivetrain.moveWithCurve(voltage, 0, true);
 
         // SmartDashboard.putNumber("Encoder Voltage percentage: ", voltage);
@@ -78,12 +87,11 @@ public class PIDrive extends Command {
         // SmartDashboard.putNumber("Encoder Error: ", error);
         // SmartDashboard.putNumber("Encoder Error Derivative: ", derivative);*/
 
-        Robot.leftTalon.set(ControlMode.Velocity, -300);
-        Robot.rightTalon.set(ControlMode.Velocity, 300);
-
-        SmartDashboard.putNumber("Velocity1: ", Robot.leftTalon.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Velocity2: ", Robot.rightTalon.getSelectedSensorVelocity());
-
+        Robot.leftTalon.set(ControlMode.Velocity, -150); // using voltage output for now but it should be velocity
+        Robot.rightTalon.set(ControlMode.Velocity, 150);
+        SmartDashboard.putNumber("Velocity1:", Robot.rightTalon.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Velocity2:", Robot.leftTalon.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Pos:", Robot.rightTalon.getSelectedSensorPosition());
         if(Math.abs(error) <= completionThreshold){
             itersUnderThreshold++;
         }
@@ -98,8 +106,10 @@ public class PIDrive extends Command {
     }
 
     protected boolean isFinished() {
+        SmartDashboard.putString("RAN: ", "Run");
         //return itersUnderThreshold >= itersComplete;
-        return Robot.leftTalon.getSelectedSensorVelocity() >= 300;
+        return Math.abs(Math.abs(Robot.leftTalon.getSelectedSensorPosition()) - (4096*2)) <= 300;
+        //return Robot.rightTalon.getSelectedSensorVelocity() >= 1000;
     }
     
     protected void end() {

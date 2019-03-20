@@ -116,12 +116,11 @@ public class Robot extends TimedRobot {
       theCamera = CameraServer.getInstance().startAutomaticCapture();
       //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
       theCamera.setFPS(10);
-      theCamera.setResolution(160, 90);
+      theCamera.setResolution(320, 240);
       //theCamera.setExposureManual(50);
       theCamera.setBrightness(30);
       theCamera.setExposureAuto();
       theCamera.setWhiteBalanceAuto();
-      //v = new VisionHelper();
       cv = CameraServer.getInstance().getVideo();
       out = CameraServer.getInstance().putVideo("Prefilter", 320, 240);
 
@@ -160,8 +159,8 @@ public class Robot extends TimedRobot {
 
     leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    //rightTalon.setSensorPhase(true);
-    //leftTalon.setSensorPhase(true);
+    rightTalon.setSensorPhase(true);
+    leftTalon.setSensorPhase(true);
 
     leftTalon.setSelectedSensorPosition(0);
     rightTalon.setSelectedSensorPosition(0);
@@ -189,15 +188,15 @@ public class Robot extends TimedRobot {
     // 0.1 kf is about 22 rotations/second, which is really really really fast (max speed)
     // I guess 0.005 giving 1 rotation/second is cool for indoors testing and the real will want to
     // be a little faster than that
-    rightTalon.config_kF(0, 1);
-    rightTalon.config_kP(0, 5.25);
-    rightTalon.config_kD(0, 20);
-    rightTalon.config_kI(0, 0.1);
+    rightTalon.config_kF(0, 0.3);
+    rightTalon.config_kP(0, 0.0); //3.0
+    rightTalon.config_kD(0, 0); //80
+    rightTalon.config_kI(0, 0.01); //0.01
 
-    leftTalon.config_kF(0, 0.6);
-    leftTalon.config_kP(0, 5.25);
-    leftTalon.config_kD(0, 20);
-    leftTalon.config_kI(0, 0.1);
+    leftTalon.config_kF(0, 0.3);
+    leftTalon.config_kP(0, 0.0); //3.0
+    leftTalon.config_kD(0, 0); //80
+    leftTalon.config_kI(0, 0.0); //0.01
 
 
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
@@ -212,7 +211,9 @@ public class Robot extends TimedRobot {
     //led = new Spark(1);
     //led.set(0.41);
     // go blue or red depending on ds input
-    m_oi = new OI();    
+    m_oi = new OI();
+
+
   }
 
   @Override

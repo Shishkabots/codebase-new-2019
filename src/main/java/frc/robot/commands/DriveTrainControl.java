@@ -21,18 +21,19 @@ public class DriveTrainControl extends Command {
     Encoder e1 = Robot.e1;
     Encoder e2 = Robot.e2;
     AHRS gyro = Robot.gyro;
+    double maxSpeed = 0;
 
 
     protected void initialize() {
         SmartDashboard.putNumber("Interrupt: ", 0);
-    	Robot.m_drivetrain.move(0, 0);
+        Robot.m_drivetrain.move(0, 0);
     }
 
     protected void execute() {
         double turboMultiplier = Robot.m_oi.boost.get() ? 2 : 1;
         double turnCoef = 0.5;
         double turnFF = 0.12;
-        double forwardCoef = 0.4;
+        double forwardCoef = 0.5;
         double lTrigger = Robot.m_oi.controllerOne.getRawAxis(2);
         double rTrigger = Robot.m_oi.controllerOne.getRawAxis(3);
         double turnAxis = Robot.m_oi.controllerOne.getRawAxis(4);
@@ -54,9 +55,10 @@ public class DriveTrainControl extends Command {
             true
         );
         SmartDashboard.putNumber("speed: ", Robot.leftTalon.getSelectedSensorVelocity());
-        
-        // SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
-        // SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(1));
+        maxSpeed = Math.max(maxSpeed, Math.abs(Robot.leftTalon.getSelectedSensorVelocity()));
+        SmartDashboard.putNumber("max speed: ", maxSpeed);
+        SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(1));
         // SmartDashboard.putNumber("Gyro Output Angle modded: ", gyro.getAngle() % 360);
 
         //alternative drive mode, can't go backwards
