@@ -115,7 +115,8 @@ public class Robot extends TimedRobot {
     t = new Thread(() -> {
       theCamera = CameraServer.getInstance().startAutomaticCapture();
       //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
-      theCamera.setResolution(1280, 720);
+      theCamera.setFPS(10);
+      theCamera.setResolution(320, 240);
       //theCamera.setExposureManual(50);
       theCamera.setBrightness(30);
       theCamera.setExposureAuto();
@@ -187,15 +188,15 @@ public class Robot extends TimedRobot {
     // 0.1 kf is about 22 rotations/second, which is really really really fast (max speed)
     // I guess 0.005 giving 1 rotation/second is cool for indoors testing and the real will want to
     // be a little faster than that
-    rightTalon.config_kF(0, 0.0);
-    rightTalon.config_kP(0, 1);
-    rightTalon.config_kD(0, 0);
-    rightTalon.config_kI(0, 0.0);
+    rightTalon.config_kF(0, 0.005);
+    rightTalon.config_kP(0, 5.25);
+    rightTalon.config_kD(0, 20);
+    rightTalon.config_kI(0, 0.1);
 
-    leftTalon.config_kF(0, 0.0);
-    leftTalon.config_kP(0, 1);
-    leftTalon.config_kD(0, 0);
-    leftTalon.config_kI(0, 0.0);
+    leftTalon.config_kF(0, 0.005);
+    leftTalon.config_kP(0, 5.25);
+    leftTalon.config_kD(0, 20);
+    leftTalon.config_kI(0, 0.1);
 
 
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
@@ -211,6 +212,8 @@ public class Robot extends TimedRobot {
     //led.set(0.41);
     // go blue or red depending on ds input
     m_oi = new OI();
+
+
   }
 
   @Override

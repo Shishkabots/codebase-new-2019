@@ -79,7 +79,7 @@ public class VisionProcess extends Command {
         // since if we go to that final point in the first place, we might hit something when we turn second time
         // this value is the forward distance from the CENTER of the tape
         double tape_center_final_offset = 0.0;
-        double height = 46.0;
+        double height = 46.7;
         
         //SmartDashboard.putString("Driver: ", "file is found");
         if(Robot.testing && input == null){
@@ -127,14 +127,14 @@ public class VisionProcess extends Command {
             double theta3 = rTheta[3];
             double Dy = rTheta[1];
             double Dx = rTheta[2];
-            new PIDall(Math.toDegrees(theta1), -Dy, (theta3 - theta1) > 0, -Dx).start();
+            //new PIDall(Math.toDegrees(theta1), -Dy, (theta3 - theta1) > 0, -Dx).start();
         }
         
     }
     
     // Make this return true when this Command no longer needs to run execute()
     @Override
-    protected boolean isFinished() {
+    protected boolean isFinished() { 
         return true;
     }
 

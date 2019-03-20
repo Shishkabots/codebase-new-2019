@@ -31,9 +31,9 @@ public class OI {
   //public Button cargoReverse = new JoystickButton(controllerTwo, 2);  
 
   public OI() {
-    autoAlignButton.whenPressed(new VisionProcess());
+    //autoAlignButton.whenPressed(new VisionProcess());
     //autoAlignButton.whenPressed(new PIDturn(180));
-    //autoAlignButton.whenPressed(new PIDrive(5));
+    autoAlignButton.whenPressed(new PIDrive(5));
     setReverse.whenPressed(new Reverse());
     toggleCoast.whenPressed(new ToggleCoastMode());
     toggleBrake.whenPressed(new ToggleBrakeMode());
