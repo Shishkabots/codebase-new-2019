@@ -58,7 +58,7 @@ public class DriveTrainControl extends Command {
         maxSpeed = Math.max(maxSpeed, Math.abs(Robot.leftTalon.getSelectedSensorVelocity()));
         SmartDashboard.putNumber("max speed: ", maxSpeed);
         SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(1));
+        SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(0));
         // SmartDashboard.putNumber("Gyro Output Angle modded: ", gyro.getAngle() % 360);
 
         //alternative drive mode, can't go backwards

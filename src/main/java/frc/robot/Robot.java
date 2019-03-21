@@ -96,6 +96,7 @@ public class Robot extends TimedRobot {
   public static Spark led;
 
   public static UsbCamera theCamera;
+  public static UsbCamera theCamera2;
   public static GripPipeline pipe = new GripPipeline();
 
   public static double[] d;
@@ -113,14 +114,23 @@ public class Robot extends TimedRobot {
     testing = true;
     GripPipeline wede = new GripPipeline();
     t = new Thread(() -> {
-      theCamera = CameraServer.getInstance().startAutomaticCapture();
+      theCamera = CameraServer.getInstance().startAutomaticCapture(0);
+      theCamera2 = CameraServer.getInstance().startAutomaticCapture(1);
       //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
-      theCamera.setFPS(10);
+      theCamera.setFPS(7);
       theCamera.setResolution(320, 240);
       //theCamera.setExposureManual(50);
       theCamera.setBrightness(30);
       theCamera.setExposureAuto();
       theCamera.setWhiteBalanceAuto();
+
+      theCamera2.setFPS(7);
+      theCamera2.setResolution(320, 240);
+      //theCamera.setExposureManual(50);
+      theCamera2.setBrightness(30);
+      theCamera2.setExposureAuto();
+      theCamera2.setWhiteBalanceAuto();
+
       cv = CameraServer.getInstance().getVideo();
       out = CameraServer.getInstance().putVideo("Prefilter", 320, 240);
 
@@ -267,6 +277,7 @@ public class Robot extends TimedRobot {
     }*/
     //new VisionProcess().start();
     
+    new TeleOpCommands().start();
   }
 
   /**

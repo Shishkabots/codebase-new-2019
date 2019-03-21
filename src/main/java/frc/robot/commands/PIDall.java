@@ -25,11 +25,11 @@ public class PIDall extends CommandGroup {
       addSequential(new PIDturn(-90));
       SmartDashboard.putNumber("Turn2: (degrees)", -90);
     }
-    addSequential(new PIDrive(Dx));
+    //addSequential(new PIDrive(Dx));
 
     SmartDashboard.putNumber("Turn1: (degrees)", theta1);
-    SmartDashboard.putNumber("Dy: (inches)", Dy);
-    SmartDashboard.putNumber("Dx: (inches)", Dx);
+    SmartDashboard.putNumber("Dy, made negative: (inches)", Dy);
+    SmartDashboard.putNumber("Dx, made negative: (inches)", Dx);
     
     addSequential(new TeleOpCommands());
   }

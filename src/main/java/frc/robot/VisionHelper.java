@@ -135,11 +135,13 @@ public class VisionHelper
         // pixel_y *= 720.0/120.0;
 
 
-        double pixel_delta_x = -(img.width() / 2 - pixel_x);
-        double pixel_delta_y = img.height() / 2 - pixel_y;
+        //double pixel_delta_x = -(img.width() / 2 - pixel_x);
+        //double pixel_delta_y = img.height() / 2 - pixel_y;
+        double pixel_delta_x = -(1280.0 / 2 - pixel_x);
+        double pixel_delta_y = 720.0/2 - pixel_y;
 
         double camera_r = convert_dist(Math.sqrt(Math.pow(pixel_delta_x,2) + Math.pow(pixel_delta_y, 2)), height);
-        double camera_theta = (pixel_delta_x == 0 ? Math.PI / 2 * Math.signum(pixel_delta_y) : Math.atan2(pixel_delta_y, pixel_delta_x)); //for negative pixel_delta_x, should take return a negative angle
+        double camera_theta = (pixel_delta_x == 0 ? Math.PI / 2 * Math.signum(pixel_delta_y) : Math.atan(pixel_delta_y / pixel_delta_x)); //for negative pixel_delta_x, should take return a negative angle
 
         double slope = find_longer_line(img);
         if(slope == -1){
@@ -164,8 +166,8 @@ public class VisionHelper
         double Ry = R * Math.cos(theta3 - theta1);
         double Dx = Rx - deltaX;
         // hard to find which way to put the Dy (add or subtract) and we probably don't need it anyway
-        double Dy = Ry + deltaY; // + or - deltaY depends on which way we are oriented
-        //double Dy = Ry;
+        //double Dy = Ry + deltaY; // + or - deltaY depends on which way we are oriented
+        double Dy = Ry;
 
         rTheta[0] = theta1;
         rTheta[1] = Dy;
@@ -183,7 +185,7 @@ public class VisionHelper
         SmartDashboard.putNumber("theta1 (degrees)", Math.toDegrees(theta1));
         SmartDashboard.putNumber("theta2 (degrees)", Math.toDegrees(theta2));
         SmartDashboard.putNumber("theta3 (degrees)", Math.toDegrees(theta3));
-        SmartDashboard.putNumber("theta3 - theta1", theta3 - theta1);
+        SmartDashboard.putNumber("theta3 - theta1 (degrees)", Math.toDegrees(theta3 - theta1));
         
         return rTheta;
     }
