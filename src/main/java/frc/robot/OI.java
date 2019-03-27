@@ -22,19 +22,18 @@ public class OI {
   public Button setReverse = new JoystickButton(controllerOne, 3); // X
   public Button toggleCoast = new JoystickButton(controllerOne, 1); // A
   public Button toggleBrake = new JoystickButton(controllerOne, 2); // B
-  public Button cancel = new JoystickButton(controllerOne,10); // click the right joystick
+  public Button cancel = new JoystickButton(controllerOne, 10); // click the right joystick
   public Button turn180 = new JoystickButton(controllerOne, 9); // click the left joystick
 
   public Joystick controllerTwo = new Joystick(1); //also an xbox
-  public Button hatchButton = new JoystickButton(controllerTwo,4);
-  // moved into axis control in Succ
-  //public Button cargoForward = new JoystickButton(controllerTwo, 1);       
-  //public Button cargoReverse = new JoystickButton(controllerTwo, 2);  
+  public Button hatchButton = new JoystickButton(controllerTwo, 4); // Y
+  public Button flashcolor = new JoystickButton(controllerTwo, 3); // X
+  // cargo turning is axis/trigger control in the TurnCargo command
 
   public OI() {
     autoAlignButton.whenPressed(new VisionProcess());
     //autoAlignButton.whenPressed(new PIDturn(40));
-    //autoAlignButton.whenPressed(new PIDrive(-12));
+    //autoAlignButton.whenPressed(new PIDrive(12));
     setReverse.whenPressed(new Reverse());
     toggleCoast.whenPressed(new ToggleCoastMode());
     toggleBrake.whenPressed(new ToggleBrakeMode());
@@ -42,6 +41,7 @@ public class OI {
     turn180.whenPressed(new PIDturn(180));
 
     hatchButton.whenPressed(new HatchActivate());
+    flashcolor.whenPressed(new Flash());
     // moved into axis control in TurnCargo
     //cargoForward.whileHeld(new CargoIntake());
     //cargoReverse.whileHeld(new Succrev());

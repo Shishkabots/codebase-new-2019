@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class HatchActivate extends Command {
     private int gtime = 0;
+    private final int endtime = 30;
+    
     public HatchActivate() {
        gtime = 0;
     }
@@ -29,7 +31,7 @@ public class HatchActivate extends Command {
     @Override
     protected void execute() {
         gtime++;
-        if(gtime > 30) {
+        if(gtime > endtime) {
             Robot.ds.set(DoubleSolenoid.Value.kForward);
             if(Robot.testing){
                 //SmartDashboard.putString("pogyes?: ", "pog");
@@ -43,11 +45,11 @@ public class HatchActivate extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        if(gtime > 60) {
-            //SmartDashboard.putString("pogyes?: ", "POG");
+        if(gtime > endtime) {
+            //SmartDashboard.putString("Hatch Piston: ", "Done");
             return true;
         }else {
-            //SmartDashboard.putString("pogyes?: ", "CONTINUE");
+            //SmartDashboard.putString("Hatch Piston: ", "Not Done");
             return false;
         }
     
@@ -57,7 +59,6 @@ public class HatchActivate extends Command {
     @Override
     protected void end() {
         Robot.ds.set(DoubleSolenoid.Value.kForward);
-        Robot.ds.set(DoubleSolenoid.Value.kOff);
         gtime = 0;
         if(Robot.testing){
             //SmartDashboard.putNumber("gtime", 0);

@@ -26,11 +26,11 @@ public class TurnCargo extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double speed = 1;
+        double speedCoef = 0.7;
         double lTrigger = Robot.m_oi.controllerTwo.getRawAxis(2);
         double rTrigger = Robot.m_oi.controllerTwo.getRawAxis(3);
 
-        intake.spin((rTrigger - lTrigger) * speed);    
+        intake.spin((rTrigger - lTrigger) * speedCoef);    
     }
 
     // Make this return true when this Command no longer needs to run execute()

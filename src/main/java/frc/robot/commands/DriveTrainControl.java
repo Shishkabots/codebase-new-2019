@@ -25,7 +25,9 @@ public class DriveTrainControl extends Command {
 
 
     protected void initialize() {
-        SmartDashboard.putNumber("Interrupt: ", 0);
+        if(Robot.testing){
+            SmartDashboard.putNumber("Interrupt: ", 0);
+        }
         Robot.m_drivetrain.move(0, 0);
     }
 
@@ -33,7 +35,7 @@ public class DriveTrainControl extends Command {
         double turboMultiplier = Robot.m_oi.boost.get() ? 2 : 1;
         double turnCoef = 0.5;
         double turnFF = 0.12;
-        double forwardCoef = 0.5;
+        double forwardCoef = 0.65;
         double lTrigger = Robot.m_oi.controllerOne.getRawAxis(2);
         double rTrigger = Robot.m_oi.controllerOne.getRawAxis(3);
         double turnAxis = Robot.m_oi.controllerOne.getRawAxis(4);
@@ -54,12 +56,15 @@ public class DriveTrainControl extends Command {
             ((turnAxis * turnCoef * turboMultiplier) + turnFF) * turnDirection, 
             true
         );
-        SmartDashboard.putNumber("speed: ", Robot.leftTalon.getSelectedSensorVelocity());
-        maxSpeed = Math.max(maxSpeed, Math.abs(Robot.leftTalon.getSelectedSensorVelocity()));
-        SmartDashboard.putNumber("max speed: ", maxSpeed);
-        SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(0));
-        // SmartDashboard.putNumber("Gyro Output Angle modded: ", gyro.getAngle() % 360);
+
+        if(Robot.testing){
+            SmartDashboard.putNumber("speed: ", Robot.leftTalon.getSelectedSensorVelocity());
+            maxSpeed = Math.max(maxSpeed, Math.abs(Robot.leftTalon.getSelectedSensorVelocity()));
+            SmartDashboard.putNumber("max speed: ", maxSpeed);
+            SmartDashboard.putNumber("leftEncoder Pos", Robot.leftTalon.getSelectedSensorPosition(0));
+            SmartDashboard.putNumber("RightEncoder Pos", Robot.rightTalon.getSelectedSensorPosition(0));
+            // SmartDashboard.putNumber("Gyro Output Angle modded: ", gyro.getAngle() % 360);
+        }
 
         //alternative drive mode, can't go backwards
         //Robot.m_drivetrain.arcadeDrive(Robot.m_oi.controllerOne.getRawAxis(3), Robot.m_oi.controllerOne.getRawAxis(0)* 0.5);
@@ -76,6 +81,8 @@ public class DriveTrainControl extends Command {
 
     protected void interrupted() {
         //Robot.m_drivetrain.move(0, 0);
-        SmartDashboard.putNumber("Interrupt: ", 1);
+        if(Robot.testing){
+            SmartDashboard.putNumber("Interrupt: ", 1);
+        }
     }
 }

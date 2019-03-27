@@ -169,7 +169,7 @@ public class Robot extends TimedRobot {
 
     leftTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    rightTalon.setSensorPhase(true);
+    rightTalon.setSensorPhase(false);
     leftTalon.setSensorPhase(true);
 
     leftTalon.setSelectedSensorPosition(0);
@@ -212,14 +212,14 @@ public class Robot extends TimedRobot {
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
     m_drivetrain = new DriveTrain();
     ds = new DoubleSolenoid(0, 1);
-    //ds.set(DoubleSolenoid.Value.kForward);
+    ds.set(DoubleSolenoid.Value.kForward);
     m_hatch = new Hatch();
     m_intake = new CargoIntake();
     //m_intake.setState("On");
 
     gyro = new AHRS(SPI.Port.kMXP);    
-    //led = new Spark(1);
-    //led.set(0.41);
+    led = new Spark(0);
+    led.set(0.45);
     // go blue or red depending on ds input
     m_oi = new OI();
 

@@ -73,6 +73,7 @@ public class VisionProcess extends Command {
         double robot_offset_x = 0.0;
         double robot_offset_y = 17.5; // 10.75 is calibrated value as of the half-cargo intake robot state
         // setting tape offset to be 0 makes problems for the theta computation for 2nd turn, make sure they aren't both 0.
+        //10.5 and 10.5?
         double tape_offset_x = 8.0;
         double tape_offset_y = 0;
         // in case we need to move forward after the second turn (i.e. aligned with tape)
