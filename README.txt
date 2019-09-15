@@ -1,3 +1,25 @@
+For Committing, Pushing ,etc
+git add -A
+git commit -m "Message for Commit"
+git push or git push origin master
+
+IF YOU ARE PUSHING SECOND:
+git add -A
+git commit -m "Message"
+git pull
+git push or git push origin master
+
+IF TWO PEOPLE EDIT SAME FILE:
+second person:
+....
+git pull
+git merge
+git push or git push origin master
+
+
+
+
+
 -MUST CALIBRATE GYRO, otherwise the values are not valid(https://www.chiefdelphi.com/t/gyro-returning-wrong-numbers/164516/2)
 -IF YOU INCREASE THE PID CONSTANTS, MUST LOWER THE DISTANCE
 -DON'T DOWNLOAD THE MASTER VERSION OF THE REPOSITORIES
