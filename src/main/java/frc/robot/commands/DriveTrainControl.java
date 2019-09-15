@@ -33,6 +33,7 @@ public class DriveTrainControl extends Command {
 
     protected void execute() {
         double turboMultiplier = Robot.m_oi.boost.get() ? 2 : 1;
+        //factor to multiply the speed by when we are on turbo mode
         double turnCoef = 0.5;
         //FF = Feedforward: A known value supplied to the output as a guesstimate so the PID only has to make minor corrections eventually changes
         double turnFF = 0.12;
