@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class PIDturn extends Command {
     public AHRS gyro = Robot.gyro; // angles are in degrees
-    public double t; // target
+    public double t; // t = target
     // double P = 0.027;
     // double I = 0.016;
     // double D = 0.0001;
@@ -25,7 +25,7 @@ public class PIDturn extends Command {
     double completionThreshold = 2.5; // also in degrees
     double ff = 0.13; // 0.14 < ff < 0.18 on hd meeting room carpet (this is ff to overcome kinetic, not static friction)
     
-    double maxVoltage = 0.40 + ff;
+    double maxVoltage = 0.40 + ff; //max voltage we will use after accounting for feedforward things- friction etc.
 
     int itersUnderThreshold = 0;
     int itersComplete = 20;
@@ -45,7 +45,7 @@ public class PIDturn extends Command {
         error = t - gyro.getAngle(); // Error = Target - Actual
         integral += (error * dt); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / dt;
-        previous_error = error;
+        previous_error = error; //keep updating error to the most recently measured one
         double voltage = (P * error + I * this.integral + D * derivative);
         voltage += (error > 0 ? ff : -ff);
         if(Math.abs(voltage) >= maxVoltage){
