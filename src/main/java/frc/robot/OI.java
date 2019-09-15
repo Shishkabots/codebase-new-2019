@@ -32,8 +32,6 @@ public class OI {
 
   public OI() {
     autoAlignButton.whenPressed(new VisionProcess());
-    //autoAlignButton.whenPressed(new PIDturn(40));
-    //autoAlignButton.whenPressed(new PIDrive(12));
     setReverse.whenPressed(new Reverse());
     toggleCoast.whenPressed(new ToggleCoastMode());
     toggleBrake.whenPressed(new ToggleBrakeMode());
@@ -42,8 +40,5 @@ public class OI {
 
     hatchButton.whenPressed(new HatchActivate());
     flashcolor.whenPressed(new Flash());
-    // moved into axis control in TurnCargo
-    //cargoForward.whileHeld(new CargoIntake());
-    //cargoReverse.whileHeld(new Succrev());
   }
 }
