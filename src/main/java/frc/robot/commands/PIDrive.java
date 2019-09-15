@@ -68,7 +68,6 @@ public class PIDrive extends Command {
         }
         Robot.m_drivetrain.moveWithCurve(voltage, 0, true);
 
-        // need to check what these are used for...or get rid of them
         /*Robot.leftTalon.set(ControlMode.PercentOutput, 0.20);
         //Robot.rightTalon.set(ControlMode.PercentOutput, 0.20);
         //Robot.leftTalon.set(ControlMode.Velocity, 4096/600 * 250); // using voltage output for now but it should be velocity
