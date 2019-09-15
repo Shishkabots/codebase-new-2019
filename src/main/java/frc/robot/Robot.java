@@ -114,6 +114,7 @@ public class Robot extends TimedRobot {
     testing = true;
     GripPipeline wede = new GripPipeline();
     t = new Thread(() -> {
+      //Camera Set up
       theCamera = CameraServer.getInstance().startAutomaticCapture(0);
       theCamera2 = CameraServer.getInstance().startAutomaticCapture(1);
       //theCamera.setVideoMode(theCamera.enumerateVideoModes()[101]);
@@ -135,7 +136,7 @@ public class Robot extends TimedRobot {
       out = CameraServer.getInstance().putVideo("Prefilter", 320, 240);
 
       Mat input = new Mat();
-      
+      //Check for vision availability
       while(!Thread.interrupted()) {
         cv.grabFrame(input);
         wede.process(input);
@@ -152,18 +153,18 @@ public class Robot extends TimedRobot {
     
 
     side = new WPI_VictorSPX(2);
-
+//Declare Motors
     leftTalon = new WPI_TalonSRX(6);
     leftVictor = new WPI_VictorSPX(3);
     rightTalon = new WPI_TalonSRX(5);
     rightVictor = new WPI_VictorSPX(1);
-  
+  //Disable Safety
     leftTalon.setSafetyEnabled(false);
     rightTalon.setSafetyEnabled(false);
     leftVictor.setSafetyEnabled(false);
     rightVictor.setSafetyEnabled(false);
     side.setSafetyEnabled(false);
-    
+    //Victor shadows Talon
     rightVictor.follow(rightTalon);
     leftVictor.follow(leftTalon);
 
@@ -175,7 +176,7 @@ public class Robot extends TimedRobot {
     leftTalon.setSelectedSensorPosition(0);
     rightTalon.setSelectedSensorPosition(0);
 
-    // change these as necessary
+    // change these as necessary dependign on drive
     leftTalon.setInverted(false);
     rightTalon.setInverted(false);
     leftVictor.setInverted(false);
@@ -189,7 +190,6 @@ public class Robot extends TimedRobot {
     // in ticks per 100 ms, or in terms of voltage?
     // double maxSpeedTurn = 8;
     // double maxSpeedDrive = 8;
-    // // dunno if this is really how the slotIdx works
     // rightTalon.configClosedLoopPeakOutput(1, maxSpeedTurn);
     // leftTalon.configClosedLoopPeakOutput(1, maxSpeedTurn);
     // rightTalon.configClosedLoopPeakOutput(0, maxSpeedDrive);
@@ -208,9 +208,9 @@ public class Robot extends TimedRobot {
     leftTalon.config_kD(0, 0); //80
     leftTalon.config_kI(0, 0.0); //0.01
 
-
     m_drive = new DifferentialDrive(leftTalon, rightTalon);
     m_drivetrain = new DriveTrain();
+    //Set up solenoid
     ds = new DoubleSolenoid(0, 1);
     ds.set(DoubleSolenoid.Value.kForward);
     m_hatch = new Hatch();
