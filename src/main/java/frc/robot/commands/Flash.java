@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Flash extends Command {
-    private int gtime = 0;
+    private int ledCounter = 0;
 
     public Flash() {
-       gtime = 0;
+       ledCounter = 0;
     }
     Spark ledd = Robot.led;
             // Called just before this Command runs the first time
@@ -19,7 +19,7 @@ public class Flash extends Command {
     @Override
     protected void initialize() {
         ledd.set(0.45);
-        gtime = 0;
+        ledCounter = 0;
     }
         
     // Called repeatedly when this Command is scheduled to run
@@ -27,14 +27,14 @@ public class Flash extends Command {
     @Override
     protected void execute() {
         ledd.set(0.43);
-        gtime++;
+        ledCounter++;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        if(gtime > 40){ 
-            return true;
+        if(ledCounter > 40){ 
+            return true; //after the loop runs 40 times and ledCounter = 40, then go to end() and reset counter
         }
         return false;
     }
@@ -43,7 +43,7 @@ public class Flash extends Command {
     @Override
     protected void end() {
         ledd.set(0.45);
-        gtime = 0;
+        ledCounter = 0;
     }
 
     // Called when another command which requires one or more of the same
