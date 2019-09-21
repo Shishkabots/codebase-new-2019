@@ -16,7 +16,8 @@ git pull
 git merge
 git push or git push origin master
 
-
+IF GIT BASH TERMINAL GOES TO WEIRD SCREEN WITH LIGHT BLUE TEXT ASKING FOR A COMMIT MESSAGE:
+type- ":wq" to get back to the regular terminal screen
 
 
 
