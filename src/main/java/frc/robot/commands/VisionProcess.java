@@ -49,9 +49,6 @@ public class VisionProcess extends Command {
             SmartDashboard.putNumber("img width", input.width());
             SmartDashboard.putNumber("img length", input.height());
         }
-       // Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-        //outputStream.putFrame(input);
-        //SmartDashboard.putNumber("End VP Init: ", 1);
         
     }
         
@@ -66,7 +63,7 @@ public class VisionProcess extends Command {
         if(!Robot.t.interrupted()) {
             sin.grabFrame(input,20000);
         }else if(Robot.testing) {
-            SmartDashboard.putString("??????: ", "I nothing am");
+            SmartDashboard.putString("Testing: ", "True");
         }
 
         // tune these values (it's relative to center of turning, which is not quite physical wheel center)
@@ -82,17 +79,6 @@ public class VisionProcess extends Command {
         double tape_center_final_offset = 0.0;
         double height = 46.7;
         
-        //SmartDashboard.putString("Driver: ", "file is found");
-        if(Robot.testing && input == null){
-            //SmartDashboard.putString("Input img", "None found");
-        }
-        else if(Robot.testing) {
-            //SmartDashboard.putString("Input img", "Loaded");
-        }
-
-
-        //double[] rTheta = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, tape_offset_x, tape_offset_y, height);
-        //double[] rThetaNoTapeOffset = vhelp.get_final_R_theta(input, robot_offset_x, robot_offset_y, 0, 0, height);
         double[] rTheta = vhelp.newGetThetaAndR(input, robot_offset_y, tape_offset_x, tape_offset_y, height);
 
         if(rTheta[0] == -1 && rTheta[1] == -1 && rTheta[2] == -1){
@@ -116,14 +102,7 @@ public class VisionProcess extends Command {
             
             // make the distances negative since we want robot to be moving backwards
             // tape offset being 0 is bad since we don't know angle, don't make tape offset 0 please
-            // if(tape_offset_x == 0.0 && tape_offset_y == 0.0){
-            //     new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], 0, 0).start();
-            // }
-            // else{
-            //     //new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], secondRTheta[1] * 180.0 / Math.PI, -(secondRTheta[0]+tape_center_final_offset)).start(); // PASS IN A NEGATIVE, SINCE WE WANT TO DRIVE BACKWARDS (camera on back of robot)
-            //     new PIDall(rTheta[1] * 180.0 / Math.PI, -rTheta[0], 0, 0).start(); // PASS IN A NEGATIVE, SINCE WE WANT TO DRIVE BACKWARDS (camera on back of robot)
-            // }
-
+        
             double theta1 = rTheta[0];
             double theta3 = rTheta[3];
             double Dy = rTheta[1];
