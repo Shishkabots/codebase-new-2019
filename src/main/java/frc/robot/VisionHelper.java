@@ -173,21 +173,24 @@ public class VisionHelper
         rTheta[1] = Dy;
         rTheta[2] = Dx;
         rTheta[3] = theta3;
+        
+        visionValuesDebug(R, Rx, Ry, Dx, Dy, r, d, theta1, theta2, theta3);
 
-        SmartDashboard.putNumber("R", R);
-        SmartDashboard.putNumber("Rx", Rx);
-        SmartDashboard.putNumber("Ry", Ry);
-        SmartDashboard.putNumber("Dx", Dx);
-        SmartDashboard.putNumber("Dy", Dy);
-        SmartDashboard.putNumber("r", r);
-        SmartDashboard.putNumber("d", d);
-        SmartDashboard.putNumber("2dr*cos(theta2+90)", 2*d*r*Math.cos(theta2 + Math.PI/2));
+        return rTheta;
+    }
+    public void visionValuesDebug(double R1, double Rx1, double Ry1, double Dx1, double Dy1, double r1, double d1, double theta1, double theta2, double theta3) {
+        SmartDashboard.putNumber("R", R1);
+        SmartDashboard.putNumber("Rx", Rx1);
+        SmartDashboard.putNumber("Ry", Ry1);
+        SmartDashboard.putNumber("Dx", Dx1);
+        SmartDashboard.putNumber("Dy", Dy1);
+        SmartDashboard.putNumber("r", r1);
+        SmartDashboard.putNumber("d", d1);
+        SmartDashboard.putNumber("2dr*cos(theta2+90)", 2*d1*r1*Math.cos(theta2 + Math.PI/2));
         SmartDashboard.putNumber("theta1 (degrees)", Math.toDegrees(theta1));
         SmartDashboard.putNumber("theta2 (degrees)", Math.toDegrees(theta2));
         SmartDashboard.putNumber("theta3 (degrees)", Math.toDegrees(theta3));
         SmartDashboard.putNumber("theta3 - theta1 (degrees)", Math.toDegrees(theta3 - theta1));
-        
-        return rTheta;
     }
 
     // returns -1, -1 if no contour found postfilter
@@ -280,9 +283,7 @@ public class VisionHelper
             //SmartDashboard.putNumber("loops", row);
         }
         
-        //SmartDashboard.putString("Progress:", "Finished mapx/mapy init");
-
-        //img = undistort(img, mapx, mapy); 
+        //SmartDashboard.putString("Progress:", "Finished mapx/mapy init"); 
         //SmartDashboard.putString("Progress:", "Finished img undistort");
         double[] outputRTheta = get_final_R_theta(img, robot_offset_x,  robot_offset_y,  tape_offset_x,  tape_offset_y,  height);
         return outputRTheta;

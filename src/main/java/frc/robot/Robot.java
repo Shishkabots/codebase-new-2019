@@ -175,11 +175,9 @@ public class Robot extends TimedRobot {
     rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightTalon.setSensorPhase(false);
     leftTalon.setSensorPhase(true);
-    //victortemp.setSensorPhase(idk); true or false?
 
     leftTalon.setSelectedSensorPosition(0);
     rightTalon.setSelectedSensorPosition(0);
-    //victortemp.setSelectedSensorPosition(0); do we need this 
 
     // change these as necessary dependign on drive
     leftTalon.setInverted(false);
