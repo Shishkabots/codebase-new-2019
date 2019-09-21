@@ -24,9 +24,6 @@ public class VisionHelper
 {
     public static double[] centerCoor;
     public MatOfPoint undistort(Mat img, Mat mapx, Mat mapy) {
-        //Mat img = Imgcodecs.imread(getClass().getResource("/fname.png").getPath()); // don't use this line, just use the inputted one
-       // Mat gray = null;
-        //Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
         MatOfPoint dst = null;
         Imgproc.remap(img, dst, mapx, mapy, Imgproc.INTER_LINEAR); 
         return dst;
@@ -76,11 +73,9 @@ public class VisionHelper
             for (int i = 0; i < box.rows(); i++){
                 for (int j = 0; j < box.rows(); j++){
                     if (i < j){
-                        //double ydiff = box.get(j).get(1) - box.get(i).get(1);// difference in y coords
                         double[] y2 = box.get(j,1);
                         double[] y1 = box.get(i,1);
                         double ydiff = y2[0] - y1[0];// difference in y coords
-                        //double xdiff = box.get(j).get(0) - box.get(i).get(0);; //difference in x coords
                         double[] x2 = box.get(j,0);
                         double[] x1 = box.get(i,0);
                         double xdiff = x2[0] - x1[0]; //difference in x coords
@@ -100,7 +95,19 @@ public class VisionHelper
     }
 
 //########################################## 2.3b: ANGLE FROM TAPE SIDE TO CAMERA FACING #####################################################
-
+    public boolean debugCamTapeOffsets(double tot, double cTTt, double roy, double cdy, double tdy, double rox, double cdx, double tdx, double tor){
+        SmartDashboard.putNumber("tape offset theta", tot);
+        SmartDashboard.putNumber("cameraToTape_theta", cTTt);
+        SmartDashboard.putNumber("robot_offset_y", roy);
+        SmartDashboard.putNumber("camera_delta_y", cdy);
+        SmartDashboard.putNumber("tape_delta_y", tdy);
+        SmartDashboard.putNumber("robot_offset_x", rox);
+        SmartDashboard.putNumber("camera_delta_x", cdx);
+        SmartDashboard.putNumber("tape_delta_x", tdx);
+        SmartDashboard.putNumber("tape_offset_r", tor);
+        return true;
+    
+    }
     public double getCameraToTapeTheta(double m){
         //y = y0 + m(x - x0)
         //using one point x = x0, another point x = x0 + 100
@@ -131,12 +138,6 @@ public class VisionHelper
         pixel_x *= 1280.0/320.0;
         pixel_y *= 720.0/240.0;
 
-        // pixel_x *= 1280.0/160.0;
-        // pixel_y *= 720.0/120.0;
-
-
-        //double pixel_delta_x = -(img.width() / 2 - pixel_x);
-        //double pixel_delta_y = img.height() / 2 - pixel_y;
         double pixel_delta_x = -(1280.0 / 2 - pixel_x);
         double pixel_delta_y = 720.0/2 - pixel_y;
 
@@ -230,22 +231,11 @@ public class VisionHelper
         
         // cos is x and sin is y intentionally based on empirical (actually swapped back again)
         // not sure if this is because camera to tape theta is actually returning the 90 degrees off angle
-        // double tape_delta_x = tape_offset_r * Math.sin(cameraToTape_theta + tape_offset_theta);
-        // double tape_delta_y = tape_offset_r * Math.cos(cameraToTape_theta + tape_offset_theta);
 
         // only using case where tapeoffsetx is 0 (offset is collinear to the tape)
         double tape_delta_x = tape_offset_y * Math.sin(cameraToTape_theta);
         double tape_delta_y = tape_offset_y * Math.cos(cameraToTape_theta);
-
-        SmartDashboard.putNumber("tape offset theta", tape_offset_theta);
-        SmartDashboard.putNumber("cameraToTape_theta", cameraToTape_theta);
-        SmartDashboard.putNumber("robot_offset_y", robot_offset_y);
-        SmartDashboard.putNumber("camera_delta_y", camera_delta_y);
-        SmartDashboard.putNumber("tape_delta_y", tape_delta_y);
-        SmartDashboard.putNumber("robot_offset_x", robot_offset_x);
-        SmartDashboard.putNumber("camera_delta_x", camera_delta_x);
-        SmartDashboard.putNumber("tape_delta_x", tape_delta_x);
-        SmartDashboard.putNumber("tape_offset_r", tape_offset_r);
+        debugCamTapeOffsets(tape_offset_theta, cameraToTape_theta,  robot_offset_y, camera_delta_y, tape_delta_y, robot_offset_x, camera_delta_x, tape_delta_x, tape_offset_r);
 
         double delta_y = robot_offset_y + camera_delta_y + tape_delta_y;
         double delta_x = robot_offset_x + camera_delta_x + tape_delta_x;
