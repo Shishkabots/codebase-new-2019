@@ -290,7 +290,6 @@ public class VisionHelper
 
     // returns -1 if no contour detected
     public double get_alignedToTape_theta(MatOfPoint img) {
-        //Mat img_new = Imgcodecs.imread("path to image-new?");
         double slope = find_longer_line(img);
 
         if(slope == -1){
