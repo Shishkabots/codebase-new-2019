@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
   public static WPI_TalonSRX leftTalon;
   public static WPI_TalonSRX rightTalon;
 
-  public static Spark sparktemp;
+  public static WPI_VictorSPX victortemp;
   public static DifferentialDrive m_drive;
 
   public static DoubleSolenoid ds;
@@ -159,14 +159,14 @@ public class Robot extends TimedRobot {
     leftVictor = new WPI_VictorSPX(3);
     rightTalon = new WPI_TalonSRX(2);
     rightVictor = new WPI_VictorSPX(1);
-    sparktemp = new Spark(0);
+    victortemp = new WPI_VictorSPX(0);
   //Disable Safety
     leftTalon.setSafetyEnabled(false);
     rightTalon.setSafetyEnabled(false);
     leftVictor.setSafetyEnabled(false);
     rightVictor.setSafetyEnabled(false);
     side.setSafetyEnabled(false);
-    sparktemp.setSafetyEnabled(false);
+    victortemp.setSafetyEnabled(false);
     //Victor shadows Talon
     rightVictor.follow(rightTalon);
     leftVictor.follow(leftTalon);
@@ -175,18 +175,18 @@ public class Robot extends TimedRobot {
     rightTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightTalon.setSensorPhase(false);
     leftTalon.setSensorPhase(true);
-    //sparktemp.setSensorPhase(idk); true or false?
+    //victortemp.setSensorPhase(idk); true or false?
 
     leftTalon.setSelectedSensorPosition(0);
     rightTalon.setSelectedSensorPosition(0);
-    //sparktemp.setSelectedSensorPosition(0); do we need this 
+    //victortemp.setSelectedSensorPosition(0); do we need this 
 
     // change these as necessary dependign on drive
     leftTalon.setInverted(false);
     rightTalon.setInverted(false);
     leftVictor.setInverted(false);
     rightVictor.setInverted(false);
-    //sparktemp.setInverted(false); do we need this
+    //victortemp.setInverted(false); do we need this
 
     rightTalon.setNeutralMode(NeutralMode.Coast);
     leftTalon.setNeutralMode(NeutralMode.Coast);
