@@ -69,6 +69,7 @@ public class Robot extends TimedRobot {
   public static WPI_VictorSPX side;
   public static WPI_VictorSPX leftVictor;
   public static WPI_VictorSPX rightVictor;
+  public static WPI_VictorSPX intake;
 
   public static WPI_TalonSRX leftTalon;
   public static WPI_TalonSRX rightTalon;
@@ -154,7 +155,7 @@ public class Robot extends TimedRobot {
     
 
     side = new WPI_VictorSPX(2);
-//Declare Motors
+    intake = new WPI_VictorSPX(4);
     leftTalon = new WPI_TalonSRX(6);
     leftVictor = new WPI_VictorSPX(3);
     rightTalon = new WPI_TalonSRX(5);
@@ -167,6 +168,7 @@ public class Robot extends TimedRobot {
     rightVictor.setSafetyEnabled(false);
     side.setSafetyEnabled(false);
     victortemp.setSafetyEnabled(false);
+    intake.setSafetyEnabled(false);
     //Victor shadows Talon
     rightVictor.follow(rightTalon);
     leftVictor.follow(leftTalon);
