@@ -4,6 +4,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.OI;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.*;
@@ -29,6 +30,8 @@ public class TurnCargo extends Command {
         double speedCoef = 0.7;
         double lTrigger = Robot.m_oi.controllerTwo.getRawAxis(2);
         double rTrigger = Robot.m_oi.controllerTwo.getRawAxis(3);
+        SmartDashboard.putNumber("ltrig", lTrigger);
+        SmartDashboard.putNumber("rtrig", rTrigger);
         //voltage at which motor controlling intake should be spun at
         intake.spin((rTrigger - lTrigger) * speedCoef);    
     }

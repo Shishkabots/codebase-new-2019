@@ -7,18 +7,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class HatchActivate extends Command {
-    private int gtime = 0;
+    private int timecounter = 0;
     private final int endtime = 30;
     
     public HatchActivate() {
-       gtime = 0;
+       timecounter = 0;
     }
 
             // Called just before this Command runs the first time
             
     @Override
     protected void initialize() {
-        if(gtime == 0) {
+        if(timecounter == 0) {
             Robot.ds.set(DoubleSolenoid.Value.kReverse);
         }
         if(Robot.testing){
@@ -30,22 +30,22 @@ public class HatchActivate extends Command {
     
     @Override
     protected void execute() {
-        gtime++;
-        if(gtime > endtime) {
+        timecounter++;
+        if(timecounter > endtime) {
             Robot.ds.set(DoubleSolenoid.Value.kForward);
             if(Robot.testing){
                 //SmartDashboard.putString("pogyes?: ", "pog");
             }
         }  
         if(Robot.testing){          
-            //SmartDashboard.putNumber("gtime", gtime);
+            //SmartDashboard.putNumber("timecounter", timecounter);
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        if(gtime > endtime) {
+        if(timecounter > endtime) {
             //SmartDashboard.putString("Hatch Piston: ", "Done");
             return true;
         }else {
@@ -59,9 +59,9 @@ public class HatchActivate extends Command {
     @Override
     protected void end() {
         Robot.ds.set(DoubleSolenoid.Value.kForward);
-        gtime = 0;
+        timecounter = 0;
         if(Robot.testing){
-            //SmartDashboard.putNumber("gtime", 0);
+            //SmartDashboard.putNumber("timecounter", 0);
         }
     }
 
