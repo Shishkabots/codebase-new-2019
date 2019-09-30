@@ -81,6 +81,7 @@ public class Robot extends TimedRobot {
   
   public static Hatch m_hatch; 
   public static CargoIntake m_intake;
+  public static HatchLever m_lever;
 
   private VisionThread visionThread;
   public static final Object imgLock = new Object();
@@ -167,7 +168,7 @@ public class Robot extends TimedRobot {
     leftVictor.setSafetyEnabled(false);
     rightVictor.setSafetyEnabled(false);
     side.setSafetyEnabled(false);
-    victortemp.setSafetyEnabled(false);
+    //victortemp.setSafetyEnabled(false);
     intake.setSafetyEnabled(false);
     //Victor shadows Talon
     rightVictor.follow(rightTalon);
@@ -221,6 +222,7 @@ public class Robot extends TimedRobot {
     ds.set(DoubleSolenoid.Value.kForward);
     m_hatch = new Hatch();
     m_intake = new CargoIntake();
+    m_lever = new HatchLever();
     //m_intake.setState("On");
 
     gyro = new AHRS(SPI.Port.kMXP);    
