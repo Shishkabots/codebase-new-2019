@@ -5,6 +5,8 @@ import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.can.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -26,6 +28,7 @@ public class CargoIntake extends Subsystem {
     }
 
     public void spin(double voltage){
+        SmartDashboard.putNumber("ANG",voltage);
         intake.set(ControlMode.PercentOutput, voltage);
     }
 }

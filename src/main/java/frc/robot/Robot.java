@@ -154,12 +154,13 @@ public class Robot extends TimedRobot {
     
 
     side = new WPI_VictorSPX(2);
+    side.set(ControlMode.PercentOutput, 0.1);
 //Declare Motors
     leftTalon = new WPI_TalonSRX(6);
     leftVictor = new WPI_VictorSPX(3);
     rightTalon = new WPI_TalonSRX(5);
     rightVictor = new WPI_VictorSPX(1);
-    victortemp = new WPI_VictorSPX(0);
+    victortemp = new WPI_VictorSPX(4);
   //Disable Safety
     leftTalon.setSafetyEnabled(false);
     rightTalon.setSafetyEnabled(false);
