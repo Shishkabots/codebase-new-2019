@@ -66,15 +66,7 @@ public class PIDrive extends Command {
         }
         Robot.m_drivetrain.moveWithCurve(voltage, 0, true);
 
-        /*Robot.leftTalon.set(ControlMode.PercentOutput, 0.20);
-        //Robot.rightTalon.set(ControlMode.PercentOutput, 0.20);
-        //Robot.leftTalon.set(ControlMode.Velocity, 4096/600 * 250); // using voltage output for now but it should be velocity
-        Robot.rightTalon.set(ControlMode.Velocity, 4096/600 * 250);
-        */
-
         PIDebug(voltage, leftTicks, rightTicks, avgTicks, targetTicks, integral, error, derivative);
-        // Robot.leftTalon.set(ControlMode.Velocity, -150); // using voltage output for now but it should be velocity
-        // Robot.rightTalon.set(ControlMode.Velocity, 150);
         
         if(Math.abs(error) <= completionThreshold){
             itersUnderThreshold++;
@@ -88,8 +80,6 @@ public class PIDrive extends Command {
     protected boolean isFinished() {
         //SmartDashboard.putString("RAN: ", "Run");
         return itersUnderThreshold >= itersComplete;
-        //return Math.abs(Math.abs(Robot.leftTalon.getSelectedSensorPosition()) - (4096*2)) <= 300;
-        //return Robot.rightTalon.getSelectedSensorVelocity() >= 1000;
     }
     
     protected void end() {
@@ -123,6 +113,6 @@ public class PIDrive extends Command {
         
     }
     protected void interrupted() {
-    	//Robot.m_drivetrain.move(0, 0);
+
     }
 }
