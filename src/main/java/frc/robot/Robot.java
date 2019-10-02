@@ -78,6 +78,7 @@ public class Robot extends TimedRobot {
   public static DifferentialDrive m_drive;
 
   public static DoubleSolenoid ds;
+  public static DoubleSolenoid dsoy;
   
   public static Hatch m_hatch; 
   public static CargoIntake m_intake;
@@ -221,6 +222,8 @@ public class Robot extends TimedRobot {
     //Set up solenoid
     ds = new DoubleSolenoid(0, 1);
     ds.set(DoubleSolenoid.Value.kForward);
+    dsoy = new DoubleSolenoid(4,5);
+    dsoy.set(DoubleSolenoid.Value.kForward);
     m_hatch = new Hatch();
     m_intake = new CargoIntake();
     //m_lever = new HatchLever();

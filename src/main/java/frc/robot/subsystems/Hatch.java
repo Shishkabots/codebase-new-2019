@@ -16,7 +16,7 @@ public class Hatch extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public DoubleSolenoid Piston1 = Robot.ds;
-    
+    public DoubleSolenoid Piston2 = Robot.dsoy;
 
 
     @Override
@@ -28,15 +28,15 @@ public class Hatch extends Subsystem {
     public void setState(String state){
         if(state == "Off"){
             Robot.ds.set(DoubleSolenoid.Value.kOff);
-            
+            Robot.dsoy.set(DoubleSolenoid.Value.kOff);
         }
         else if(state == "Close"){
             Robot.ds.set(DoubleSolenoid.Value.kForward);
-            
+            Robot.dsoy.set(DoubleSolenoid.Value.kForward);
         }
         else if(state == "Open"){
             Robot.ds.set(DoubleSolenoid.Value.kReverse);
-            
+            Robot.dsoy.set(DoubleSolenoid.Value.kReverse);
         }
     }
 }

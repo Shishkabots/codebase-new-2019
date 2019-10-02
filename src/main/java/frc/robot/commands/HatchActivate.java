@@ -20,6 +20,7 @@ public class HatchActivate extends Command {
     protected void initialize() {
         if(timecounter == 0) {
             Robot.ds.set(DoubleSolenoid.Value.kReverse);
+            Robot.dsoy.set(DoubleSolenoid.Value.kReverse);
         }
         if(Robot.testing){
             SmartDashboard.putString("pogyes?: ", "BEGIN");
@@ -33,6 +34,7 @@ public class HatchActivate extends Command {
         timecounter++;
         if(timecounter > endtime) {
             Robot.ds.set(DoubleSolenoid.Value.kForward);
+            Robot.dsoy.set(DoubleSolenoid.Value.kForward);
             if(Robot.testing){
                 //SmartDashboard.putString("pogyes?: ", "pog");
             }
@@ -59,6 +61,7 @@ public class HatchActivate extends Command {
     @Override
     protected void end() {
         Robot.ds.set(DoubleSolenoid.Value.kForward);
+        Robot.dsoy.set(DoubleSolenoid.Value.kForward);
         timecounter = 0;
         if(Robot.testing){
             //SmartDashboard.putNumber("timecounter", 0);
