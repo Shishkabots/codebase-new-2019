@@ -1,0 +1,398 @@
+<html>
+<head>
+<title>Final Project</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://static.codehs.com/gulp/7b9f303f4e4eb367b52fcc5b3e178d2d46b29e8e/chs-js-lib/chs.js"></script>
+
+
+<style>
+canvas {
+    border: 1px solid black;
+    display: inline-block;
+    vertical-align: top;
+}
+
+pre {
+    border: 1px solid black;
+    display: inline-block;
+    width: 400px;
+    height: 500px;
+    background-color: #F5F5F5;
+}
+</style>
+
+</head>
+
+<body>
+<h1>Final Project</h1>
+
+
+
+<canvas
+width="400"
+height="500"
+class="codehs-editor-canvas"></canvas>
+<pre id="console"></pre>
+
+<script>
+window.onload = function() {
+
+    var cv = new Rectangle(1000, 1000);
+cv.setPosition(0, 0);
+cv.setColor(Color.black);
+
+var x = new WebImage("https://vignette.wikia.nocookie.net/youtubepoop/images/4/42/1385136139955.png/revision/latest?cb=20140806190610");
+x.setSize(70, 70);
+x.setPosition(0, 100);
+
+var a = [];
+var stars = [];
+var l =[];
+
+for(var j = 0; j < 3; j++) {
+        remove(a[j]);
+        var p = new WebImage("http://pixelartmaker.com/art/359e46ec203851f.png");
+        p.setSize(60,30);
+        l[j] = p;
+    }
+
+// My partner and I use the same code for the background particles, but with different colors. This is a section we collaborated on.
+for(var it = 0; it < 50; it++) {
+    var star = new Rectangle(3, 3);
+    star.setPosition(500,Randomizer.nextInt(0,480));
+    star.setColor(Color.white);
+    stars[it] = star;
+}
+var h = 3;
+var sc = 0;
+var sct = 0;
+var boss = false;
+var up = true;
+var bhp = 30;
+var oh = true;
+var rev = false;
+var pg = true;
+var cho = false;
+var cht = false;
+var bp1 = false;
+
+var sinis = new WebImage("https://vignette.wikia.nocookie.net/villains/images/7/7f/BEWAREIHUNGER.gif/revision/latest?cb=20170123164921");
+sinis.setSize(230,230);
+sinis.setPosition(400,180);
+
+var bosshp = new Text("HP: " + bhp, "30pt Cambrige");
+bosshp.setPosition(200,300);
+bosshp.setColor(Color.red);
+
+setTimer(bmove,40,sinis);
+setTimer(bfol,40,bosshp);
+        
+var scor = new Text("Score: " + sc, "20pt Cambrige");
+scor.setPosition(290, 30);
+scor.setColor(Color.white);
+
+var str = new Text("Click Here to Begin", "20pt Cambrige");
+str.setPosition(75,200 );
+str.setColor(Color.black);
+
+var hel = new Text("Health: " + h, "20pt Cambrige");
+hel.setPosition(0, 30);
+hel.setColor(Color.white);
+
+var gmov = new Text("GAME OVER", "30pt Cambrige");
+gmov.setPosition(50, 200);
+gmov.setColor(Color.white);
+
+var gmov2 = new Text("Press R to restart", "20pt Cambrige");
+gmov2.setPosition(80, 250);
+gmov2.setColor(Color.white);
+
+//The fireball objects and their move function were done together by my partner and I
+for(var i = 0; i < 3; i++) {
+    var g = new WebImage("https://vignette.wikia.nocookie.net/fantendo/images/d/db/Fireball_NSMB.png/revision/latest?cb=20160112013928");
+    g.setSize(70, 40);
+    g.setPosition(300, 400);
+    a[i] = g;
+}
+
+for(var g = 0; g < 3; g++) {
+        setTimer(mmove,Randomizer.nextInt(20,70),l[g]);
+    }
+setTimer(charge,40,sinis);
+var contact = false;
+function start() {
+    add(str);
+    keyDownMethod(keyDown);
+    mouseClickMethod(click);
+}
+
+function begin() {
+    add(cv);
+    for(var ji = 0; ji < 50; ji++) {
+        add(stars[ji]);
+        setTimer(move2,Randomizer.nextInt(20,100),stars[ji]);
+    }
+    add(x);
+    add(hel);
+    add(scor)
+    for(var j = 0; j < 3; j++) {
+        add(a[j]);
+        setTimer(move,Randomizer.nextInt(20,70),a[j]);
+    }
+}
+function click(e) {
+    if(e.getX() >= 50 && e.getX() <= 300 && e.getY() >= 150 && e.getY() <= 240) {
+        begin();
+    }
+}
+function keyDown(e) {
+    if(boss && e.keyCode == Keyboard.letter('A') && oh) {
+        blast();
+    }
+    if(e.keyCode == Keyboard.letter('R')) {
+        if(contact) {
+            rev = true;
+            contact = false;
+            h = 3;
+            hel.setText("Health: " + h);
+            bdeath();
+            sct = 0;
+            sc = 0;
+            scor.setText("Score: "+sc);
+            remove(gmov);
+            remove(gmov2);
+            add(x);
+            
+            for(var l = 0; l < 3; l++) {
+                add(a[l]);
+                //setTimer(move,Randomizer.nextInt(20,70),a[l]);
+            }
+        }
+    }
+    //My partner and I both use similar move functions with some variation
+    if (e.keyCode == Keyboard.DOWN) {
+        if(x.getY() <= getHeight() - 70) {
+		    x.move(0, 20);
+        }
+	}
+	if(e.keyCode == Keyboard.UP) {
+		if(x.getY() >= 5) {
+		    x.move(0, -20);
+        }
+	}
+}
+function bossd() {
+    boss = true;
+    pg = false;
+    bhp = 30;
+    bosshp.setText("HP: " + bhp);
+    for(var j = 0; j < 3; j++) {
+        remove(a[j]);
+    }
+    add(bosshp);
+    add(sinis);
+    bp1 = true;
+    
+    for(var g = 0; g < 3; g++) {
+        add(l[g]);
+        l[g].setPosition(400, g * 100);
+    }
+    
+}
+function mmove(d) {
+    if(!contact && boss && !cho && !cht) {
+        d.move(-10,0);
+        if(d.getX() < 0-70) {
+            d.setPosition(getWidth()+70,Randomizer.nextInt(0,480-40));
+        }
+    }
+    if(Math.abs(d.getY()- x.getY()) <= 35 && Math.abs(d.getX()-x.getX()) <= 30 && boss && !cho && !cht) {
+        d.setPosition(getWidth()+70,Randomizer.nextInt(0,480-40));
+        h--;
+        hel.setText("Health: " + h);
+        for(var j = 0; j < 3; j++) {
+            a[j].setPosition(getWidth()+70,Randomizer.nextInt(0,480-40));
+        }
+        if(h == 0) {
+            contact = true;
+            for(var l = 0; l < 3; l++) {
+                remove(a[l]);
+                //stopTimer(move,a[l]);
+            }
+            remove(x);
+            add(gmov);
+            add(gmov2);
+        }
+    }
+}
+function bmove(d) {
+    if(boss) {
+        if(d.getX() > 200) {
+           d.move(-10,0);
+        }else {
+            if(up) {
+                d.move(0,10);
+            }else {
+                d.move(0,-10);
+            }
+        }
+        if(d.getY() >= 350) {
+            up = false;
+        }else if(d.getY() <= 0) {
+            up = true;
+        }
+    }
+}
+function bfol(d) {
+    d.setPosition(sinis.getX()+50,sinis.getY()-20);
+}
+function bdeath() {
+    if(!pg) {
+        sc = sc +  10;
+        pg = true;
+    }
+    scor.setText("Score: "+sc);
+    boss = false;
+    for(var i = 0; i < 3; i++) {
+        add(a[i]);
+        a[i].setPosition(500,Randomizer.nextInt(0,480));
+        remove(l[i]);
+    }
+    remove(sinis);
+    remove(bosshp);
+}
+function charge(d) {
+    if(cho) {
+        d.move(-10,0);
+        if(Math.abs(d.getY()- x.getY()) <= 35 && Math.abs(d.getX()-x.getX()) <= 30 && boss) {
+            h--;
+            hel.setText("Health: " + h);
+            if(h == 0) {
+                contact = true;
+                for(var g = 0; g < 3; g++) {
+                    remove(a[g]);
+                    //stopTimer(move,a[g]);
+                }
+                remove(x);
+                add(gmov);
+                add(gmov2);
+            }
+        }
+    }else if(cht) {
+        d.move(10,0);
+        if(Math.abs(d.getY()- x.getY()) <= 50 && Math.abs(d.getX()-x.getX()) <= 50 && boss) {
+            h--;
+            hel.setText("Health: " + h);
+            if(h == 0) {
+                contact = true;
+                for(var g = 0; g < 3; g++) {
+                    remove(a[g]);
+                }
+            }
+            remove(x);
+            add(gmov);
+            add(gmov2);
+        }
+    }
+    if(d.getX() <= 0) { 
+        cho = false;
+    }
+    if(d.getX() >= 200 && !cho && cht) {
+        cht = false;
+        for(var p = 0; p < 3; p++) {
+            l[p].setPosition(500,200);
+            add(l[p]);
+        }
+    }
+    
+}
+
+//the move function was designed by my partner and I. We both use similar functions.
+function move(d) {
+    if(!contact && !boss ) {
+        d.move(-10,0);
+        if(d.getX() < 0-70) {
+            d.setPosition(getWidth()+70,Randomizer.nextInt(0,480-40));
+            sct++;
+            if(sct == 3 && !boss) {
+                sct = 0;
+                sc++;
+                scor.setText("Score: "+sc);
+                if(sc%3 == 0) {
+                    bossd();
+                }
+            }
+        }
+    }
+    //My partner helped design this if statement calculation for if x and d are making contact.
+    if(Math.abs(d.getY()- x.getY()) <= 35 && Math.abs(d.getX()-x.getX()) <= 30 && !boss) {
+        d.setPosition(getWidth()+70,Randomizer.nextInt(0,480-40));
+        h--;
+        hel.setText("Health: " + h);
+        for(var j = 0; j < 3; j++) {
+            a[j].setPosition(getWidth()+70,Randomizer.nextInt(0,480-40));
+        }
+        if(h == 0) {
+            contact = true;
+            for(var l = 0; l < 3; l++) {
+                remove(a[l]);
+                //stopTimer(move,a[l]);
+            }
+            remove(x);
+            add(gmov);
+            add(gmov2);
+        }
+    }
+}
+function move2(d) {
+    d.move(-10,0);
+    if(d.getX() < 0-10) {
+            d.setPosition(getWidth(),Randomizer.nextInt(0,480-40));
+    }
+}
+
+//While the character fire method my partner and I use do similar things, they should have differences in implementation.
+function blast() {
+    oh = false;
+    var ko = new WebImage("https://vignette.wikia.nocookie.net/weirdcommunity/images/d/d8/Energy_Ball.jpg/revision/latest?cb=20130519232009");
+    ko.setSize(35,35);
+    ko.setPosition(x.getX()+30,x.getY());
+    add(ko);
+    setTimer(emov,40,ko);
+    setTimeout(unoh, 100)
+}
+function unoh() {
+    oh = true;
+}
+function emov(d) {
+    d.move(20,0);
+    if(Math.abs(d.getX() - sinis.getX()) <= 10 && Math.abs(d.getY() - (sinis.getY()+50)) <= 50) {
+        remove(d);
+        bhp--;
+        bosshp.setText("HP: " + bhp);
+        if(bhp <= 15 && bp1) {
+            cho = true;
+            cht = true;
+            bp1 = false;
+            for(var i = 0; i < 3; i++) {
+                remove(l[i]);
+                //stopTimer(move,a[l]);
+            }
+        }
+        if(bhp <= 0) {
+            bdeath();
+        }
+    }
+}
+
+
+    if (typeof start === 'function') {
+        start();
+    }
+};
+</script>
+
+</body>
+</html>

@@ -39,8 +39,8 @@ public class OI {
     cancel.whenPressed(new Stop());
     turn180.whenPressed(new PIDturn(180));
 
-    hatchleverup.whenPressed(new HatchTurnUp());
-    hatchleverdown.whenPressed(new HatchTurnDown());
+    //hatchleverup.whenPressed(new HatchTurnUp());
+    //hatchleverdown.whenPressed(new HatchTurnDown());
     hatchButton.whenPressed(new HatchActivate());
     flashcolor.whenPressed(new Flash());
   }
